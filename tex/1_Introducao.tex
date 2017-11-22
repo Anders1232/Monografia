@@ -1,6 +1,7 @@
 
 
 \section{O problema do escalonamento}
+
 O escalonamento é o método pelo qual trabalho, definido por algum conjunto de características, é atribuído à recursos que capazes de completá-lo. O Problema do Escalonamento, que é a busca do escalonamento no qual o tempo de excução do conjunto de trabalhos é mínimo, é NP-completo\cite{ULLMAN1975384}. De acordo com Sipser\cite{SIPSER}, um problema A é NP-completo se:
 
 \begin{enumerate}
@@ -8,13 +9,13 @@ O escalonamento é o método pelo qual trabalho, definido por algum conjunto de 
 	\item Todo problema B \begin{math}\in\end{math} NP é redutível em tempo polimonial  a A.
 \end{enumerate}
 
-Um problema pertence à NP se a for possível verificar a validade de uma solução em tempo polimonial.\cite{SIPSER}\cite{Cook:1971:CTP:800157.805047bnh}.
+Um problema pertence à NP se a for possível verificar a validade de uma solução em tempo polimonial.\cite{SIPSER}\cite{Cook:1971:CTP:800157.805047}.
 
-Por mais que exista a dificuldade teórica supracitada, isso não impediu a evolução dos Sistemas Operacionais, os quais foram capazes de fazer escalonamento de vários processos mesmo na época de CPUs tinham apenas um núcleo. Popularizando dessa forma os computadores pessoais na década de 80.
+Por mais que exista a dificuldade teórica supracitada, isso não impediu a evolução dos Sistemas Operacionais, os quais foram capazes de fazer escalonamento de vários processos mesmo na época de \acrfull{CPU}s tinham apenas um núcleo. Popularizando dessa forma os computadores pessoais na década de 80.
 
-Atualmente, as CPUs possuem vários núcleos, e são capazes de ter mais de um contexto carregado por núcleo, vide Ryzen™ Threadripper™\cite{Ryzen}. O que faz com que seja necessário que o processo de escalonamento leve em consideração como o mesmo será distribuído(ou não) entre os núcleos.
+Atualmente, as \acrshort{CPU}s possuem vários núcleos, e são capazes de ter mais de um contexto carregado por núcleo, vide Ryzen™ Threadripper™\cite{Ryzen}. O que faz com que seja necessário que o processo de escalonamento leve em consideração como o mesmo será distribuído(ou não) entre os núcleos.
 
-Além do escalonamento de processos para serem executados na CPU, o problema do escalonamento também aparece em várias outras situações na computação:
+Além do escalonamento de processos para serem executados na \acrshort{CPU}, o problema do escalonamento também aparece em várias outras situações na computação:
 
 \begin{itemize}
 	\item Escalonamento de processos que farão swapping.
@@ -23,13 +24,30 @@ Além do escalonamento de processos para serem executados na CPU, o problema do 
 	\item Escalonamento de tarefas para serem executadas em máquinas virtuais numa nuvem.
 \end{itemize}
 
-Esta monografia focará no último tópico citado. O qual recentemente presencioua ascenção do uso de unidades de processamento gráfico(GPU, do inglês) para processamento de propósito geral(GPGPU) 
-
-E mais recentemente, as unidades de processamento gráfico(GPUs) ascenderam como opção para processamento paralelo.
+Esta monografia focará no último tópico citado. O qual recentemente presencioua ascenção do uso de unidades de processamento gráfico(\acrfull{GPU}) para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. 
 
 \section{Unidade de processamento gráfico}
 
+As \acrshort{GPU}s surgiram inicialmente como hardware dedicado embutido para acelerar a renderização de imagens em jogos eletrônicos por volta dos anos 80\cite{1156160}.
 
+Com o passar das décadas e a evolução da tecnologia, as \acrshort{GPU}s ficaram cada vez mais poderosas e complexas, principalmente para atender à rápida evolução dos jogos eletrônicos. Quando o computador pessoal popularizou surgiu as \acrshort{GPU}s como as conhecemos, como placas acopláveis à placa mãe focadas em processamento gráfico.
+
+Na última década, as unidades de processamento gráfico(\acrshort{GPU}s) ascenderam como opção para processamento paralelo. Em especial operações que envolvam matrizes conseguem ter um ganho de performance considerável\cite{Dalton:2015:OSM:2835205.2699470}, como processamento de imagens e vídeos\cite{Mulligan:2012:GSE:2168556.2168612}.
+
+Atualmente provedores de nuvem estão provendo máquinas virtuais com \acrshort{GPU}s, como a \textit{Amazon Web Services}\cite{AWS_GPU}, o \textit{Google Cloud Plataform}\cite{Google_Cloud_GPU}, \textit{Microsoft Azure}\cite{Azure_GPU} e a \textit{IBM Cloud}\cite{IBM_Cloud_GPU}.
+
+\section{Computação em Nuvem}
+
+A Computação em Nuvem é uma sistema distribuído que disponibiliza serviços de computação ao usuário abstraindo informações sobre como esse serviço é provido. Existem muitas características que ajudam a definir a Computação em Nuvem, mas as consideradas principais são:
+\begin{itemize}
+	\item Os recursos são virtualizados;
+	\item Fácil acesso ao recursos;
+	\item Alta escalabilidade, com capacidade de redimensionamento durante a execução; e,
+	\item Geralmente possui um modelo de pagamento \textit{pay-per-use}.
+\end{itemize}
+
+
+\iffalse
 
 %\url{http://www.escritacientifica.com/}
 
@@ -210,7 +228,7 @@ referente ao plágio nas instituições de ensino\footnote{\url{https://www.cape
 		\\\url{http://www.cnpq.br/web/guest/documentos-do-cic}
 \end{itemize}
 
-
+\fi
 
 %\section{Normas CIC}
 % \href{http://monografias.cic.unb.br/dspace/normasGerais.pdf}{Política de Publicação de Monografias e Dissertações no Repositório Digital do CIC}%

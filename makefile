@@ -1,5 +1,5 @@
 all:
-	pdflatex monografia
+	pdflatex monografia  -interaction=nonstopmode
 	bibtex monografia
 	makeglossaries monografia
-	pdflatex monografia
+	pdflatex monografia  -interaction=nonstopmode
