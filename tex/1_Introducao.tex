@@ -24,13 +24,13 @@ Além do escalonamento de processos para serem executados na \acrshort{CPU}, o p
 	\item Escalonamento de tarefas para serem executadas em máquinas virtuais numa nuvem.
 \end{itemize}
 
-Esta monografia focará no último tópico citado. O qual recentemente presencioua ascenção do uso de unidades de processamento gráfico(\acrfull{GPU}) para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. 
+Esta monografia focará no último tópico citado. O qual recentemente presencio ua ascenção do uso de unidades de processamento gráfico(\acrfull{GPU}) para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. 
 
-\section{Unidade de processamento gráfico}
+\section{Unidade de Processamento gráfico}
 
-As \acrshort{GPU}s surgiram inicialmente como hardware dedicado embutido para acelerar a renderização de imagens em jogos eletrônicos por volta dos anos 80\cite{1156160}.
+As \acrshort{GPU}s surgiram inicialmente como hardware dedicado embutido para acelerar a renderização de imagens em jogos eletrônicos de arcades por volta dos anos 80\cite{1156160}.
 
-Com o passar das décadas e a evolução da tecnologia, as \acrshort{GPU}s ficaram cada vez mais poderosas e complexas, principalmente para atender à rápida evolução dos jogos eletrônicos. Quando o computador pessoal popularizou surgiu as \acrshort{GPU}s como as conhecemos, como placas acopláveis à placa mãe focadas em processamento gráfico.
+Com o passar das décadas e a evolução da tecnologia, as \acrshort{GPU}s ficaram cada vez mais poderosas e complexas, principalmente para atender à rápida evolução dos jogos eletrônicos. Quando o computador pessoal popularizou, surgiu as \acrshort{GPU}s como as conhecemos, como placas acopláveis à placa mãe focadas em processamento gráfico.
 
 Na última década, as unidades de processamento gráfico(\acrshort{GPU}s) ascenderam como opção para processamento paralelo. Em especial operações que envolvam matrizes conseguem ter um ganho de performance considerável\cite{Dalton:2015:OSM:2835205.2699470}, como processamento de imagens e vídeos\cite{Mulligan:2012:GSE:2168556.2168612}.
 
@@ -38,13 +38,32 @@ Atualmente provedores de nuvem estão provendo máquinas virtuais com \acrshort{
 
 \section{Computação em Nuvem}
 
-A Computação em Nuvem é uma sistema distribuído que disponibiliza serviços de computação ao usuário abstraindo informações sobre como esse serviço é provido. Existem muitas características que ajudam a definir a Computação em Nuvem, mas as consideradas principais são:
+A Computação em Nuvem é um sistema distribuído que disponibiliza serviços de computação ao usuário, abstraindo informações sobre como esse serviço é provido. Existem muitas características que ajudam a definir a Computação em Nuvem, mas as consideradas principais são\cite{NIST_CLOUD_DEFINITION}:
 \begin{itemize}
-	\item Os recursos são virtualizados;
-	\item Fácil acesso ao recursos;
+	\item \textit{On-demand self-service};
+	\item Fácil acesso via rede;
+	\item Recursos virtualizados.
 	\item Alta escalabilidade, com capacidade de redimensionamento durante a execução; e,
-	\item Geralmente possui um modelo de pagamento \textit{pay-per-use}.
+	\item Serviço mensurado.
 \end{itemize}
+
+Computação em nuvem é considerado um novo paradigma para provisionamento de infraestrutura de computação, o qual transfere o local da infraestrutura para a rede. Porém parte dos conceitos sobre os quais esse conceito se baseia não são novos.\cite{aquero:2008:BCT:1496091.1496100_Cloud_definition}CITAR CITAÇÕES DO ARTIGO BASE.
+Na Computação em Nuvem, existem dois atores principais: os usuários de um serviço que está na Nuvem e o provedor da Nuvem. Existem três tipos de serviços pricipais que são\cite{NIST_CLOUD_DEFINITION}:
+
+\begin{itemize}
+	\item \textbf{\textit{Infrastructure As A Service:}} O provedor disponibiliza recursos computacionais virtualizados. Capazes de serem reconfigurados dinamicamente;
+	\item \textbf{\textit{Plataform As A Service:}} Uma plataforma sobre a qual os usuários podem implantar softwares ou serviços é disponibilizada. Os programas implanatado podem fazer uso de algumas funcionalidade fornecidas em forma de bibliotecas, linguagens de programação, entre outros;
+	\item \textbf{\textit{Software As A Service:}} O usuário tem acesso a softwares que estão sendo executados na Nuvem Computacional. O que permite migrar requisito computacional do equipamento onde o serviço executa para a Nuvem.
+\end{itemize}
+
+Como cada provedor de nuvem possui seu próprio método de precificação, e uma interface própria para comunicação com os usuários de seus serviços, existe um movimento de federação de nuvens computacionais com o objetivo de minimizar dependência para com os provedores do serviço e também reduzir custos.
+
+\section{Nuvens Federadas: BioNimbuZ}
+
+O BioNimbuZ é uma plataforma livre de nuvens federadas para execução de workflows. Desenvolvido no laboratório de Bioinformática e Dados(LABID) por alunos de graduação e pós-graduação. Originalmente proposta por Saldanha\cite{Saldanha_BioNimbus} e refinada por alunos de iniciação científica, graduação, metrado e doutorado.\cite{closer12_BioNimbuZ_AHP}\cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched}\cite{BioNimbuZ_Breno_Deric}\cite{BioNimbuZ_Vegara}\cite{BioNimbuZ_Willian_C99}
+
+\subsection{Software Livre}
+O BioNimbuZ está disponível sob os termos da \acrfull{GPL}, a licença do projeto \acrfull{GNU}. O projeto GNU foi criado por Richard Stallman 
 
 
 \iffalse
