@@ -34,7 +34,7 @@ Com o passar das décadas e a evolução da tecnologia, as \acrshort{GPU}s ficar
 
 Na última década, as unidades de processamento gráfico(\acrshort{GPU}s) ascenderam como opção para processamento paralelo. Em especial operações que envolvam matrizes conseguem ter um ganho de performance considerável\cite{Dalton:2015:OSM:2835205.2699470}, como processamento de imagens e vídeos\cite{Mulligan:2012:GSE:2168556.2168612}.
 
-Atualmente provedores de nuvem estão provendo máquinas virtuais com \acrshort{GPU}s, como a \textit{Amazon Web Services}\cite{AWS_GPU}, o \textit{Google Cloud Plataform}\cite{Google_Cloud_GPU}, \textit{Microsoft Azure}\cite{Azure_GPU} e a \textit{IBM Cloud}\cite{IBM_Cloud_GPU}.
+Atualmente provedores de nuvem estão provendo máquinas virtuais com \acrshort{GPU}s, como a \acrfull{AWS}\cite{AWS_GPU}, o \acrfull{GCP}\cite{Google_Cloud_GPU}, \textit{Microsoft Azure}\cite{Azure_GPU} e a \textit{IBM Cloud}\cite{IBM_Cloud_GPU}.
 
 \section{Computação em Nuvem}
 
@@ -47,7 +47,7 @@ A Computação em Nuvem é um sistema distribuído que disponibiliza serviços d
 	\item Serviço mensurado.
 \end{itemize}
 
-Computação em nuvem é considerado um novo paradigma para provisionamento de infraestrutura de computação, o qual transfere o local da infraestrutura para a rede. Porém parte dos conceitos sobre os quais esse conceito se baseia não são novos.\cite{aquero:2008:BCT:1496091.1496100_Cloud_definition}CITAR CITAÇÕES DO ARTIGO BASE.
+Computação em nuvem é considerado um novo paradigma para provisionamento de infraestrutura de computação, o qual transfere o local da infraestrutura para a rede. Porém parte dos conceitos sobre os quais esse conceito se baseia não são novos.\cite{Vaquero:2008:BCT:1496091.1496100_Cloud_definition}CITAR CITAÇÕES DO ARTIGO BASE.
 Na Computação em Nuvem, existem dois atores principais: os usuários de um serviço que está na Nuvem e o provedor da Nuvem. Existem três tipos de serviços pricipais que são\cite{NIST_CLOUD_DEFINITION}:
 
 \begin{itemize}
@@ -62,8 +62,35 @@ Como cada provedor de nuvem possui seu próprio método de precificação, e uma
 
 O BioNimbuZ é uma plataforma livre de nuvens federadas para execução de workflows. Desenvolvido no laboratório de Bioinformática e Dados(LABID) por alunos de graduação e pós-graduação. Originalmente proposta por Saldanha\cite{Saldanha_BioNimbus} e refinada por alunos de iniciação científica, graduação, metrado e doutorado.\cite{closer12_BioNimbuZ_AHP}\cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched}\cite{BioNimbuZ_Breno_Deric}\cite{BioNimbuZ_Vegara}\cite{BioNimbuZ_Willian_C99}
 
+Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas, descritas a seguir:
+\begin{itemize}
+	\item Camada de Aplicação: Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. A partir dessa camada o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e poder obter, caso queira, o resultados parciais que já tiverem sido produzidos. 
+	
+	\item Camada de Integração: Tem como objetivo de integrar as Camadas de Aplicação e de Núcleo, fazendo uso do \textit{framework} REST para prover de forma prática essa funcionalidade.
+	
+	\item Camada de Núcleo: Realiza toda a gerência da federação, incluindo: escalonamento de tarefas, controle de acesso de usuários, descobrimento de recursos e provedores, prover serviços de elasticidade, monitoramento, armazenamento entre outros.
+	
+	\item Camada de Infraestrutura: Disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Utilizando \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
+\end{itemize}
+
+Desenvolvido em Java, utiliza o Apache Zookeeper\cite{Zookeeper} para coordenação do sistema distribuído e o Apache Avro\cite{Avro} para serialização de dados. É capaz de utilizar os serviços de nuvem da \textit{Microsoft Azure}, \textit{\acrshort{AWS}} e a \textit{\acrshort{GCP}}.
+
+
 \subsection{Software Livre}
-O BioNimbuZ está disponível sob os termos da \acrfull{GPL}, a licença do projeto \acrfull{GNU}. O projeto GNU foi criado por Richard Stallman 
+O BioNimbuZ está disponível sob os termos da \acrfull{GPL}, a licença do Projeto \acrfull{GNU}. O Projeto GNU foi criado por Richard Stallman em 1983, com o objetivo de fazer um sistema operacional que respeitasse a liberdade dos usuários de utilizar os software que possuem da forma que lhe for mais conveniente. Essas liberdades são\cite{Free_Software}:
+
+\begin{itemize}
+	\item Liberade de rodar o programa da forma que quiser, e para qualquer propósito.
+	\item Liberdade de estudar como o programa funciona, e poder modificar ele para o mesmo faça a computação da forma que o usuário quiser.
+	\item Liberdade para redistribuir cópias.
+	\item Liberdade de redistribuir cópias das versões modificadas para outros.
+\end{itemize}
+
+Para que essas liberdades sejam exercidas é necessário acesso ao código fonte. Atualmente o projeto GNU conseguiu colocar em produção o sistema operacional GNU. As distribuições mais populares do GNU utilizam o kernel Linux desenvolvido por Linux Towards, por mais que seja possível usar outros kernels como o Hurd\cite{Hurd} e o do FreeBSD\cite{Debian_kFreeBSD}.
+
+Hoje em dia, softwares livre são robustos o bastante para opções válidas perante softwares proprietários. Principalmente em ambiente acadêmico, pois o compartilhamento de conhecimento é fundamental para o desenvolvimento da ciência e tecnologia.
+
+
 
 
 \iffalse
