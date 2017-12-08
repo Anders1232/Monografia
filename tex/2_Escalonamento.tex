@@ -6,4 +6,32 @@ A atividade de escalonamento pode ser otimizada para vários objetivos, entre os
 	\item Distribuir de forma justa o tempo que cada um dos trabalhos terão de uso de um recurso escasso.
 \end{itemize}
 
-Esses objetivos são, às vezes, contraditórios. Na prática prioriza-se um conjunto de métricas como base para otimização. Por exemplo o 
+Esses objetivos são, às vezes, contraditórios. Na prática prioriza-se um conjunto de métricas como base para otimização. Por exemplo o GNU/Linux utilizada o \acrfull{CFS}, que se baseia no algoritmo \textit{Fair queuing}. Como o nome já diz, o foco desse escalonador está em ser justo. Internamente utiliza-se uma árvore rubro-negra indexados pelo tempo gasto no processador. Para ser justo, o tempo máximo de cada processo fica em execução interrupta é o quociente do tempo que o processo ficou aguardando para ser executado pelo número total de processos.
+
+O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Haverão três listas: lista de tarefas a serem feitas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis.
+A lista de tarefas é ordenada por tempo previsto de execução, que é dado por um estimativa a partir do programa a ser rodado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante consegue realizar por segundo.
+
+O escalonamento ocorre da seguinte forma:
+\begin{enumerate}
+	\item Existem processos que podem ser executadas nos recursos disponíveis?
+	\item Se sim, obtenha o processo que está no topo da lista.
+	\begin{enumerate}
+		\item É capaz de rodar em GPU?
+		\item Se sim:
+		\begin{enumerate}
+			\item O tempo prevista para rodá-lo na melhor \acrshort{GPU} disponível é melhor que o tempo previsto para rodá-lo na melhor \acrshort{CPU} disponível?
+			\item Se sim, escalone-o para nessa \acrshort{GPU}.
+			\item Se não, escalone-o para na melhor \acrshort{CPU} disponível.
+		\end{enumerate}
+		\item Se não, escalone-o na melhor \acrshort{CPU} disponível.
+		\item Remova a tarefa e o recurso alocado de suas respectivas listas.
+	\end{enumerate}
+	\item Se não, encerre o escalonamento.
+	\item Volte para a regra 1.
+\end{enumerate}
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[scale=0.04]{img/EscalonadorProposto.png}}
+	\caption{Diagrama de Funcionamento do algoritmo de Escalonamento.}
+	\label{Escalonamento}
+\end{figure}
