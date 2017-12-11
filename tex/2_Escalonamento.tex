@@ -34,9 +34,13 @@ O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalona
 
 
 \begin{figure}[htbp]
-	\centerline{\includegraphics[scale=0.04]{img/EscalonadorProposto.png}}
+%	\centerline{\includegraphics[scale=0.04]{img/EscalonadorProposto.png}}
+	\centerline{\includegraphics[scale=0.032]{img/EscalonadorProposto2.png}}
 	\caption{Diagrama de Funcionamento do Algoritmo de Escalonamento.}
 	\label{Escalonamento}
 \end{figure}
 
 Observa-se que, para o algoritmo supracitado seja válido, pressupõe-se, que toda tarefa do algoritmo é capaz de rodar em CPU. O que é correto, pois atualmente todas as tarefas do BioNimbuZ rodam em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita. Futuramente pode ser necessário adaptá-lo para ser capaz de lidar com tarefas que só são capazes de serem executadas em \acrshort{GPU}.
+
+Como trabalho futuro, se o BioNimbuZ obtiver suporte executação de uma mesma tarefa de forma distribuída, uma pequena modificação que pode ser feita no algoritmo supracitado é: ao invés de remover as tarefas escalonadas da lista de tarefas, colocá-las no fim dessa mesma lista. Fará com que o escalonamento seja interrompido apenas quando todos os recursos disponíveis forem alocados, pois sempre haverá tarefas para serem alocadas.
+
