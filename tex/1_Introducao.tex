@@ -1,16 +1,18 @@
 
 \section{O problema do escalonamento}
 
-O escalonamento é o método pelo qual trabalho, definido por algum conjunto de características, é atribuído à recursos que capazes de completá-lo. O Problema do Escalonamento, que é a busca do escalonamento no qual o tempo de execução do conjunto de trabalhos é mínimo, é NP-completo\cite{ULLMAN1975384}. De acordo com Sipser\cite{SIPSER}, um problema A é NP-completo se:
+O escalonamento é o método pelo qual trabalho, definido por algum conjunto de características, é atribuído à recursos que capazes de completá-lo. No nosso caso o problema do escalonamento pode ser definido da seguinte forma:\\
+Dado:
+\begin{itemize}
+	\item Conjunto $T$ de tarefas;
+	\item Conjunto $M$ de máquinas virtuais;
+	\item Conjunto $C, |C| = |M|$ de CPUs das máquinas virtuais;
+	\item Conjunto $G,  |G| \le |M|$ de GPUs das máquinas virtuais;
+	\item Função $F: T \times (C \cup G) \to \mathbb{R}$, o qual estima o tempo de execução da tarefa $T_{i}$ no recurso designado.
+\end{itemize}
+Encontrar uma função injetora $A: T \to C \cup G$, que minimize $\sum_{t \in T} F(t, A(T) )$.\\
 
-\begin{enumerate}
-	\item A pertence à classe de problemas NP, e
-	\item Todo problema B \begin{math}\in\end{math} NP é redutível em tempo polimonial  a A.
-\end{enumerate}
-
-Um problema pertence à NP se a for possível verificar a validade de uma solução em tempo polimonial.\cite{SIPSER}\cite{Cook:1971:CTP:800157.805047}.
-
-Por mais que exista a dificuldade teórica supracitada, isso não impediu a evolução dos Sistemas Operacionais, os quais foram capazes de fazer escalonamento de vários processos mesmo na época de \acrfull{CPU}s tinham apenas um núcleo. Popularizando dessa forma os computadores pessoais na década de 80.
+Por mais que exista a dificuldade teórica\cite{ULLMAN1975384}, isso não impediu a evolução dos Sistemas Operacionais, os quais foram capazes de fazer escalonamento de vários processos mesmo na época de \acrfull{CPU}s tinham apenas um núcleo. Popularizando dessa forma os computadores pessoais na década de 80.
 
 Atualmente, as \acrshort{CPU}s possuem vários núcleos, e são capazes de ter mais de um contexto carregado por núcleo, vide Ryzen™ Threadripper™\cite{Ryzen}. O que faz com que seja necessário que o processo de escalonamento leve em consideração como o mesmo será distribuído(ou não) entre os núcleos.
 
