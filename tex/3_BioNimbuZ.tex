@@ -2,7 +2,7 @@ O BioNimbuZ é uma plataforma livre de nuvens confederadas para execução de wo
 
 Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas, descritas a seguir:
 \begin{itemize}
-	\item Camada de Aplicação: Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. A partir dessa camada o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e poder obter, caso queira, o resultados parciais que já tiverem sido produzidos. 
+	\item Camada de Aplicação: Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. A partir dessa camada o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e pode obter, caso queira, o resultados parciais que já tiverem sido produzidos.
 	
 	\item Camada de Integração: Tem como objetivo de integrar as Camadas de Aplicação e de Núcleo, fazendo uso do \textit{framework} REST para prover de forma prática essa funcionalidade.
 	
@@ -10,3 +10,8 @@ Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas
 	
 	\item Camada de Infraestrutura: Disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Utilizando \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
 \end{itemize}
+
+O BioNimbuZ é capaz de ser integrado tanto à nuvens públicas quanto privadas, utilizando \textit{plugins} para permitir conexão com vários provedores de nuvem, cada qual com sua própria interface. Os \textit{plugins} não existem apenas na camada de integração: vários serviços da camada de núcleos também são disponibilizados como tal, provendo grande flexibilidade à plataforma.
+
+Internamente, o BioNimbuZ utiliza o Apache Zookeeper\cite{Zookeeper} para prover serviços de coordenação de ambientes distribuídos. Desenvolvido pela fundação Apache\cite{Apache}, tem como objetivo ser e fácil manuseio. Possui um modelo de dados semelhante a uma estrutura de diretórios
+Uma outra tecnologia que também é utilizada no BioNimbuZ é o Apache Avro\cite{Avro}, para serialização de dados para transmissão pela rede.
