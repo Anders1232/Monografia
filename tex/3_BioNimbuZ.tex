@@ -1,12 +1,25 @@
-O BioNimbuZ é uma plataforma livre de nuvens confederadas para execução de workflows de bioinformática desenvolvida no laboratório de Bioinformática e Dados(LABID) por alunos de graduação e pós-graduação. Originalmente proposta por Saldanha\cite{Saldanha_BioNimbus} e refinada por alunos de iniciação científica, graduação, metrado e doutorado.\cite{closer12_BioNimbuZ_AHP}\cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched}\cite{BioNimbuZ_Breno_Deric}\cite{BioNimbuZ_Vegara}\cite{BioNimbuZ_Willian_C99}
+O BioNimbuZ é uma plataforma livre de nuvens confederadas para execução de workflows de bioinformática desenvolvida no laboratório de Bioinformática e Dados(LABID) por alunos de graduação e pós-graduação. Originalmente proposta por Saldanha\cite{Saldanha_BioNimbus} e refinada por alunos de iniciação científica, graduação, mestrado e doutorado.\cite{closer12_BioNimbuZ_AHP}\cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched}\cite{BioNimbuZ_Breno_Deric}\cite{BioNimbuZ_Vegara}\cite{BioNimbuZ_Willian_C99}
 
 Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas, descritas a seguir:
 \begin{itemize}
-	\item Camada de Aplicação: Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. A partir dessa camada o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e pode obter, caso queira, o resultados parciais que já tiverem sido produzidos.
+	\item Camada de Aplicação: Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. Após fazer login, o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e pode obter, caso queira, o resultados parciais que já tiverem sido produzidos.
 	
-	\item Camada de Integração: Tem como objetivo de integrar as Camadas de Aplicação e de Núcleo, fazendo uso do \textit{framework} REST para prover de forma prática essa funcionalidade.
+	\item Camada de Integração: Tem como objetivo de integrar as Camadas de Aplicação e de Núcleo, fazendo uso do \textit{framework} \acrshort{REST} para prover de forma prática essa funcionalidade, utilizando operações definidas no protocolo \textit{HTTP}, como \textit{GET}, \textit{DELETE} e \textit{PUT}.
+	Existem três tipos de mensagens trocadas entre o Núcleo e a camada de Aplicação:
+	\begin{itemize}
+		\item \textit{Request}: Requisições da camada de Aplicação que contém todos os dados necessários para o seu processamento;
+		\item \textit{Response}: Respostas que definem as mensagens enviadas da camada de Núcleo do BioNimbuZ; e
+		\item \textit{Action}: Comandos a serem executados pelo núcleo, que são uma requisição enviada ao núcleo para se obter dados na resposta.
+	\end{itemize}
 	
-	\item Camada de Núcleo: Realiza toda a gerência da federação, incluindo: escalonamento de tarefas, controle de acesso de usuários, descobrimento de recursos e provedores, prover serviços de elasticidade, monitoramento, armazenamento entre outros.
+	\item Camada de Núcleo: Realiza toda a gerência da federação, provendo vários serviços. Entre eles:
+	\begin{itemize}
+		\item Serviço de predição: Objetiva orientar o usuário do BioNimbuZ a escolher as melhores combinações de máquinas virtuais/provedores a partir da especificação do \textit{workflow} a ser executado e custo pretendido.
+		\item Serviço de tarifação: Responsável por calcular o valor que os usuários devem pagar pelos serviços providndos do BioNimbuZ. Para tal, comunica-se com o serviço de monitoramento para obter informações como tempo de execução e quantidade de máquinas virtuais alocadas. É função desse serviço garantir o cumprimento das métricas de tarifação das nuvens integradas à federação, e repassar o valor ao usuário.
+		\item Serviço de segurança: Realiza principalmente a autenticação de usuário, além de verificar as autorizações do mesmo. Contudo muitos outros aspectos de segunraça computacional podem ser implementados por esse serviço, como criptografia na troca de mensagens.
+		\item Serviço de Tolerância a Falhas: Como o nome diz, esse serviço é responsável em certificar que todos os serviços do BioNimbuZ estejam disponíveis o máximo de tempo possível. Além de ter a responsabilidade de tratar quaisquer falahas que venham a ocorrer. Tira vantagem da arquitetura distribuída do BioNimbuZ para prover redundância de dados.
+		\item Serviço de Armazenamento: 
+	\end{itemize}
 	
 	\item Camada de Infraestrutura: Disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Utilizando \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
 \end{itemize}
