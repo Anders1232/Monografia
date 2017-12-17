@@ -14,11 +14,21 @@ Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas
 	
 	\item Camada de Núcleo: Realiza toda a gerência da federação, provendo vários serviços. Entre eles:
 	\begin{itemize}
-		\item Serviço de predição: Objetiva orientar o usuário do BioNimbuZ a escolher as melhores combinações de máquinas virtuais/provedores a partir da especificação do \textit{workflow} a ser executado e custo pretendido.
-		\item Serviço de tarifação: Responsável por calcular o valor que os usuários devem pagar pelos serviços providndos do BioNimbuZ. Para tal, comunica-se com o serviço de monitoramento para obter informações como tempo de execução e quantidade de máquinas virtuais alocadas. É função desse serviço garantir o cumprimento das métricas de tarifação das nuvens integradas à federação, e repassar o valor ao usuário.
-		\item Serviço de segurança: Realiza principalmente a autenticação de usuário, além de verificar as autorizações do mesmo. Contudo muitos outros aspectos de segunraça computacional podem ser implementados por esse serviço, como criptografia na troca de mensagens.
-		\item Serviço de Tolerância a Falhas: Como o nome diz, esse serviço é responsável em certificar que todos os serviços do BioNimbuZ estejam disponíveis o máximo de tempo possível. Além de ter a responsabilidade de tratar quaisquer falahas que venham a ocorrer. Tira vantagem da arquitetura distribuída do BioNimbuZ para prover redundância de dados.
-		\item Serviço de Armazenamento: 
+		\item Serviço de predição: Objetiva orientar o usuário do BioNimbuZ a escolher as melhores combinações de máquinas virtuais/provedores a partir da especificação do \textit{workflow} a ser executado e custo pretendido;
+		\item Serviço de tarifação: Responsável por calcular o valor que os usuários devem pagar pelos serviços providndos do BioNimbuZ. Para tal, comunica-se com o serviço de monitoramento para obter informações como tempo de execução e quantidade de máquinas virtuais alocadas. É função desse serviço garantir o cumprimento das métricas de tarifação das nuvens integradas à federação, e repassar o valor ao usuário;
+		\item Serviço de segurança: Realiza principalmente a autenticação de usuário, além de verificar as autorizações do mesmo. Contudo muitos outros aspectos de segunraça computacional podem ser implementados por esse serviço, como criptografia na troca de mensagens;
+		\item Serviço de Tolerância a Falhas: Como o nome diz, esse serviço é responsável em certificar que todos os serviços do BioNimbuZ estejam disponíveis o máximo de tempo possível. Além de ter a responsabilidade de tratar quaisquer falahas que venham a ocorrer. Tira vantagem da arquitetura distribuída do BioNimbuZ para prover redundância de dados;
+		\item Serviço de Armazenamento: Posui a responsabilidade de gerenciar arquivos utilizados como entrada e/ou saída de cada estágio de um \textit{workflow}. Deve desempenhar seu papel de forma eficiente, do ponto de vista de custos de armazenamento e transmissão desses dados entre o local que está armazenado e o em que serão processados;
+		\item Serviço de Escalonamento: Responsável por fazer o escalonamento de curto prazo de \textit{jobs}. Com curto prazo quer-se dizer que é tão somente o escalonamento de \textit{jobs} que estão prontas para serem executadas, à máquinas virtuais que os processarão. Não é responsabilidade do serviço de escalonamento lidar com dependências, pois essa responsabilidade é do controlador de \textit{jobs}, que será explicado em breve.
+		No momento do início deste projeto, o BioNimbuZ possuia 5 políticas de escalonadonamento, são eles:
+		\begin{itemize}
+			\item AcoSched: Baseado em \textit{Load Balancing Ant Colony Scheduling}\cite{6732620_BioNimbuZ_ACOsched}
+			\item AHP: Baseado em \textit{Analytic Hierarchy Process}\cite{6732620_BioNimbuZ_ACOsched}
+			\item \textit{BasicSched}: Política \textit{First In First Out}, implementada no início da plataforma;
+			\item C99: Baseia-se no \textit{Beam Search} interativo multiobjetivo. \cite{BioNimbuZ_Willian_C99} Esse é o escalonador em uso atualmente.
+			\item \textit{RoundRobin}: O clássico escalonamento \textit{Round Robin};
+		\end{itemize}
+	
 	\end{itemize}
 	
 	\item Camada de Infraestrutura: Disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Utilizando \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
