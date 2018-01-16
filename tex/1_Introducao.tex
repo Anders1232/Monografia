@@ -1,11 +1,11 @@
-A tecnologia tem se tornado cada vez mais ubíqua na sociedade. Com o advento da internet a interação dos serem humanos com a tecnologia explodiu, gerando um tráfego imenso de dados e com isso a necessidade de processamento em larga escala. Com isso surgiu o conceito de Nuvem Computacional, um paradigma que permite processamento em larga escala sem ser necessário que o usuário tenha em mãos hardware com tamanha capacidade computacional. Afinal, como isso é possível?
+A tecnologia tem se tornado cada vez mais ubíqua na sociedade. Com o advento da internet, a interação dos serem humanos com a tecnologia explodiu, gerando um tráfego imenso de dados e com isso a necessidade de processamento em larga escala. O que resultou no nascimento do conceito de Nuvem Computacional, um paradigma que permite processamento em larga escala que não necessita que o usuário tenha em mãos hardware com tamanha capacidade computacional. Afinal, como isso é possível?
 
-Inicialmente utilizava a computação em grid para se obter uma capacidade considerável de processamento. Contudo atualmente isso não é suficiente. Grandes empresas do área de Tecnologia da Informação, como o \textit{Google} e a \textit{Microsoft} possuem vários \textit{datacenters} com uma quantidade incontável de computadores interligados via rede que, disponibiliza esses recursos de forma virtualizada a usuários que necessitem de processamento em larga escala. A disponibilidade dessa capacidade de computação tem gerado uma revolução na forma como serviços computacionais são disponibilizados na internet e fora dela.
+Inicialmente utilizava-se a computação em grid para se obter uma capacidade considerável de processamento. Contudo atualmente a computação em grid não é suficiente. Grandes empresas do área de Tecnologia da Informação, como o \textit{Google} e a \textit{Microsoft} possuem vários \textit{datacenters} com uma quantidade incontável de computadores interligados via rede que, disponibiliza esses recursos de forma virtualizada a usuários que necessitem de processamento em larga escala. A disponibilidade dessa capacidade de computação tem gerado uma revolução na forma como serviços computacionais são disponibilizados na internet e fora dela.
 Pequenas empresas agora conseguem prover serviços em larga escala sem necessitar de um grande investimento em infraestrutura computacional, grandes empresas conseguem reduzir custos com equipamentos.
 
 Como existem vários provedores de nuvem e cada um deles tem seus pontos fortes e fracos, surgiu então a ideia de criar um plataforma que utilize serviços de vários provedores de Nuvem com o explorar o ponto forte de cada um deles. Surgiu, então, o conceito de Federação de Nuvens. Plataformas nas quais os usuários conseguem o máximo de flexibilidade provido pela combinação de funcionalidades que os distintos provedores de Nuvem disponibilizam a seus usuários.
 
-Mas como toda nova tecnologia, ela possui seus próprios desafios. Desenvolver uma plataforma com tamanha flexibilidade requer uma arquitetura muito bem projetada e implementada. Capaz de ser eficiente concomitantemente em que sua interface seja agradável ao usuário. Uma plataforma de Federação de Nuvens que tem sido continuamente desenvolvida é o BioNimbuZ, desenvolvido no \acrfull{LABID} por alunos de graduação e pós-graduação. \cite{BioNimbuZ_Breno_Deric} \cite{BioNimbuZ_Closer} \cite{BioNimbuZ_6846526} \cite{Saldanha2012} \cite{6732620_BioNimbuZ_ACOsched} \cite{BioNimbuZ_Willian_C99} \cite{closer12_BioNimbuZ_AHP} \cite{Saldanha_BioNimbus}
+Mas como toda nova tecnologia, ela possui seus próprios desafios. Desenvolver uma plataforma com tamanha flexibilidade requer uma arquitetura muito bem projetada e implementada. Capaz de ser eficiente concomitantemente em que sua interface seja agradável ao usuário. Uma plataforma de Federação de Nuvens que tem sido continuamente desenvolvida é o BioNimbuZ, desenvolvido no \acrfull{LABID} por alunos de graduação e pós-graduação \cite{BioNimbuZ_Breno_Deric} \cite{BioNimbuZ_Closer} \cite{BioNimbuZ_6846526} \cite{Saldanha2012} \cite{6732620_BioNimbuZ_ACOsched} \cite{BioNimbuZ_Willian_C99} \cite{closer12_BioNimbuZ_AHP} \cite{Saldanha_BioNimbus}.
 
 
 
@@ -17,7 +17,8 @@ Mas como toda nova tecnologia, ela possui seus próprios desafios. Desenvolver u
 Este trabalho tem como objetivos: 
 
 \begin{itemize}
-	\item Implementar um escalonador capaz de escalonar tarefas para arquiteturas heterogêneas no BioNimbuZ.
+	\item Implementar um escalonador capaz de escalonar tarefas para arquiteturas heterogêneas.
+	\item Integrar o escalonador para funcionar no BioNimbuZ, adaptando o BioNimbuZ se necessário.
 	\item Testar o ganho de desempenho obtido ao se utilizar o escalonador desenvolvido na nuvem.
 \end{itemize}
 
