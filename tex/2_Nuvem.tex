@@ -1,3 +1,5 @@
+Este capítulo inicia-se discutindo e apresentando a definição de nuvem computacional suas vantagens e desvantagens. Em seguida, busca-se classificar os tipos e nuvens, tanto em termos de quais serviços são providos, quanto em termos de como a infraestrutura computacional é implementada. Por fim, apresenta-se o conceito de federação de nuvens e como essas federações podem combinar provedores de nuvens distintos em prol da performance e do custo-benefício.
+
 \section{Definição de Computação em Nuvem}
 
 Por alguns anos a computação em nuvem não possuía uma definição bem definida principalmente por ser uma tecnologia nova. Muitas vezes sendo confundida com computação em \textit{Grid}. Atualmente sua definição já está bem definida, com duas principais definições\cite{NIST_CLOUD_DEFINITION}\cite{Vaquero:2008:BCT:1496091.1496100_Cloud_definition}, que explicitam as seguintes características de uma nuvem computacional: 
@@ -10,11 +12,11 @@ Por alguns anos a computação em nuvem não possuía uma definição bem defini
 	\item Serviço mensurado.
 \end{itemize}
 
-Analisando o conjunto de caracterísitcas supracitado é possível visualizar as vantagens dessa tecnologia: reduz o investimento inicial de empresas em infraestrutura de TI; a escalabilidade também remove o custo de reinvestimento na infraestrutura, além de não se desperdiça investimentos feitos em servidores durantes vales de uso, se paga por aquilo que se consome. Entretanto nem tudo são flores, um dos maiores desafios da computação em nuvem é segurança e privacidade, pois é necessário enviar dados da empresa para a nuvem, que pode não estar sob controle da empresa. Mas há tipos de nuvem que apresentam menos riscos em termos de segurança e privacidade.
+Analisando o conjunto de característcas supracitadas é possível visualizar as vantagens dessa tecnologia: reduz o investimento inicial de empresas em infraestrutura de TI; a escalabilidade também remove o custo de reinvestimento na infraestrutura, além de não se desperdiça investimentos feitos em servidores durantes vales de uso, se paga por aquilo que se consome. Entretanto nem tudo são flores, um dos maiores desafios da computação em nuvem é segurança e privacidade, pois é necessário enviar dados da empresa para a nuvem, que pode não estar sob controle da empresa. Mas há tipos de nuvem que apresentam menos riscos em termos de segurança e privacidade.
 
 \section{Tipos de Nuvens}
 
-A computação em nuvem é uma evolução natural da computação em \textit{Grid}, no qual a principal característica que o distingue da computação em nuvem é que na última os recursos computacionais são virtualizados, além do fácil acesso via Internet. Na computação em nuvem, existem dois atores principais: os usuários de um serviço que está na Nuvem e o provedor da Nuvem. Existem três tipos de serviços pricipais que são\cite{NIST_CLOUD_DEFINITION}:
+A computação em nuvem é uma evolução natural da computação em \textit{Grid}, no qual a principal característica que o distingue da computação em nuvem é que na última os recursos computacionais são virtualizados, além do fácil acesso via Internet. Existem três tipos de serviços principais oferecidos por provedores de nuvem, que são\cite{NIST_CLOUD_DEFINITION}:
 
 \begin{itemize}
 	\item \textbf{\textit{Infrastructure As A Service:}} Também chamado de \textit{Metal As A Service:}, o provedor disponibiliza recursos computacionais virtualizados diretamente, em termos de máquinas virtuais. Capazes de serem reconfigurados dinamicamente, pelo serviço de elasticidade;
@@ -22,7 +24,7 @@ A computação em nuvem é uma evolução natural da computação em \textit{Gri
 	\item \textbf{\textit{Software As A Service:}} O usuário tem acesso a softwares que estão sendo executados na Nuvem Computacional. O que permite migrar requisito computacional do equipamento onde o serviço executa para a Nuvem. Um exemplo bastante conhecido é o \textit{Google Docs}\cite{GoogleDocs}.
 \end{itemize}
 
-Anteriormente categorizou-se nuvens computacionais pelos serviços providos pelas mesmas, mas essa não é a única categorização possível. Elas também são categorizadas de acordo com a forma em que são implantadas. Podendo ser públicas, privadas, híbridas e comunitárias, descritas abaixo\cite{NIST_CLOUD_DEFINITION}:
+A categorização nuvens computacionais pelos serviços providos não é a única forma de classificar nuvens. Elas também são categorizadas de acordo com a forma em que são implantadas. Podendo ser públicas, privadas, híbridas e comunitárias, descritas abaixo\cite{NIST_CLOUD_DEFINITION}:
 
 \begin{itemize}
 	\item \textbf{Nuvem pública}: Criada para uso pelo público em geral.
@@ -31,9 +33,10 @@ Anteriormente categorizou-se nuvens computacionais pelos serviços providos pela
 	\item \textbf{Nuvem híbrida}: Combinação de duas ou mais das opções anteriores. Geralmente unificadas através de padronizações protocolos de comunicação ou uso de tecnologia proprietária.
 \end{itemize}
 
-[falar mais um pocuo sobre nuvens]
-
 \section{Federações de Nuvens}
 
-Como cada provedor de nuvem possui seu próprio método de precificação, e uma interface própria para comunicação com os usuários de seus serviços, existe um movimento de federação de nuvens computacionais com o objetivo de minimizar dependência para com os provedores do serviço e também reduzir custos.
+Como cada provedor de nuvem possui seu próprio método de precificação, uma interface própria para comunicação com os usuários de seus serviços e funcionalidades próprias, surgiu federações de nuvens computacionais com o objetivo de minimizar dependência para com os provedores do serviço e também reduzir custos, aproveitando o melhor de cada provedor de nuvem.
+
+Existem duas formas como federações de nuvens podem combinar os serviços das nuvens: horizontalmente e verticalmente\cite{5557976}. No modelo vertical instâncias de nuvem de um provedor A são criadas a partir de instâncias de nuvem de um provedor B, que pode solicitar serviços de um provedor de nuvem C, e assim por diante. O modelo horizontal as nuvens trabalham sem existir um hierarquia entre, si, assemelhando-se bastante com sistemas de rede \textit{perr to peer}. É possível combinar mas os estilos em uma mesma federação.
+
 
