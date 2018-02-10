@@ -1,3 +1,51 @@
+O escalonamento é um problema clássico da computação. Que surgiu junto com os sistemas operacionais multitarefas. Sua complexidade é considerada NP-difícil, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem esses objetivos. De qualquer forma um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} permanece em execução por muito tempo, impedindo que outros sejam executados.
+
+\section{Tipos de escalonadores}
+
+Escalonadores podem ser categorizados de várias formas, com base nas funcionalidades que possui, eis alguns exemplos:
+
+\begin{itemize}
+	\item \textbf{O que é escalonado}: Podem ser:
+	\begin{itemize}
+		\item processos, \textit{threads} para serem executados;
+		\item jobs para serem excecutados na nuvem;
+		\item páginas da memória RAM para \textit{swapping};
+		\item pacotes para serem transmitidos pela rede;
+		\item requisições de leitura/escrita em memória secundária.
+	\end{itemize}
+	\item \textbf{Suporte para preempção}: Se permite interrupção de uma tarefa em execução para atender outras;
+	\item \textbf{Suporte para prioridade}: Se permite que priorização entre as tarefas que serão escalonadas;
+	\item \textbf{Suporte para para tempo-real}: Se permite que requerem execução constante tenham esse requisito atendido.
+\end{itemize}
+
+
+O problema do escalonamento é o método pelo qual trabalho, definido por algum conjunto de características(como duração e requisitos), é atribuído à recursos que capazes de completá-lo. No nosso caso o problema do escalonamento pode ser formalmente definido da seguinte forma:\\
+Dado:
+\begin{itemize}
+	\item Conjunto $T$ de tarefas;
+	\item Conjunto $M$ de máquinas virtuais;
+	\item Conjunto $C, |C| = |M|$ de CPUs das máquinas virtuais;
+	\item Conjunto $G,  |G| \le |M|$ de GPUs das máquinas virtuais;
+	\item Função $F: T \times (C \cup G) \to \mathbb{R}$, o qual estima o tempo de execução da tarefa $T_{i}$ no recurso designado.
+\end{itemize}
+Encontrar uma função injetora $A: T \to C \cup G$, que minimize $\sum_{t \in T} F(t, A(t) )$.\\
+\iffalse
+Por mais que exista a dificuldade teórica\cite{ULLMAN1975384}, isso não impediu a evolução dos Sistemas Operacionais, os quais foram capazes de fazer escalonamento de vários processos mesmo na época de \acrfull{CPU}s tinham apenas um núcleo. Popularizando dessa forma os computadores pessoais na década de 80.
+\fi
+Atualmente, as \acrshort{CPU}s possuem vários núcleos, e são capazes de ter mais de um contexto carregado por núcleo, vide Ryzen™ Threadripper™\cite{Ryzen}. O que faz com que seja necessário que o processo de escalonamento leve em consideração como o mesmo será distribuído(ou não) entre os núcleos.
+
+Além do escalonamento de processos para serem executados na \acrshort{CPU}, o problema do escalonamento também aparece em várias outras situações na computação:
+
+\begin{itemize}
+	\item Escalonamento de processos que farão swapping.
+	\item Escalonamento de requisições que farão acesso ao disco.
+	\item Escalonamento de pacotes que serão enviados pela rede.
+	\item Escalonamento de tarefas para serem executadas em máquinas virtuais numa nuvem.
+\end{itemize}
+
+Esta monografia focará no último tópico citado. O qual recentemente presencio ua ascenção do uso de unidades de processamento gráfico(\acrfull{GPU}) para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. 
+
+
 A atividade de escalonamento pode ser otimizada para vários objetivos, entre os quais podemos citar:
 \begin{itemize}
 	\item Maximinizar quantidade de trabalho realizada por unidade de tempo;
