@@ -1,42 +1,43 @@
-Este capítulo apresenta, inicialmente a definição de nuvem computacional, suas vantagens e desvantagens. Em seguida, busca-se classificar os tipos de nuvens, tanto em termos de quais serviços são providos, quanto em termos de como a infraestrutura computacional é implementada. Por fim, apresenta-se o conceito de federação de nuvens e como essas federações podem combinar provedores de nuvens distintos em prol da performance e do custo-benefício.
+Este capítulo apresenta, inicialmente a definição de nuvem computacional, suas vantagens e desvantagens. Em seguida, busca-se classificar os tipos de nuvem, tanto em termos de quais serviços são providos, quanto em termos de como a infraestrutura computacional é implementada. Por fim, é apŕesentado o conceito de federação de nuvens e como essas federações podem combinar provedores de nuvens distintos em prol da performance e da relação custo-benefício.
 
 \section{Definição de Computação em Nuvem}
 
 Por alguns anos a computação em nuvem não possuía uma definição bem definida principalmente por ser uma tecnologia nova. Muitas vezes sendo confundida com computação em \textit{Grid}. Atualmente sua definição já está bem definida, com duas principais definições\cite{NIST_CLOUD_DEFINITION}\cite{Vaquero:2008:BCT:1496091.1496100_Cloud_definition}, que explicitam as seguintes características de uma nuvem computacional: 
 
 \begin{itemize}
-	\item \textit{On-demand self-service};
+	\item \textit{On-demand};
+	\item \textit{self-service};
 	\item Fácil acesso via rede;
 	\item Recursos virtualizados;
 	\item Alta escalabilidade, com capacidade de redimensionamento durante a execução; e,
 	\item Serviço mensurado.
 \end{itemize}
 
-Analisando o conjunto de característcas supracitadas é possível visualizar as vantagens dessa tecnologia: reduz o investimento inicial de empresas em infraestrutura de TI; a escalabilidade remove o custo de reinvestimento na infraestrutura, além de não desperdiçar investimentos feitos em servidores em momentos de pouca carga, se paga por aquilo que se consome. Entretanto, um dos maiores desafios da computação em nuvem é segurança e privacidade, pois é necessário enviar dados da empresa para a nuvem, que pode não estar sob controle da empresa. Mas há tipos de nuvem que apresentam menos riscos em termos de segurança e privacidade.
+Analisando o conjunto de característcas supracitadas é possível visualizar as vantagens dessa tecnologia: reduz o investimento inicial de empresas em infraestrutura de TI; a escalabilidade remove o custo de reinvestimento na infraestrutura, além de não desperdiçar investimentos feitos em servidores em momentos de pouca carga, se paga por aquilo que se consome. Entretanto, um dos maiores desafios da computação em nuvem é segurança e privacidade, pois é necessário enviar dados da empresa para a nuvem, que pode não estar sob controle da empresa. Mas há tipos de nuvem que apresentam menos riscos em termos de segurança e privacidade, por exemplo nuvens privadas, que serão descritas a seguir..
 
 \section{Tipos de Nuvens}
 
-A computação em nuvem é uma evolução natural da computação em \textit{Grid}, no qual a principal característica que o distingue da computação em nuvem é que na última os recursos computacionais são virtualizados, além do fácil acesso via Internet. Existem três tipos de serviços principais oferecidos por provedores de nuvem, que são\cite{NIST_CLOUD_DEFINITION}:
+A computação em nuvem é uma evolução natural da computação em \textit{Grid}, no qual a principal característica que o distingue da computação em nuvem é que na última os recursos computacionais são virtualizados, além do fácil acesso via Internet. Existem três tipos de serviços principais oferecidos por provedores de nuvem, que são \cite{NIST_CLOUD_DEFINITION}:
 
 \begin{itemize}
-	\item \textbf{\textit{Infrastructure As A Service:}} Também chamado de \textit{Metal As A Service:}, o provedor disponibiliza recursos computacionais virtualizados diretamente, em termos de máquinas virtuais. Capazes de serem reconfigurados dinamicamente, pelo serviço de elasticidade;
-	\item \textbf{\textit{Plataform As A Service:}} Uma plataforma sobre a qual os usuários podem implantar softwares ou serviços é disponibilizada. Os programas implanatados podem fazer uso de algumas funcionalidade fornecidas em forma de bibliotecas, linguagens de programação, entre outros. Um exemplo básico é o serviço de hospedagem de sites, que são disponibilizados no \acrshort{AWS} e no \acrshort{GCP};
-	\item \textbf{\textit{Software As A Service:}} O usuário tem acesso a softwares que estão sendo executados na Nuvem Computacional. O que permite migrar requisito computacional do equipamento onde o serviço executa para a Nuvem. Um exemplo bastante conhecido é o \textit{Google Docs}\cite{GoogleDocs}.
+	\item \textbf{\textit{Infrastructure as a Service:}} Também chamado de \textit{Metal as a Service:}, o provedor disponibiliza recursos computacionais virtualizados diretamente, em termos de máquinas virtuais. Capazes de serem reconfigurados dinamicamente pelo serviço de elasticidade, por exemplo a \textit{Oracle Cloud} \cite{OracleCloud};
+	\item \textbf{\textit{Plataform as a Service:}} Uma plataforma sobre a qual os usuários podem implantar softwares ou serviços é disponibilizada. Os programas implanatados podem fazer uso de algumas funcionalidade fornecidas em forma de bibliotecas, linguagens de programação, entre outros. Um exemplo básico é o serviço de hospedagem de sites, que são disponibilizados, por exemplo, no \acrfull{AWS} e no \acrfull{GCP};
+	\item \textbf{\textit{Software as a Service:}} O usuário tem acesso a softwares que estão sendo executados na nuvem computacional. O que permite migrar requisito computacional do equipamento onde o serviço executa para a nuvem. Um exemplo bastante conhecido é o \textit{Google Docs} \cite{GoogleDocs}.
 \end{itemize}
 
-A categorização nuvens computacionais pelos serviços providos não é a única forma de classificar nuvens. Elas também são categorizadas de acordo com a forma em que são implantadas. Podendo ser públicas, privadas, híbridas e comunitárias, descritas abaixo\cite{NIST_CLOUD_DEFINITION}:
+A categorização de nuvens computacionais por meio dos serviços providos não é a única forma de classificar nuvens. Elas também são categorizadas de acordo com a forma em que são implantadas. Podendo ser públicas, privadas, híbridas e comunitárias, descritas abaixo\cite{NIST_CLOUD_DEFINITION}:
 
 \begin{itemize}
-	\item \textbf{Nuvem pública}: Criada para uso pelo público em geral.
-	\item \textbf{Nuvem privada}: Quando a infraestrutura da nuvem é provida por uma única organização, para uso interno. Podendo ser gerenciada e/ou operada por um terceiro. Nuvens privadas são uma solução para o problema de privacidade dos dados. Pois esta pode estar disponível apenas internamente na organização.
-	\item \textbf{Nuvem comunitária}: Nuvem com infraestrutura desenvolvida com o objetivo de ser utilizada por um grupo de pessoas e/ou organizações para fins comuns. Podendo de gerenciar por uma ou mais partes dos interessadas na nuvem.
-	\item \textbf{Nuvem híbrida}: Combinação de duas ou mais das opções anteriores. Geralmente unificadas através de padronizações protocolos de comunicação ou uso de tecnologia proprietária.
+	\item \textbf{Nuvem pública}: Criada para uso pelo público em geral. Podendo ser disponibilizada e/ou mantida por uma organização com ou sem fins lucrativos, 
+	\item \textbf{Nuvem privada}: Quando a infraestrutura da nuvem é provida por uma única organização, para uso interno. Ela pode ser gerenciada e/ou operada por um terceiro. Nuvens privadas são uma solução para o problema de privacidade dos dados, pois ela pode estar disponível apenas internamente na organização.
+	\item \textbf{Nuvem comunitária}: Nuvem com infraestrutura desenvolvida com o objetivo de ser utilizada por um grupo de pessoas e/ou organizações para fins comuns. Ela pode ser gerenciada por uma ou mais partes dos interessadas na nuvem.
+	\item \textbf{Nuvem híbrida}: Combinação de duas ou mais das opções anteriores. Geralmente unificadas por meio de padronizações de protocolos de comunicação ou uso de tecnologia proprietária.
 \end{itemize}
 
 \section{Federações de Nuvens}
 
-Como cada provedor de nuvem possui seu próprio método de precificação, uma interface própria para comunicação com os usuários de seus serviços e funcionalidades próprias, surgiu federações de nuvens computacionais com o objetivo de minimizar dependência para com os provedores do serviço e também reduzir custos, aproveitando o melhor de cada provedor de nuvem.
+Como cada provedor de nuvem possui seu próprio método de precificação, uma interface própria para comunicação com os usuários de seus serviços e funcionalidades próprias, surgiu federações de nuvens computacionais com o objetivo de minimizar dependência entre os provedores do serviço e também reduzir custos, aproveitando o melhor de cada provedor de nuvem.
 
-Existem duas formas como federações de nuvens podem combinar os serviços das nuvens: horizontalmente e verticalmente\cite{5557976}. No modelo vertical instâncias de nuvem de um provedor A são criadas a partir de instâncias de nuvem de um provedor B, que pode solicitar serviços de um provedor de nuvem C, e assim por diante. O modelo horizontal as nuvens trabalham sem existir um hierarquia entre, si, assemelhando-se bastante com sistemas de rede \textit{perr to peer}. É possível combinar mas os estilos em uma mesma federação.
+Existem duas formas nas quais plataformas de federação podem combinar os serviços das nuvens: horizontalmente e verticalmente\cite{5557976}. No modelo vertical instâncias de nuvem de um provedor A são criadas a partir de instâncias de nuvem de um provedor B, que pode solicitar serviços de um provedor de nuvem C, e assim por diante. No modelo horizontal as nuvens trabalham sem existir uma hierarquia entre si, assemelhando-se bastante com sistemas de rede \textit{peer to peer}. É possível combinar mais de um estilo em uma mesma federação.
 
 
