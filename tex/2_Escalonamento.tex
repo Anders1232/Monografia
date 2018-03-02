@@ -1,6 +1,7 @@
-O escalonamento é um problema clássico da computação. Que surgiu junto com os sistemas operacionais multitarefas. Sua complexidade é considerada NP-difícil, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem esses objetivos. De qualquer forma um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} permanece em execução por muito tempo, impedindo que outros sejam executados.
+Este capítulo apresenta, inicialmente os diferentes tipos de escalonadores, citando as várias áreas em que a atividade de escalonamento ocorre, seguido da definição do problema de escalonamento que este trabalho busca resolver. Em sequência é discorrido sobre trabalhos relacionados para então apresentar o algoritmo de escalonamento proposto.
 
 \section{Tipos de escalonadores}
+O escalonamento é um problema clássico da computação. Que surgiu junto com os sistemas operacionais multitarefas. Sua complexidade é considerada NP-difícil, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem esses objetivos. De qualquer forma um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} permanece em execução por muito tempo, impedindo que outros sejam executados.
 
 Escalonadores podem ser categorizados de várias formas, com base nas funcionalidades que possui, eis alguns exemplos:
 
@@ -49,6 +50,8 @@ Por mais que o problema do escalonamento seja um clássico na área da Ciência 
 
 /*colocar aqui revisão do estado da arte de computação em nuvem*/
 Gouasmi\cite{MapReduce_sched_8034997} apresenta um algoritmo de \textit{MapReduce}\cite{Dean:2008:MSD:1327452.1327492} para escalonamento em nuvens federadas que foca em priorizar a execução de \textit{jobs} em nuvens/máquinas virtuais que já contém os dados necessários para a execução, com o objetivo de evitar transferências desnecessárias na rede. O algoritmo proposto é completamente distribuído e melhor que o \textit{MapReduce} anteriormente utilizado, porém nada é dito sobre escalonamento para máquinas com arquiteturas heterogêneas.
+
+Nguyen\cite{7791859} propõe um sistema de intermediação para federações de nuvens horizontais, com foco em busca da melhor nuvem para auxiliar sobrecarga de serviços para execução. Levando em consideração que provedores de nuvens diferentes podem ter sua infraestrutura customizada com o objetivo de atender diferentes perfis de usuários que mais usam seus serviços, o algoritmo proposto leva em consideração tais características invididuais de cada provedor. Novamente, nada é dito sobre nuvens compostas por equipamentos com arquiteturas heterogêneas.
 
 \section{Algoritmo proposto}
 
@@ -107,7 +110,9 @@ O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalona
 \end{figure}
 
 
-Observa-se que, para o algoritmo supracitado seja válido, pressupõe-se, que toda tarefa do algoritmo é capaz de rodar em CPU. O que é correto, pois atualmente todas as tarefas do BioNimbuZ rodam em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita. Futuramente pode ser necessário adaptá-lo para ser capaz de lidar com tarefas que só são capazes de serem executadas em \acrshort{GPU}.
+Observa-se que, para o algoritmo supracitado seja válido, pressupõe-se, que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita. Futuramente pode ser necessário adaptá-lo para ser capaz de lidar com tarefas que só são capazes de serem executadas em \acrshort{GPU}.
 
-Como trabalho futuro, se o BioNimbuZ obtiver suporte executação de uma mesma tarefa de forma distribuída, uma pequena modificação que pode ser feita no algoritmo supracitado é: ao invés de remover as tarefas escalonadas da lista de tarefas, colocá-las no fim dessa mesma lista. Fará com que o escalonamento seja interrompido apenas quando todos os recursos disponíveis forem alocados, pois sempre haverá tarefas para serem alocadas.
+O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
+
+COLOCAR EM TRANALHOS FUTUROS: Como trabalho futuro, se o BioNimbuZ obtiver suporte executação de uma mesma tarefa de forma distribuída, uma pequena modificação que pode ser feita no algoritmo supracitado é: ao invés de remover as tarefas escalonadas da lista de tarefas, colocá-las no fim dessa mesma lista. Fará com que o escalonamento seja interrompido apenas quando todos os recursos disponíveis forem alocados, pois sempre haverá tarefas para serem alocadas.
 
