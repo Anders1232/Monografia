@@ -55,7 +55,9 @@ Gouasmi\cite{MapReduce_sched_8034997} apresenta um algoritmo de \textit{MapReduc
 O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Haverão três listas: lista de tarefas a serem feitas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis.
 A lista de tarefas é ordenada por tempo previsto de execução, que é dado por um estimativa a partir do programa a ser rodado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante consegue realizar por segundo.
 
-O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalonamento} :
+O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalonamento} :\\
+\newline
+\iffalse
 \begin{enumerate}
 	\item Existem tarefas que podem ser executadas nos recursos disponíveis?
 	\item Se sim, obtenha o processo que está no topo da lista.
@@ -73,6 +75,28 @@ O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalona
 	\item Se não, encerre o escalonamento.
 	\item Volte para a regra 1.
 \end{enumerate}
+\fi
+\begin{algorithm}
+\caption{Escalonamento heterogêneo baseado em listas}
+\begin{algorithmic}
+	\Procedure{Escalonar}{listas lTarefas, lCPUs e lGPUs}
+	\While{Existem tarefas que podem ser executadas nos recursos disponíveis?}
+		\State{$aux \gets lTarefas[0] $}
+		\If{aux é capaz de rodar em GPU}
+			\If{$T_{previsto}(lGPUs[0]) < T_{previsto}(lCPUs[0])$}
+			\State{Escalone\ aux\ para\ lGPUs[0]}
+			\Else
+				\State{Escalone\ aux\ para\ lCPUs[0]}
+			\EndIf
+		\Else
+			\State{Escalone\ aux\ para\ lCPUs[0]}
+		\EndIf
+		\State{Remova a tarefa e o recurso alocado de suas respectivas listas.}
+	\EndWhile
+	\State{Encerra escalonamento}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 
 \begin{figure}[htbp]
@@ -81,6 +105,7 @@ O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalona
 	\caption{Diagrama de Funcionamento do Algoritmo de Escalonamento.}
 	\label{Escalonamento}
 \end{figure}
+
 
 Observa-se que, para o algoritmo supracitado seja válido, pressupõe-se, que toda tarefa do algoritmo é capaz de rodar em CPU. O que é correto, pois atualmente todas as tarefas do BioNimbuZ rodam em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita. Futuramente pode ser necessário adaptá-lo para ser capaz de lidar com tarefas que só são capazes de serem executadas em \acrshort{GPU}.
 
