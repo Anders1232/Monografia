@@ -44,6 +44,8 @@ Existem duas formas nas quais plataformas de federação podem combinar os servi
 
 \subsection{Revisão bibliográfica}
 
+Buyya\cite{Buyya:2010:IUF:2143583.2143586} descreve uma arquitetura para federações de nuvens que faz uso de uma \textit{exchange} para aproximar clientes de provedores de nuvem, detalhando cada uma de seus componentes. Lembrando que era um sistema ainda em desenvolvimento durante a escrita de seu artigo. Entretanto, o sistema descrito não menciona nada sobre virtualização de máquinas compostas por arquiteturas heterogêneas.
+
 Chen\cite{7835207} explora as vantagens de uso de nuvens horizontais e verticais concomitantemente, utilizando a teoria dos jogos para auxiliar no processo de decisão sobre quando fazer \textit{outsoucing} de \textit{workload}, explorando verticalidade da federação e quando remanejar o \textit{workload} para instâncias da coalisão(nuvem horizontal). Um dos resultados obtidos revela que o é melhor para a performance de uma federação de nuvens explorar tanto verticalmente quanto horizontalmente as nuvens existentes.
 
 Margheri \cite{FaaS_8030651} proprõe uma arquitetura de federações de nuvens completamente distribuída, que utiliza uma \textit{blockchain} para prover um controle democrático da federação. Com grande foco em segurança e estabilidade, a arquitetura proposta provê a cada um dos membros os mesmo nível de controle sobre a federação, utiliza criptografia para tornar anônimo a origem dos serviços de computação. E utiliza \textit{blockchain} para prover democracia na gestão da federação.
@@ -52,7 +54,12 @@ Alansari\cite{ACS_Federation_7980160}, propõe um sistema de controle de acesso 
 
 Gallico\cite{CYCLONE_7776591} apresenta a federação de nuvens CYCLONE, uma federação de nuvens em desenvolvimento com o objetivo tanto comercial quanto científico, que utiliza as ferramentas \textit{open-source} \textit{OpenNaaS}, \textit{OpenStack}, \textit{SplitStream} e \acrfull{TCTP}.
 
+Jrad\cite{Jrad:2013:BFM:2462326.2462339} propõe um \textit{framework} para executar \textit{workflows} baseado no uso de um mediador entre os os usuários e os provedores das nuvens. O mediador é capaz de negociar \acrshort{SLA}s para buscar provedores que consigam garantir entrega do serviço a um custo menor. Faz uso de um \textit{workflow engine} para processamento e clusterização de \textit{workflows} requisitados. Resultados obtidos experimentalmente mostram redução significativa no custo do processamento dos \textit{workflows}.
+
 Mashayekhy\cite{6853386} proprõe o uso da teoria dos jogos para provedores de nuvens se aliarem em federações para situações em que sua infraestrutura não é capaz de lidar com a demanda de serviços. A teoria dos jogos é utilizada com o objetivo de determinar as melhores nuvens externas para \textit{outsourcing} do excesso de demanada.
+
+Zant\cite{6814036} explora federações horizontais de nuvem \acrfull{CSP} \textit{side} com objetivo de maximinizar os lucros das mesmas. Essas federações são invisíveis ao cliente da nuvem e considera que os \acrshort{CSP} participantes da federação possuem equipamentos semelhantes. Os testes provam aumento no faturamento, entretanto, \acrshort{GPU}s não são citadas ou utilizadas nos testes.
+
 
 O capítulo seguinte apresenta os escalonares, seus tipos e como eles existem no contexto de federação de nuvens computacionais.
 
