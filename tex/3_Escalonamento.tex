@@ -48,7 +48,6 @@ Encontrar uma função injetora $A: T \to C \cup G$, que minimize $\sum_{t \in T
 
 Por mais que o problema do escalonamento seja um clássico na área da Ciência da Computação, são poucos que lidam com escalonamento em nuvens computacionais, e ainda menos que lidam com nuvens compostas por arquiteturas heterogêneas. 
 
-/*colocar aqui revisão do estado da arte de computação em nuvem*/
 Gouasmi\cite{MapReduce_sched_8034997} apresenta um algoritmo de \textit{MapReduce}\cite{Dean:2008:MSD:1327452.1327492} para escalonamento em nuvens federadas que foca em priorizar a execução de \textit{jobs} em nuvens/máquinas virtuais que já contém os dados necessários para a execução, com o objetivo de evitar transferências desnecessárias na rede. O algoritmo proposto é completamente distribuído e melhor que o \textit{MapReduce} anteriormente utilizado, porém nada é dito sobre escalonamento para máquinas com arquiteturas heterogêneas.
 
 Nguyen\cite{7791859} propõe um sistema de intermediação para federações de nuvens horizontais, com foco em busca da melhor nuvem para auxiliar sobrecarga de serviços para execução. Levando em consideração que provedores de nuvens diferentes podem ter sua infraestrutura customizada com o objetivo de atender diferentes perfis de usuários que mais usam seus serviços, o algoritmo proposto leva em consideração tais características invididuais de cada provedor. Novamente, nada é dito sobre nuvens compostas por equipamentos com arquiteturas heterogêneas.
