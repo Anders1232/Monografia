@@ -52,6 +52,10 @@ Gouasmi\cite{MapReduce_sched_8034997} apresenta um algoritmo de \textit{MapReduc
 
 Nguyen\cite{7791859} propõe um sistema de intermediação para federações de nuvens horizontais, com foco em busca da melhor nuvem para auxiliar sobrecarga de serviços para execução. Levando em consideração que provedores de nuvens diferentes podem ter sua infraestrutura customizada com o objetivo de atender diferentes perfis de usuários que mais usam seus serviços, o algoritmo proposto leva em consideração tais características invididuais de cada provedor. Novamente, nada é dito sobre nuvens compostas por equipamentos com arquiteturas heterogêneas.
 
+Jennings\cite{Jennings:2015:RMC:2793474.2793493} documenta  várias metodologias de escalonamento utilizada eem diferentes contexto que o escalonamento ocorre em ambientes de nuvens computacionais, revelando detalhadamente muitos dos problemas enfrentados durante a concepção. Entretanto nada é citado sobre federações de nuvens e os problemas de escalonamento enfrentados internamente num provedor de nuvem diferem dos enfrentados em ambientes de federação.
+
+Kumrai\cite{7467407} trata do escalonamento de tarefas do ponto de vista do intermediador, utilizando \textit{particle swarm optimization}, que busca imitar um bando de pássaros. Cada elemento da população representa uma possível solução, que ao longo de interações tendem a encontrar a o melhor resultado, baseado numa função que avalia quão bom cada elemento da população está. Também analisa uma variação multiobjetivo do \textit{particle swarm optimization}, buscando solução boas tanto para o provedor de nuvem quanto para quem solicita os serviços. O problema do escalonamento apreciado nesse artigo possui contexto similar ao que será enfrentado nesta monografia, entretanto, não é tratado problema criado pelo uso de máquinas compostas por arquiteturas heterogêneas.
+
 \section{Algoritmo proposto}
 
 O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Haverão três listas: lista de tarefas a serem feitas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis.
