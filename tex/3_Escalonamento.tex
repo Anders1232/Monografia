@@ -60,11 +60,11 @@ Mostageran\cite{7224588} documenta sobre intermediadores, conhecidos como \texti
 
 \section{Algoritmo proposto}
 
-O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Haverão três listas: lista de tarefas a serem feitas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis.
+O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Haverão três listas: lista de tarefas a serem feitas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis. O uso de listas para escalonamento é uma das abordagens principais para escalonamento, incluindo listas de listas\cite{MultilevelFQ}, pois é prático associar significados à posições na lista, por exemplo no Linux as posições zero à 9 são utilizadas para threads do sistema e de tempo real, enquanto as posições seguintes são usadas para threads de usuário \cite{KernelsComp}.
+
 A lista de tarefas é ordenada por tempo previsto de execução, que é dado por um estimativa a partir do programa a ser rodado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante consegue realizar por segundo.
 
-O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalonamento} :\\
-\newline
+%\newline
 \iffalse
 \begin{enumerate}
 	\item Existem tarefas que podem ser executadas nos recursos disponíveis?
@@ -84,6 +84,7 @@ O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalona
 	\item Volte para a regra 1.
 \end{enumerate}
 \fi
+
 \begin{algorithm}
 \caption{Escalonamento heterogêneo baseado em listas}
 \begin{algorithmic}
@@ -115,9 +116,9 @@ O escalonamento ocorre da seguinte forma, como ilustrado na figura \ref{Escalona
 \end{figure}
 
 
-Observa-se que, para o algoritmo supracitado seja válido, pressupõe-se, que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita. Futuramente pode ser necessário adaptá-lo para ser capaz de lidar com tarefas que só são capazes de serem executadas em \acrshort{GPU}.
+O escalonamento ocorre como ilustrado na figura \ref{Escalonamento}. Observa-se que, para o algoritmo supracitado seja válido, pressupõe-se, que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita. Futuramente pode ser necessário adaptá-lo para ser capaz de lidar com tarefas que só são capazes de serem executadas em \acrshort{GPU}.
 
 O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
 
-COLOCAR EM TRANALHOS FUTUROS: Como trabalho futuro, se o BioNimbuZ obtiver suporte executação de uma mesma tarefa de forma distribuída, uma pequena modificação que pode ser feita no algoritmo supracitado é: ao invés de remover as tarefas escalonadas da lista de tarefas, colocá-las no fim dessa mesma lista. Fará com que o escalonamento seja interrompido apenas quando todos os recursos disponíveis forem alocados, pois sempre haverá tarefas para serem alocadas.
+COLOCAR EM TRABALHOS FUTUROS: Como trabalho futuro, se o BioNimbuZ obtiver suporte executação de uma mesma tarefa de forma distribuída, uma pequena modificação que pode ser feita no algoritmo supracitado é: ao invés de remover as tarefas escalonadas da lista de tarefas, colocá-las no fim dessa mesma lista. Fará com que o escalonamento seja interrompido apenas quando todos os recursos disponíveis forem alocados, pois sempre haverá tarefas para serem alocadas.
 

@@ -1,10 +1,16 @@
-O BioNimbuZ é uma plataforma livre de nuvens confederadas para execução de workflows de bioinformática desenvolvida no laboratório de Bioinformática e Dados(LABID) por alunos de graduação e pós-graduação. Originalmente proposta por Saldanha\cite{Saldanha_BioNimbus} e refinada por alunos de iniciação científica, graduação, mestrado e doutorado.\cite{closer12_BioNimbuZ_AHP}\cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched}\cite{BioNimbuZ_Breno_Deric}\cite{BioNimbuZ_Vegara}\cite{BioNimbuZ_Willian_C99}
+Este capítulo possui como objetivo apresentar a plataforma de nuvens federadas BioNimbuZ, que foi selecionada para desenvolver o escalonador para plataformas heterogêneas proposto neste trabalho. FALAR AQUI SOBRE AS SEÇÕES
 
+\section{Visão Geral}
+
+O BioNimbuZ é uma plataforma livre de nuvens confederadas para execução de \textit{workflows} desenvolvida no \acrfull{LABID} por alunos de graduação e pós-graduação. Originalmente proposta por Saldanha\cite{Saldanha_BioNimbus} e refinada por alunos de iniciação científica, graduação, mestrado e doutorado\cite{closer12_BioNimbuZ_AHP}\cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched}\cite{BioNimbuZ_Breno_Deric}\cite{BioNimbuZ_Vegara}\cite{BioNimbuZ_Willian_C99}.
+
+É possível integrar nuvens de tipos de governança(vide capítulo 2), o que permite que cada provedor mantenha suas políticas e características internas, o que reduz a dependência da plataforma e, consequentemente, dos usuários de dependência de servidores específicos de nuvem. Essa funcionalidade é alcançada graças à facilidade e flexibilidade na inclusão de novos provedores na plataforma, através da utilização de \textit{plugins} de integração, que traduzem requisições vindas da plataforma para equivalentes específicas de cada servidor. O que é fundamental para evitar \textit{vendor lock-in}, que é a dependência de um serviço a um provedor em específico, por mais que existam outros.
+
+\section{Arquitetura}
 Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas, descritas a seguir:
-\begin{itemize}
-	\item Camada de Aplicação: Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. Após fazer login, o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e pode obter, caso queira, o resultados parciais que já tiverem sido produzidos.
+\subsection{Camada de Aplicação} Responsável por prover a interface de comunicação com o usuário, seja via uma interface gráfica(GUI), seja via \textit{web}. Após fazer login, o usuário pode enviar \textit{workflows} para serem executados e fazer \textit{upload} do arquivos necessários. Além de poder acompanhar o andamento de seus \textit{workflows} e pode obter, caso queira, o resultados parciais que já tiverem sido produzidos.
 	
-	\item Camada de Integração: Tem como objetivo de integrar as Camadas de Aplicação e de Núcleo, fazendo uso do \textit{framework} \acrshort{REST} para prover de forma prática essa funcionalidade, utilizando operações definidas no protocolo \textit{HTTP}, como \textit{GET}, \textit{DELETE} e \textit{PUT}.
+	\subsection{Camada de Integração} Tem como objetivo de integrar as Camadas de Aplicação e de Núcleo, fazendo uso do \textit{framework} \acrshort{REST} para prover de forma prática essa funcionalidade, utilizando operações definidas no protocolo \textit{HTTP}, como \textit{GET}, \textit{DELETE} e \textit{PUT}.
 	Existem três tipos de mensagens trocadas entre o Núcleo e a camada de Aplicação:
 	\begin{itemize}
 		\item \textit{Request}: Requisições da camada de Aplicação que contém todos os dados necessários para o seu processamento;
@@ -12,7 +18,8 @@ Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas
 		\item \textit{Action}: Comandos a serem executados pelo núcleo, que são uma requisição enviada ao núcleo para se obter dados na resposta.
 	\end{itemize}
 	
-	\item Camada de Núcleo: Realiza toda a gerência da federação, provendo vários serviços. Entre eles:
+	\subsection{Camada de Núcleo} Realiza toda a gerência da federação, provendo vários serviços. Entre eles:
+
 	\begin{itemize}
 		\item Serviço de predição: Objetiva orientar o usuário do BioNimbuZ a escolher as melhores combinações de máquinas virtuais/provedores a partir da especificação do \textit{workflow} a ser executado e custo pretendido;
 		\item Serviço de tarifação: Responsável por calcular o valor que os usuários devem pagar pelos serviços providndos do BioNimbuZ. Para tal, comunica-se com o serviço de monitoramento para obter informações como tempo de execução e quantidade de máquinas virtuais alocadas. É função desse serviço garantir o cumprimento das métricas de tarifação das nuvens integradas à federação, e repassar o valor ao usuário;
@@ -31,8 +38,9 @@ Implementado utilizando uma arquitetura de camadas, o BioNimbuZ possui 4 camadas
 	
 	\end{itemize}
 	
-	\item Camada de Infraestrutura: Disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Utilizando \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
-\end{itemize}
+	\subsection{Camada de Infraestrutura} Disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Utilizando \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
+
+\subsection{Serviço de Escalonamento}
 
 O BioNimbuZ é capaz de ser integrado tanto à nuvens públicas quanto privadas, utilizando \textit{plugins} para permitir conexão com vários provedores de nuvem, cada qual com sua própria interface. Os \textit{plugins} não existem apenas na camada de integração: vários serviços da camada de núcleos também são disponibilizados como tal, provendo grande flexibilidade à plataforma.
 
