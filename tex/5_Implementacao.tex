@@ -33,3 +33,21 @@ Essas políticas de escalonamento são implementadas através da definição dos
 Por motivos de familiaridade com a linguagem de programação, o escalonador proposto foi implementado em C++. Para ter compatibilidade com o resto do software, classes auxiliares, como a que representa os \textit{Jobs} e as \acrshort{VM}s instanciáveis tiveram equivalentes escritos em C++. Além disso, dois outros problemas surgiram: Como iniciar o escalonador C++ e como ele deve se comunicar com o resto da plataforma. O primeiro problema foi resolvido através de pesquisa na \acrfull{API} do Java, utilizando as classes \textit{Runtime}\cite{JavaRuntime} e \textit{Process}\cite{JavaProcess} é simples executar comandos de terminal, o que permite execução da parte C++ do escalonador.
 
 O problema da comunicação do C++ com o Java é mais difícil, pois há várias formas de fazer. Por exemplo o uso de classes \textit{wrappers} que usam \textit{handles}, que são objetos cujos objetivos é manipular estruturas que não são nativas da linguagem\cite{CppJavaHandle}. Uma outra forma documentada é através do uso do \acrfull{JNI}, que é uma outra forma existente que faz possível através do uso de \textit{handles} chamar código C++ num programa Java\cite{CppJavaJNI}, também existem variações deste método utilizando bibliotecas que busca simplificar de alguma forma o gerenciamento do \textit{handle}. Como as formas pesquisadas para fazer tal comunicação aparentam não chegar a um consenso, decidiu-se então utilizar formas mais genéricas de comunicação entre processos, onde então surgiu a ideia de usar \textit{sockets} para fazer a comunicação.
+
+\textit{Socket} é uma abstração que sistemas operacionais fazem para permitir que programas tenham acesso à rede. Os sistemas operacionais organizam os \textit{sockets} disponíveis e portas, essa organização de portas também é utilizada por protocolos de rede, o sistema de portas permite diferenciar em um computador qual dos programas interessados está enviando ou deve receber a mensagem. E um truque que pode ser feito usando a pilha de rede \acrshort{TCP/IP} é enviar mensagens para o próprio computador, através da interface de rede de \textit{loopback}. E esse é um método efetivo de comunicação entre processos distintos.
+
+Uma vez decidido o uso de \textit{sockets} faltava decidir qual seria o protocolo da camada de rede e de transporte. Na camada de rede o principal protocolo existente é o \acrfull{IP}, entretanto, existem duas versões: o IPv4 e o IPv6, sendo que o último é mais recente e permite u maior número de dispositivos na rede, o que o tornou a versão que foi utilizada na implementação. Quanto à camada de transporte, os candidatos eram o \acrshort{TCP} e \acrshort{UDP}. O \acrshort{TCP} dá uma seŕie de garantias ao usuário dos pacotes que serão transmitidos pela rede, mas como apenas utilizaremos para comunicação em \textit{loopback}, o \acrshort{UDP} é mais simples e enxuto, sendo escolhido como protocolo da camada de transporte.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[scale=0.7]{img/Proposta.png}}
+	\caption{Arquitetura de classes do escalonador C++, incluindo uso de rede para comunicação}
+	\label{ArquiteturaProposta}
+\end{figure}
+
+
+Para a implementação desse sistema de comunicação no BioNimbuZ, desenvolveu-se a classe abstrata \textit{CppSched} que herda de \textit{SchedPolicy}, responsável por fazer a inicialização do programa C++ e pelo \textit{handshake} entre os processos C++ e Java, permitindo que futuros escalonadores em C++ não precise repetir esse processo. Da classe \textit{CppSched} herda o método \textit{GetSchedPolicy}, utilizado para informar qual escalonador C++ deve ser utilizado.
+
+%A implementação da comunicação e sockets entre os processos 
+ 
+
+
