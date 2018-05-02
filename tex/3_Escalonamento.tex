@@ -21,7 +21,7 @@ Escalonadores podem ser categorizados de várias formas, com base nas funcionali
 %\end{itemize}
 
 
-O problema do escalonamento é o método pelo qual trabalho, definido por algum conjunto de características (como duração e requisitos), é atribuído à recursos que são capazes de completá-lo. Por mais que exista a dificuldade teórica \cite{ULLMAN1975384}, isso não impediu a evolução dos sistemas operacionais, os quais são capazes de fazer escalonamento de vários processos.
+O problema do escalonamento é o método pelo qual trabalho, definido por algum conjunto de características (como duração e requisitos), é atribuído à recursos que são capazes de completá-lo. %Por mais que exista a dificuldade teórica \cite{ULLMAN1975384}, isso não impediu a evolução dos sistemas operacionais, os quais são capazes de fazer escalonamento de vários processos.
 
 Atualmente, as \acrshort{CPU}s possuem vários núcleos, e são capazes de ter mais de um contexto carregado por núcleo, vide Ryzen™ Threadripper™\cite{Ryzen}. O que faz com que seja necessário que o processo de escalonamento leve em consideração como o mesmo será distribuído (ou não) entre os núcleos.
 
@@ -33,12 +33,12 @@ A atividade de escalonamento pode ser otimizada para vários objetivos, entre os
 	\item Distribuir de forma justa o tempo que cada um dos trabalhos terá de uso de um recurso escasso.
 \end{itemize}
 
-Esses objetivos são, às vezes, contraditórios. Na prática, prioriza-se um conjunto de métricas como base para otimização. Por exemplo, o GNU/Linux utiliza o \acrfull{CFS}, que se baseia no algoritmo \textit{Fair queuing}. Como o nome já diz, o foco desse escalonador está em ser justo. Internamente, utiliza-se uma árvore rubro-negra indexados pelo tempo gasto no processador. Para ser justo, o tempo máximo de cada processo fica em execução interrupta é o quociente do tempo que o processo ficou aguardando para ser executado pelo número total de processos.
+Esses objetivos são, às vezes, contraditórios. Na prática, prioriza-se um conjunto de métricas como base para otimização. Por exemplo, o GNU/Linux utiliza o \acrfull{CFS}, que se baseia no algoritmo \textit{Fair queuing}. Como o nome já diz, o foco desse escalonador está em ser justo. Internamente, utiliza-se uma árvore rubro-negra indexada pelo tempo gasto no processador. Para ser justo, o tempo máximo de cada processo fica em execução interrupta é o quociente do tempo que o processo ficou aguardando para ser executado pelo número total de processos.
 
 \section{Escalonamento em Nuvens Computacionais}
 
 Este trabalho focará no escalonamento em federações de nuvens computacionais. O qual recentemente presenciou a ascensão do uso de unidades de processamento gráfico (\acrfull{GPU}) para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. Nesse contexto, o problema do escalonamento pode ser formalmente definido como, dado:\\
-Dado:
+
 \begin{itemize}
 	\item Conjunto $T$ de tarefas;
 	\item Conjunto $M$ de máquinas virtuais;
@@ -48,15 +48,17 @@ Dado:
 \end{itemize}
 encontrar uma função injetora $A: T \to C \cup G$, que minimize $\sum_{t \in T} F(t, A(t) )$.\\
 
+\section{Trabalhos Relacionados}
+
 Por mais que o problema do escalonamento seja um clássico na área da Ciência da Computação, são poucos que lidam com escalonamento em nuvens computacionais, e ainda menos os trabalhos que lidam com nuvens compostas por arquiteturas heterogêneas. 
 
-Gouasmi \cite{MapReduce_sched_8034997} apresenta um algoritmo de \textit{MapReduce}\cite{Dean:2008:MSD:1327452.1327492} para escalonamento em nuvens federadas que foca em priorizar a execução de \textit{jobs} em nuvens/máquinas virtuais que já contém os dados necessários para a execução, com o objetivo de evitar transferências desnecessárias na rede. O algoritmo proposto é completamente distribuído e melhor do que o \textit{MapReduce} anteriormente utilizado, porém nada é dito sobre escalonamento para máquinas com arquiteturas heterogêneas.
+Gouasmi \textit{et al.} \cite{MapReduce_sched_8034997} apresentam um algoritmo de \textit{MapReduce}\cite{Dean:2008:MSD:1327452.1327492} para escalonamento em nuvens federadas que foca em priorizar a execução de \textit{jobs} em nuvens/máquinas virtuais que já contém os dados necessários para a execução, com o objetivo de evitar transferências desnecessárias na rede. O algoritmo proposto é completamente distribuído e melhor do que o \textit{MapReduce} anteriormente utilizado, porém nada é dito sobre escalonamento para máquinas com arquiteturas heterogêneas.
 
-Nguyen \cite{7791859} propõe um sistema de intermediação para federações de nuvens horizontais, com foco em busca da melhor nuvem para auxiliar sobrecarga de serviços para execução. Levando em consideração que provedores de nuvens diferentes podem ter sua infraestrutura customizada com o objetivo de atender diferentes perfis de usuários que mais usam seus serviços, o algoritmo proposto leva em consideração tais características invididuais de cada provedor. Novamente, nada é dito sobre nuvens compostas por equipamentos com arquiteturas heterogêneas.
+Nguyen e Thoai \cite{7791859} propõem um sistema de intermediação para federações de nuvens horizontais, com foco em busca da melhor nuvem para auxiliar sobrecarga de serviços para execução. Levando em consideração que provedores de nuvens diferentes podem ter sua infraestrutura customizada com o objetivo de atender diferentes perfis de usuários que mais usam seus serviços, o algoritmo proposto leva em consideração tais características invididuais de cada provedor. Novamente, nada é dito sobre nuvens compostas por equipamentos com arquiteturas heterogêneas.
 
-Jennings \cite{Jennings:2015:RMC:2793474.2793493} documenta  várias metodologias, utilizadas em diferentes contextos que o escalonamento ocorre em ambientes de nuvens computacionais, revelando detalhadamente muitos dos problemas enfrentados durante a concepção. Entretanto nada é citado sobre federações de nuvens e os problemas de escalonamento enfrentados internamente num provedor de nuvem diferem dos enfrentados em ambientes de federação.
+Jennings e Stadler \cite{Jennings:2015:RMC:2793474.2793493} documentaram  várias metodologias, utilizadas em diferentes contextos que o escalonamento ocorre em ambientes de nuvens computacionais, revelando detalhadamente muitos dos problemas enfrentados durante a concepção. Entretanto, nada é citado sobre federações de nuvens e os problemas de escalonamento enfrentados internamente num provedor de nuvem diferem dos enfrentados em ambientes de federação.
 
-Kumrai \cite{7467407} trata do escalonamento de tarefas do ponto de vista do intermediador, utilizando \textit{particle swarm optimization}, que busca imitar um bando de pássaros. Cada elemento da população representa uma possível solução, que ao longo de interações tendem a encontrar a o melhor resultado, baseado numa função que avalia quão bom cada elemento da população está. Também analisa uma variação multiobjetivo do \textit{particle swarm optimization}, buscando solução boas tanto para o provedor de nuvem quanto para quem solicita os serviços. O problema do escalonamento apreciado nesse artigo possui contexto similar ao que será enfrentado nesta monografia, entretanto, não é tratado problema criado pelo uso de máquinas compostas por arquiteturas heterogêneas.
+Kumrai \textit{et al.} \cite{7467407} trata do escalonamento de tarefas do ponto de vista do intermediador, utilizando \acrfull{PSO}, que busca imitar um bando de pássaros. Cada elemento da população representa uma possível solução, que ao longo de interações tendem a encontrar a o melhor resultado, baseado numa função que avalia quão bom cada elemento da população é. Também analisa uma variação multiobjetivo do \textit{Particle Swarm Optimization}, buscando solução boas tanto para o provedor de nuvem quanto para quem solicita os serviços. O problema do escalonamento apreciado nesse artigo possui contexto similar ao que será enfrentado nesta monografia, entretanto, não é tratado problema criado pelo uso de máquinas compostas por arquiteturas heterogêneas.
 
 Mostageran \cite{7224588} documenta sobre intermediadores, conhecidos como \textit{bokers}. Com foco em sua evolução para atender a níveis de qualidade de serviços propostos em \acrshort{SLA}s. Apresentando definições úteis para termos utilizados na área, como \textit{inter-cloud}, federação de nuvens e \textit{cloud broker}. É importante diferenciar escalonador de intermediário: o intermediário mantém registro de entidades interessadas em um serviço e provedores desse serviço, incluindo busca de provedores e monitoramento das conexões feitas entre os interessados e os provedores; o escalonamento funciona em um escopo menor: que é gerenciar acesso a um recurso escasso buscando otimizar alguma métrica relativa ao seu contexto de uso, como por exemplo acesso de processos ao processador.
 
@@ -113,14 +115,17 @@ A lista de tarefas é ordenada por tempo previsto de execução, que é dado por
 \begin{figure}[htbp]
 %	\centerline{\includegraphics[scale=0.04]{img/EscalonadorProposto.png}}
 	\centerline{\includegraphics[scale=0.032]{img/EscalonadorProposto2.png}}
-	\caption{Diagrama de Funcionamento do Algoritmo de Escalonamento.}
+	\caption{Diagrama de Funcionamento do Algoritmo de Escalonamento Proposto.}
 	\label{Escalonamento}
 \end{figure}
 
 
 Observe que, para o algoritmo mostrado na Figura \ref{Escalonamento} seja válido, pressupõe-se que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita.
 
-O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
+O próximo capítulo apresentará os problemas enfrentados no implementação e implantação do escalonador.
+%O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
 
 COLOCAR EM TRABALHOS FUTUROS: Como trabalho futuro, se o BioNimbuZ obtiver suporte executação de uma mesma tarefa de forma distribuída, uma pequena modificação que pode ser feita no algoritmo supracitado é: ao invés de remover as tarefas escalonadas da lista de tarefas, colocá-las no fim dessa mesma lista. Fará com que o escalonamento seja interrompido apenas quando todos os recursos disponíveis forem alocados, pois sempre haverá tarefas para serem alocadas.
+
+%Colocar aqui como testar o escalonador??
 
