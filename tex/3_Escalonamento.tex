@@ -1,13 +1,14 @@
-Este capítulo apresenta, inicialmente os diferentes tipos de escalonadores, citando as várias áreas em que a atividade de escalonamento ocorre, seguido da definição do problema de escalonamento que este trabalho busca resolver. Em sequência é discorrido sobre trabalhos relacionados para então apresentar o algoritmo de escalonamento proposto.
+Este capítulo apresenta, inicialmente, os diferentes tipos de escalonadores, citando as várias áreas em que a atividade de escalonamento ocorre. Em seguida apresenta a definição do problema de escalonamento que este trabalho busca resolver. Em sequência, é discorrido sobre trabalhos relacionados para então apresentar o algoritmo de escalonamento proposto.
 
-%\section{Tipos de escalonadores}
-O escalonamento é um problema clássico da computação, que surgiu junto com os sistemas operacionais multitarefas. Sua complexidade é considerada NP-difícil\cite{ULLMAN1975384}, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem esses objetivos. De qualquer forma, um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} permanece em execução por muito tempo, impedindo que outros sejam executados.
+\section{Definição}
 
-Escalonadores podem ser categorizados de várias formas, com base nas funcionalidades que possuem. Assim , uma importante questão é definir qual é a unidade escalonada, podendo ser:
+O escalonamento é um problema clássico da computação que surgiu junto com os sistemas operacionais multitarefas. Sua complexidade é considerada NP-difícil\cite{ULLMAN1975384}, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem uma boa performance. De qualquer forma, um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} fica esperando indefinidamente por um recurso, que pode ser, inclusive, a \acrshort{CPU} \cite{TANEMBAUM_SO}.
+
+Escalonadores podem ser categorizados de várias formas, com base nas funcionalidades que possuem. Assim, uma importante questão é definir qual é a unidade escalonada, podendo ser:
 
 	\begin{itemize}
 		\item processos, \textit{threads} para serem executados;
-		\item jobs para serem excecutados na nuvem;
+		\item \textit{jobs} para serem excecutados na nuvem;
 		\item páginas da memória \acrfull{RAM} para \textit{swapping};
 		\item pacotes para serem transmitidos pela rede;
 		\item requisições de leitura/escrita em memória secundária.
@@ -60,35 +61,17 @@ Jennings e Stadler \cite{Jennings:2015:RMC:2793474.2793493} documentaram  vária
 
 Kumrai \textit{et al.} \cite{7467407} trata do escalonamento de tarefas do ponto de vista do intermediador, utilizando \acrfull{PSO}, que busca imitar um bando de pássaros. Cada elemento da população representa uma possível solução, que ao longo de interações tendem a encontrar a o melhor resultado, baseado numa função que avalia quão bom cada elemento da população é. Também analisa uma variação multiobjetivo do \textit{Particle Swarm Optimization}, buscando solução boas tanto para o provedor de nuvem quanto para quem solicita os serviços. O problema do escalonamento apreciado nesse artigo possui contexto similar ao que será enfrentado nesta monografia, entretanto, não é tratado problema criado pelo uso de máquinas compostas por arquiteturas heterogêneas.
 
-Mostageran \cite{7224588} documenta sobre intermediadores, conhecidos como \textit{bokers}. Com foco em sua evolução para atender a níveis de qualidade de serviços propostos em \acrshort{SLA}s. Apresentando definições úteis para termos utilizados na área, como \textit{inter-cloud}, federação de nuvens e \textit{cloud broker}. É importante diferenciar escalonador de intermediário: o intermediário mantém registro de entidades interessadas em um serviço e provedores desse serviço, incluindo busca de provedores e monitoramento das conexões feitas entre os interessados e os provedores; o escalonamento funciona em um escopo menor: que é gerenciar acesso a um recurso escasso buscando otimizar alguma métrica relativa ao seu contexto de uso, como por exemplo acesso de processos ao processador.
+Mostageran \textit{et al.} \cite{7224588} documentam sobre intermediadores, conhecidos como \textit{brokers}, com foco em sua evolução para atenderem a níveis de qualidade de serviços propostos em \acrshort{SLA}s. Apresentando definições úteis para termos utilizados na área, como \textit{inter-cloud}, federação de nuvens e \textit{cloud broker}. É importante diferenciar escalonador de intermediário: o intermediário mantém registro de entidades interessadas em um serviço e provedores desse serviço, incluindo busca de provedores e monitoramento das conexões feitas entre os interessados e os provedores. O escalonamento funciona em um escopo menor, que é gerenciar acesso a um recurso escasso buscando otimizar alguma métrica relativa ao seu contexto de uso, como por exemplo acesso de processos ao processador.
 
-\section{Algoritmo Proposto}
+Diante dos trabalhos apresentados, nota-se que nenhum deles aborda o escalonamento para federações compostas por arquiteturas heterogêneas. Por isto, este trabalho propõe um escalonador para federações que utilizem equipamentos compostos por arquiteturas heterogêneas.
 
-O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Dessa forma, haverão três listas: lista de tarefas a serem executadas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis. O uso de listas para escalonamento é uma das abordagens principais para escalonamento, incluindo listas de listas\cite{MultilevelFQ}, pois é prático associar significados à posições na lista, por exemplo no Linux as posições zero à 9 são utilizadas para threads do sistema e de tempo real, enquanto as posições seguintes são usadas para threads de usuário \cite{KernelsComp}.
+\section{Escalonador Proposto}
 
-A lista de tarefas é ordenada por tempo previsto de execução, que é dado por um estimativa a partir do programa a ser executado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante que consegue realizar por segundo. O escalonamento ocorre de acordo com a Figura \ref{Escalonamento};
+O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Dessa forma, haverão três listas: lista de tarefas a serem executadas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis. O uso de listas para escalonamento é uma das abordagens principais para escalonamento, incluindo listas de listas\cite{MultilevelFQ}, pois é prático associar significados à posições na lista, por exemplo no Linux as posições zero à 9 são utilizadas para \textit{threads} do sistema e de tempo real, enquanto as posições seguintes são usadas para \textit{threads} de usuário \cite{KernelsComp}.
+
+A lista de tarefas é ordenada por tempo previsto de execução, que é dado por uma estimativa a partir do programa a ser executado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante que consegue realizar por segundo. Assim, ocorre de acordo com a Figura \ref{Escalonamento}.
 
 %\newline
-\iffalse
-\begin{enumerate}
-	\item Existem tarefas que podem ser executadas nos recursos disponíveis?
-	\item Se sim, obtenha o processo que está no topo da lista.
-	\begin{enumerate}
-		\item É capaz de rodar em GPU?
-		\item Se sim:
-		\begin{enumerate}
-			\item O tempo prevista para rodá-lo na melhor \acrshort{GPU} disponível é melhor que o tempo previsto para rodá-lo na melhor \acrshort{CPU} disponível?
-			\item Se sim, escalone-o para nessa \acrshort{GPU}.
-			\item Se não, escalone-o para na melhor \acrshort{CPU} disponível.
-		\end{enumerate}
-		\item Se não, escalone-o na melhor \acrshort{CPU} disponível.
-		\item Remova a tarefa e o recurso alocado de suas respectivas listas.
-	\end{enumerate}
-	\item Se não, encerre o escalonamento.
-	\item Volte para a regra 1.
-\end{enumerate}
-\fi
-
 \begin{algorithm}
 \caption{Escalonamento heterogêneo baseado em listas}
 \begin{algorithmic}
@@ -120,7 +103,7 @@ A lista de tarefas é ordenada por tempo previsto de execução, que é dado por
 \end{figure}
 
 
-Observe que, para o algoritmo mostrado na Figura \ref{Escalonamento} seja válido, pressupõe-se que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita.
+Assim sendo, observe que para o algoritmo mostrado na Figura \ref{Escalonamento} seja válido, pressupõe-se que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, exibido na Figura \ref{Escalonamento}, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita.
 
 O próximo capítulo apresentará os problemas enfrentados no implementação e implantação do escalonador.
 %O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
