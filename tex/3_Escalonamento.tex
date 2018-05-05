@@ -105,6 +105,15 @@ A lista de tarefas é ordenada por tempo previsto de execução, que é dado por
 
 Assim sendo, observe que para o algoritmo mostrado na Figura \ref{Escalonamento} seja válido, pressupõe-se que toda tarefa do algoritmo é capaz de rodar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, exibido na Figura \ref{Escalonamento}, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita.
 
+Sobre a ótica do trabalho de Casavant e Kuhl \cite{4634_TaxonomiaEscalonador}, o algoritmo desenvolvido neste trabalho pode ser classificado como global, estático, sub-ótimo e aproximado.%, utilizando teoria das filas.
+
+Escalonamento local é o responsável pode decidir o processamento de processos a \textit{time-slices} de um processador, o escalonador desenvolvido neste trabalho opera no nível de decidir que processos serão executados em quais máquinas virtuais, deixando o escalonamento local a cargo do sistema operacional da máquina em questão.
+
+Casavant e Kuhl \cite{4634_TaxonomiaEscalonador} definem como escalonamento estático, o escalonamento no qual, é conhecido durante a inicialização de uma máquina, que \textit{jobs} ela executará. Esta condição é satisfeita, pois um \textit{workflow} precisa ser bem definido para ser executado no BioNimbuZ. Vale a pena ressaltar que escalonamento estático também poe ser denominado escalonamento determinístico.
+
+O escalonador desenvolvido nestre trabalho é considerado sub-ótimo e aproximado, porque nem todas as informações sobre os \textit{jobs} de um \textit{workflow} são conhecidas, o BioNimbuZ possui o Serviço de Predição para estimar o tempo de execução de um \textit{job}, e por isso este escalonador é considerado aproximado.
+
+
 O próximo capítulo apresentará os problemas enfrentados no implementação e implantação do escalonador.
 %O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
 
