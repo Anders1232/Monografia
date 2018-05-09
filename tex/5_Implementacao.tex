@@ -48,7 +48,17 @@ Uma vez decidido o uso de \textit{sockets} faltava decidir qual seria o protocol
 
 Como pode ser observado na Figura \ref{ArquiteturaProposta}, para a implementação desse sistema de comunicação no BioNimbuZ, desenvolveu-se a classe abstrata \textit{CppSched} que herda de \textit{SchedPolicy}, responsável por fazer a inicialização do programa C++ e pelo \textit{handshake} entre os processos C++ e Java, permitindo que futuros escalonadores em C++ não precisem repetir este processo. Da classe \textit{CppSched} herda o método \textit{GetSchedPolicy}, utilizado para informar qual escalonador C++ deve ser utilizado.
 
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=13cm]{img/Handshake3.png}}
+	\caption{Handshake entre a parte Java e C++ do Escalonador}
+	\label{Handshake}
+\end{figure}
+
 O programa C++ é composto pela classe Comunicador, que inicializa seu \textit{socket} e inicia a conversa com o processo Java, cuja porta de comunicação é recebida pela linha de comando. Durante o \textit{handshake} é definido qual filho da classe virtual Escalonador será usado. Em prol da simplicidade e performance, buscou-se minimizar a comunicação entre os processos C++ e Java. Assim, após a inicialização, o processo C++ se comporta similarmente à um servidor \acrshort{DNS}\cite{dns_rfc}, ficando em espera por solicitações de escalonamento, e responde às requisições sem manter estado internamente.
+
+%\section{Implantação}
+
+%O escalonador foi desenvolvido utilizando apenas o subsistema de escalonamento, para que testes fossem feitos com rapidez. Após testes que comprovaram o funcionamento do escalonador, como o da Figura [CAPTURA DE REDE], utilizou-se 
 
 \section{Uso de \acrshort{GPU} no BioNimbuZ}
 
