@@ -58,9 +58,19 @@ O programa C++ é composto pela classe Comunicador, que inicializa seu \textit{s
 
 \section{Implantação}
 
-O escalonador foi inicialmente desenvolvido, utilizando apenas o subsistema de escalonamento do BioNimbuZ, para que testes fossem feitos com rapidez. Após testes que comprovaram o funcionamento do escalonador, como o da Figura \ref{Handshake}, utilizou-se uma máquina virtual para fazer a implantação do escalonador desenvolvido de volta ao BioNimbuZ, pois a instalação do BioNimbuZ requer instalação de programas que podem, mesmo que seja incomum, conflitar ou apresentar erros em iterações com o resto do sistema operacional. Um exemplo que ocorreu durante o desenvolvimento, foi uma atualização do sistema operacional, Debian\cite{Debian} Testing\cite{DebianTesting}, que causou erros em tempo de execução na \acrfull{IDE} Eclipse\cite{JavaEclipse}, relativos à interface gráfica. O mecanismo de \textit{snapshots} providos pelo software de gerenciamento de \acrshort{VM}s Virtualbox se revelou realmente útil nessa circunstância, como podemos ver na Figura 
+O escalonador foi inicialmente desenvolvido, utilizando apenas o subsistema de escalonamento do BioNimbuZ, para que testes fossem feitos com rapidez. Após testes que comprovaram o funcionamento do escalonador, como o da Figura \ref{Handshake}, utilizou-se uma máquina virtual para fazer a implantação do escalonador desenvolvido de volta ao BioNimbuZ, pois a instalação do BioNimbuZ requer instalação de programas que podem, mesmo que seja incomum, conflitar ou apresentar erros em iterações com o resto do sistema operacional. Um exemplo que ocorreu durante o desenvolvimento, foi uma atualização do sistema operacional, Debian\cite{Debian} Testing\cite{DebianTesting}, que causou erros em tempo de execução na \acrfull{IDE} Eclipse\cite{JavaEclipse}, relativos à interface gráfica. O mecanismo de \textit{snapshots} providos pelo software de gerenciamento de \acrshort{VM}s Virtualbox se revelou realmente útil nessa circunstância, como podemos ver na Figura \ref{Snapshots}.
 
-\section{Uso de \acrshort{GPU} no BioNimbuZ}
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=12cm]{img/Snapshots.png}}
+	\caption{Parte dos snapshots existentes na \acrshort{VM} de implantação}
+	\label{Snapshots}
+\end{figure}
+
+Nos primeiros testes de funcionamento do BioNimbuZ, percebeu-se um erro no qual era possível cadastrar novo usuários, mas não era possível logar na plataforma, apenas aparecendo a mensagem "Erro Interno". Pesquisa nos arquivos de log mostraram que o BioNimbuZ não estava conseguido criar a maioria de suas tabelas no \acrfull{SGBD} MySQL, devido ao tamanho de limite de linha das tabelas, causado pele junção de vários campos para armazenamento de \textit{strings} e o fato do \acrshort{SGBD} utilizar 4 bytes para codificar cada caractere. Após pesquisar possíveis soluções, incluindo atualização do MySQL, decidiu-se criar manualmente as tabelas que apresentavam esse problema, reduzindo o tamanho de alguns campos de texto, solução que resolveu o problema sem perda aparente de funcionalidade.
+
+Outro problema enfrentado durante o desenvolvimento foi que workflows não eram enviados para execução quando solicitado, os logs apenas informavam "Error: NULL", sem maiores informações para solucionar o problema, que ainda está sem solução.
+
+\subsection{Uso de \acrshort{GPU} no BioNimbuZ}
 
 %No início do projeto, imaginava-se que os \textit{workflows} existentes no BioNimbuZ seriam capazes de tirar proveito da \acrshort{GPU}, pressuposto que se revelou falso ao longo do desenvolvimento do projeto. Logo fez-se necessário procurar por programas de uso geral que utilizem a \acrshort{GPU}, uma atividade que se revelou simples. 
 Para os testes foi escolhido o programa XMR-Stak\cite{xmr_stak}, um programa de mineração de criptomoedas, que são artefatos digitais desenvolvidos como meio de troca, que utilizam criptografia para prover segurança e integridade à transações\cite{crypto_currencies}. Esse software de mineração, em específico, foi escolhido pelo fato de ser software livre e por isso ter seu código fonte disponível publicamente, além de ser multiplataforma e ser capaz de minerar tanto em CPU quanto em GPU.
