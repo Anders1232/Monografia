@@ -39,6 +39,8 @@ O problema da comunicação do C++ com o Java é mais difícil, pois há várias
 
 Uma vez decidido o uso de \textit{sockets} faltava decidir qual seria o protocolo da camada de rede e de transporte. Na camada de rede o principal protocolo existente é o \acrfull{IP}, entretanto, existem duas versões: o IPv4\cite{ipv4rfc} e o IPv6\cite{ipv6rfc}, sendo que o último é mais recente e permite um maior número de dispositivos na rede, por isso essa foi a versão utilizada na implementação. Quanto à camada de transporte, os candidatos eram o \acrshort{TCP}\cite{tcp_rfc} e o \acrshort{UDP}\cite{udp_rfc}. O \acrshort{TCP} provê uma série de garantias ao usuário dos pacotes que serão transmitidos pela rede ao custo de \textit{overhead}, mas como apenas será utilizado para comunicação em \textit{loopback}, o \acrshort{UDP} é mais simples e enxuto, sendo o escolhido como protocolo da camada de transporte neste trabalho.
 
+%Uma dificuldade encontrada durante a implementação do uso de \textit{sockets}, foi como utilizar o IPv6, pois, especialmente para a linguem C, há pouca documentação disponível sobre, por mais que exista boa documentação sobre o uso de \textit{sockets} IPv4.
+
 \begin{figure}[htbp]
 	\centerline{\includegraphics[scale=0.7]{img/Proposta.png}}
 	\caption{Arquitetura de Classes do Escalonador Implementado.}
@@ -58,7 +60,7 @@ O programa C++ é composto pela classe Comunicador, que inicializa seu \textit{s
 
 \section{Implantação}
 
-O escalonador foi inicialmente desenvolvido, utilizando apenas o subsistema de escalonamento do BioNimbuZ, para que testes fossem feitos com rapidez. Após testes que comprovaram o funcionamento do escalonador, como o da Figura \ref{Handshake}, utilizou-se uma máquina virtual para fazer a implantação do escalonador desenvolvido de volta ao BioNimbuZ, pois a instalação do BioNimbuZ requer instalação de programas que podem, mesmo que seja incomum, conflitar ou apresentar erros em iterações com o resto do sistema operacional. Um exemplo que ocorreu durante o desenvolvimento, foi uma atualização do sistema operacional, Debian\cite{Debian} Testing\cite{DebianTesting}, que causou erros em tempo de execução na \acrfull{IDE} Eclipse\cite{JavaEclipse}, relativos à interface gráfica. O mecanismo de \textit{snapshots} providos pelo software de gerenciamento de \acrshort{VM}s Virtualbox se revelou realmente útil nessa circunstância, como podemos ver na Figura \ref{Snapshots}.
+O escalonador foi inicialmente desenvolvido, utilizando apenas o subsistema de escalonamento do BioNimbuZ, para que testes fossem feitos com rapidez. Após testes que comprovaram o funcionamento do escalonador, como o da Figura \ref{Handshake}, utilizou-se uma máquina virtual para fazer a implantação do escalonador desenvolvido de volta ao BioNimbuZ, pois a instalação do BioNimbuZ requer instalação de programas que podem, mesmo que seja incomum, conflitar ou apresentar erros em iterações com o resto do sistema operacional. Um exemplo que ocorreu durante o desenvolvimento, foi uma atualização do sistema operacional, Debian\cite{Debian} Testing\cite{DebianTesting}, que causou erros em tempo de execução na \acrfull{IDE} Eclipse\cite{JavaEclipse}, relativos à interface gráfica. O mecanismo de \textit{snapshots} providos pelo software de gerenciamento de \acrshort{VM}s Virtualbox\cite{VirtualBox} se revelou realmente útil nessa circunstância, como podemos ver na Figura \ref{Snapshots}.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[width=12cm]{img/Snapshots.png}}
@@ -73,9 +75,14 @@ Outro problema enfrentado durante o desenvolvimento foi que workflows não eram 
 \subsection{Uso de \acrshort{GPU} no BioNimbuZ}
 
 %No início do projeto, imaginava-se que os \textit{workflows} existentes no BioNimbuZ seriam capazes de tirar proveito da \acrshort{GPU}, pressuposto que se revelou falso ao longo do desenvolvimento do projeto. Logo fez-se necessário procurar por programas de uso geral que utilizem a \acrshort{GPU}, uma atividade que se revelou simples. 
-Para os testes foi escolhido o programa XMR-Stak\cite{xmr_stak}, um programa de mineração de criptomoedas, que são artefatos digitais desenvolvidos como meio de troca, que utilizam criptografia para prover segurança e integridade à transações\cite{crypto_currencies}. Esse software de mineração, em específico, foi escolhido pelo fato de ser software livre e por isso ter seu código fonte disponível publicamente, além de ser multiplataforma e ser capaz de minerar tanto em CPU quanto em GPU.
+Para os testes foi escolhido o programa XMR-Stak\cite{xmr_stak}, um programa de mineração de criptomoedas, que são artefatos digitais desenvolvidos como meio de troca, que utilizam criptografia para prover segurança e integridade à transações\cite{crypto_currencies}. Esse software de mineração, em específico, foi escolhido pelo fato de ser software livre e, por isso, ter seu código fonte disponível publicamente, além de ser multiplataforma e ser capaz de minerar tanto em CPU quanto em GPU.
 
 A mineiração de criptomoedas é a atividade de buscar \textit{nouces}, isto é, uma sequência aleatória de bytes, que quando inserido junto de um possível futuro bloco de uma \textit{blockchain}, que é uma lista distribuída para armazenamento de registros, numa função de \textit{hash} criptográfico, gera um \textit{hash} que atenda a algum critério de dificuldade, geralmente um valor específico no início. Quando é encontrado um \textit{digest}, uma saída da função de \textit{hash}, que atende ao criteírio, tal bloco é adicionado na \textit{blockchain}, e o responsável pela máquina que encontrou a resposta é recompensado em criptomoeda.
+
+Uma vez testado a plataforma na acrshort{VM}, é hora de testar em equipamento real, uma vez que máquinas virtuais não possuem acesso à \acrshort{GPU}, a não se quando se utilizada \textit{\acrshort{GPU} Passthrough}
+
+\subsection{Da \acrshort{VM} para a máquina de testes}
+
 
 
 
