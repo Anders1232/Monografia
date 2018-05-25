@@ -77,15 +77,47 @@ Outro problema enfrentado durante o desenvolvimento foi que workflows não eram 
 %No início do projeto, imaginava-se que os \textit{workflows} existentes no BioNimbuZ seriam capazes de tirar proveito da \acrshort{GPU}, pressuposto que se revelou falso ao longo do desenvolvimento do projeto. Logo fez-se necessário procurar por programas de uso geral que utilizem a \acrshort{GPU}, uma atividade que se revelou simples. 
 Para os testes foi escolhido o programa XMR-Stak\cite{xmr_stak}, um programa de mineração de criptomoedas, que são artefatos digitais desenvolvidos como meio de troca, que utilizam criptografia para prover segurança e integridade à transações\cite{crypto_currencies}. Esse software de mineração, em específico, foi escolhido pelo fato de ser software livre e, por isso, ter seu código fonte disponível publicamente, além de ser multiplataforma e ser capaz de minerar tanto em CPU quanto em GPU.
 
-A mineiração de criptomoedas é a atividade de buscar \textit{nouces}, isto é, uma sequência aleatória de bytes, que quando inserido junto de um possível futuro bloco de uma \textit{blockchain}, que é uma lista distribuída para armazenamento de registros, numa função de \textit{hash} criptográfico, gera um \textit{hash} que atenda a algum critério de dificuldade, geralmente um valor específico no início. Quando é encontrado um \textit{digest}, uma saída da função de \textit{hash}, que atende ao criteírio, tal bloco é adicionado na \textit{blockchain}, e o responsável pela máquina que encontrou a resposta é recompensado em criptomoeda.
+A mineiração de criptomoedas é a atividade de buscar \textit{nouces}, isto é, uma sequência aleatória de bytes, que quando inserido junto de um possível futuro bloco de uma \textit{blockchain}, que é uma lista distribuída para armazenamento de registros, numa função de \textit{hash} criptográfico, gera um \textit{hash} que atenda a algum critério de dificuldade, geralmente um valor específico no início. Quando é encontrado um \textit{digest}, uma saída da função de \textit{hash}, que atende ao critério, tal bloco é adicionado na \textit{blockchain}, e o responsável pela máquina que encontrou a resposta é recompensado em criptomoeda.
 
-Uma vez testado a plataforma na acrshort{VM}, é hora de testar em equipamento real, uma vez que máquinas virtuais não possuem acesso à \acrshort{GPU}, a não se quando se utilizada \textit{\acrshort{GPU} Passthrough}
+Uma vez testado a plataforma na acrshort{VM}, é hora de testar em equipamento real, uma vez que máquinas virtuais não possuem acesso à \acrshort{GPU}, a não se quando utilizado \textit{\acrshort{GPU} Passthrough}, que é uma técnica que permite redirecionar o controle de uma \acrshort{GPU} física para uma máquina virtual. Uma das maiores barreiras para o \textit{\acrshort{GPU} Passthrough} é que ele requer pelo menos duas placas de vídeos, pois tanto o sistema hóspede quanto o sistema hospedeiro devem ter cada um sua \acrshort{GPU}.
 
-\subsection{Da \acrshort{VM} para a máquina de testes}
+%\subsection{Da \acrshort{VM} para a máquina de testes}
 
+Após a plataforma apresentar correto funcionamento, toda a instalação seria clonada num \textit{flash drive} \acrshort{USB} capaz de inicializar, para tal o \textit{bootloader}, \textit{software} responsável por determinar como o sistema será inicializado, ser reparado para que seja capaz de inicializar a partir do dispositivo móvel de armazenamento. O sistema precisa ser clonado pois usa pacotes de versões diferentes do sistema operacional Debian\cite{Debian}, pois o XMR-Stak utiliza a biblioteca de processamento paralelo \acrshort{CUDA}\cite{CUDA}, da Nvidia\cite{NVIDIA},e essa biblioteca requer o uso da versão 6 do compilador \acrshort{GCC}\cite{GCC}, disponível no repositório da versão \textit{stable} do Debian, enquanto a biblioteca do CUDA está disponível na versão \textit{unstable} do sistema operacional. O \acrshort{CUDA} foi retirado da versão \textit{testing} do Debian por causa dessa dependência da versão 6 do \acrshort{GCC}, que é considerada desatualizada\cite{CUDA_BUGREP}.
 
+\section{Métricas para testes}
 
+Uma vez preparado o dispositivo portátil de testes, o passo seguinte seria realizar uma série de testes com o objetivo de coletar o máximo de dados possíveis na versão desenvolvida do BioNimbuZ. O sistema de log do BioNimbuZ já nos fornece informação sobre a duração da execução dos \textit{jobs} de um workflows, além do tempo gasto no subsistema de escalonamento. Código de instrumentação pode ser inserido na parte C++ do escalonador para calcular o tempo gasto apenas no escalonamento, excluindo tempo gasto na serialização e desserialização das mensagens entre as partes C++ e Java da plataforma. Se um \textit{software} de captura de pacotes for utilizado, por exemplo o Wireshark\cite{Wireshark}, é possível verificar o total de tempo gasto pela parte C++ do escalonador, além de calcular o tempo gasto na serialização e desserialização no código C++ da seguinte forma:
 
+\centerline{ $T_{Csd} = T_{msg} - T_{ci}$ }
+
+Onde: 
+ \begin{itemize}
+ 	\item $T_{Csd}$ é o tempo gasto em serialização e desserialização pela parte C++;
+ 	\item $T_{msg}$ é o tempo entre a mensagem de solicitação de escalonamento e a resposta;
+ 	\item $T_{ci}$ é o tempo gasto no escalonamento calculado pelo código de instrumentação no programa C++;
+ \end{itemize}
+
+Também é possível calcular o tempo gasto na serialização e desserialização da parte Java do escalonador utilizando os dados informados pelo sistema de logs do BioNimbuZ e pelo \textit{software} de captura de pacotes da seguinte forma:
+
+\centerline{ $T_{Jsd} = T_{log} - T_{msg}$ }
+
+Onde: 
+\begin{itemize}
+	\item $T_{Jsd}$ é o tempo gasto em serialização e desserialização pela parte Java;
+	\item $T_{log}$ é o tempo gasto no escalonamento informado pelo sistema de log do BioNimbuZ;
+	\item $T_{msg}$ é o tempo entre a mensagem de solicitação de escalonamento e a resposta;
+\end{itemize}
+
+Com os tempos gastos pelo escalonador calculados, falta calcular o tempo gasto na conclusão dos \textit{jobs} e do \textit{workflow}, onde se espera que a funcionalidade desenvolvida neste trabalho revele sua utilidade. Testes preliminares do \textit{software} XMR-Stak modoficado sem utilização da plataforma mostrou aproximadamente 75\% de redução no tempo gasto no cálculo de dez mil hashes. As configurações da máquina eram as seguintes:
+
+\begin{itemize}
+	\item \acrshort{CPU} Intel i3 3220
+	\item \acrshort{GPU} AMD R7 360
+	\item Quantidade de memória \acrshort{RAM}: 8Gb
+	\item Sistema Operacional: Windows 7
+	\item Placa mãe: Gigabyte B75M D3H
+\end{itemize}
 %A implementação da comunicação e sockets entre os processos 
  
 
