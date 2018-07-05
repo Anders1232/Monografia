@@ -1,18 +1,18 @@
-Este capítulo possui como objetivo apresentar a plataforma de nuvens federadas BioNimbuZ, que foi selecionada para desenvolver o escalonador para plataformas heterogêneas proposto neste trabalho. A primeira seção apresenta de forma geral o BioNimbuZ e descreve sua evolução ao longo do tempo. A segunda seção descreve a arquitetura do BioNimbuZ e seus principais componentes. A última seção foca sobre os escalonadores que existem atualmente no BioNimbuZ.
+Este capítulo possui como objetivo apresentar a plataforma de nuvens federadas BioNimbuZ, que foi selecionada para desenvolver o escalonador para plataformas heterogêneas proposto neste trabalho. A primeira seção apresenta de forma geral as principais características do BioNimbuZ, e descreve sua evolução ao longo do tempo. A segunda seção descreve a arquitetura do BioNimbuZ e seus principais componentes. A última seção foca sobre os escalonadores que existem atualmente no BioNimbuZ.
 
 \section{Visão Geral}
 
 O BioNimbuZ é uma plataforma livre de nuvens federadas para execução de \textit{workflows}, desenvolvido no \acrfull{LABID} por alunos de graduação e pós-graduação. Ele foi originalmente proposto por Saldanha\cite{Saldanha_BioNimbus} e refinado por alunos de iniciação científica, graduação, mestrado e doutorado\cite{BioNimbuZ_Breno_Deric} \cite{BioNimbuZ_6846526} \cite{6732620_BioNimbuZ_ACOsched} \cite{BioNimbuZ_Willian_C99} \cite{closer12_BioNimbuZ_AHP} \cite{BioNimbuZ_Vegara}.
 
-É possível integrar nuvens de diversos tipos de governança (vide Capítulo 2), o que permite que cada provedor mantenha suas políticas e características internas, o que reduz a dependência da plataforma e, consequentemente, dos usuários de dependência de servidores específicos de nuvem. Essa funcionalidade é alcançada graças à facilidade e flexibilidade na inclusão de novos provedores na plataforma, o qual é regida por utilização de \textit{plugins} de integração, que traduzem requisições vindas da plataforma para comandos equivalentes específicos de cada servidor. Isso é fundamental para evitar \textit{vendor lock-in}\cite{VendorLockInDef}, que é a dependência de um serviço a um provedor em específico, por mais que existam outros.
+É possível integrar nuvens de diversos tipos de governança (vide Capítulo 2), o que permite que cada provedor mantenha suas políticas e características internas, e isso reduz a dependência da plataforma e, consequentemente, dos usuários de dependência de servidores específicos de nuvem. Essa funcionalidade é alcançada graças à facilidade e flexibilidade na inclusão de novos provedores na plataforma, o qual é regida por utilização de \textit{plugins} de integração, que traduzem requisições vindas da plataforma para comandos equivalentes específicos de cada servidor. Isso é fundamental para evitar \textit{vendor lock-in}\cite{VendorLockInDef}, que é a dependência de um serviço a um provedor em específico, por mais que existam outros.
 
 Em sua concepção inicial, a plataforma BioNimbuZ foi implementada toda por meio de comunicação \acrfull{P2P}, porém, durante sua evolução optou-se por integrar o Zookeeper\cite{Zookeeper} à plataforma para gerenciar os serviços distribuídos. %Ainda assim, características que Saldanha propôs\cite{Saldanha_BioNimbus}, por exemplo tolerância a falhas, suporte a vários provedores de nuvens, elevado poder de armazenamento e processamento, foram não só mantidos, como também expandidos.
 
-Moura \textit{el al.}\cite{BioNimbuZ_6846526} desenvolveram a Chamada de Procedimento Remoto \acrshort{RPC}\cite{RPC_1701928} para a plataforma. Fazendo uso do Apache Avro\cite{Avro}, que possibilita comunicação de forma transparente entre computadores, para que seja possível a chamada de procedimentos em outros computadores via rede. Além disso, o núcleo do BioNimbuZ foi refatorado para utilização do Apache ZooKeeper\cite{Zookeeper}, e também foi implementado uma política de armazenamento que considera latência e o local em que o serviço será executado, utilizando \acrfull{SFTP} para transferência de arquivos.
+Moura \textit{el al.}\cite{BioNimbuZ_6846526} desenvolveram a Chamada de Procedimento Remoto \acrshort{RPC}\cite{RPC_1701928} para a plataforma. Fazendo uso do Apache Avro\cite{Avro}, que possibilita comunicação de forma transparente entre computadores, para que seja possível a chamada de procedimentos em outros computadores via rede. Além disso, o núcleo do BioNimbuZ foi refatorado para utilização do Apache ZooKeeper\cite{Zookeeper}, e também foi implementada uma política de armazenamento que considera latência e o local em que o serviço será executado, utilizando \acrfull{SFTP} para transferência de arquivos.
 
 Barreiros \textit{el al.}\cite{BioNimbuZ_BioCirrus} refinaram a política de armazenamento, que analisa a viabilidade de compactação de arquivos pré-transferência com base na largura de banda, tempo de transferência de arquivos e tempo de compressão e descompressão.
 
-Ramos \textit{el al.}\cite{BioNimbuZ_Ramos} desenvolveu um controlador de \textit{jobs} para comunicação entre o núcleo do BioNimbuZ e a Camada de Interface com o Usuário, além de desenvolver uma interface gráfica que tornou a plataforma mais acessível.
+Ramos \textit{el al.}\cite{BioNimbuZ_Ramos} desenvolveram um controlador de \textit{jobs} para comunicação entre o núcleo do BioNimbuZ e a Camada de Interface com o Usuário, além de desenvolver uma interface gráfica que tornou a plataforma mais acessível.
 
 Novamente, Barreiros\cite{BioNimbuZ_Willian_C99} desenvolveu o escalonador que se baseia no \textit{beam search} interativo multiobjetivo, chamado C99, com o objetivo de aumentar a eficiência do escalonamento, que passou a levar em consideração o custo por hora dos recursos a serem alocados.
 
@@ -55,24 +55,17 @@ Existem três tipos de mensagens trocadas entre o Núcleo e a Camada de Aplicaç
 		\item Serviço de Segurança: Realiza, principalmente, a autenticação de usuário, além de verificar as autorizações do mesmo. Contudo, muitos outros aspectos de segurança computacional podem ser implementados por este serviço, tais como criptografia na troca de mensagens;
 		\item Serviço de Tolerância a Falhas: Como o nome diz, este serviço é responsável em certificar que todos os serviços do BioNimbuZ estejam disponíveis o máximo de tempo possível. Além de ter a responsabilidade de tratar quaisquer falhas que venham a ocorrer, tira vantagem da arquitetura distribuída do BioNimbuZ para prover redundância de dados;
 		\item Serviço de Armazenamento: Possui a responsabilidade de gerenciar arquivos utilizados como entrada e/ou saída de cada estágio de um \textit{workflow}. Deve desempenhar seu papel de forma eficiente, do ponto de vista de custos de armazenamento e transmissão desses dados entre o local que está armazenado e o local que serão processados;
-		\item Serviço de Escalonamento: Responsável por fazer o escalonamento dos \textit{jobs} submetidos ao BioNimbuZ. Com curto prazo quer-se dizer que é tão somente o escalonamento de \textit{jobs} que estão prontas para serem executadas, à máquinas virtuais que os processarão. Não é responsabilidade do serviço de escalonamento lidar com dependências, pois essa responsabilidade é do controlador de \textit{jobs}. Assim o Serviço de Escalonamento só fará a distribuição dos \textit{jobs} que estiverem prontos para serem executados.
+		\item Serviço de Escalonamento: Responsável por fazer o escalonamento dos \textit{jobs} submetidos ao BioNimbuZ. Não é responsabilidade do Serviço de Escalonamento lidar com dependências, pois essa responsabilidade é do Controlador de \textit{Jobs}. Assim o Serviço de Escalonamento só fará a distribuição dos \textit{jobs} que estiverem prontos para serem executados;
 		\item Serviço de Monitoramento: Responsável por monitorar o estado das \acrshort{VM}s instanciadas pela plataforma, e disponibilizar essa informação ao usuário;
-		\item Gerenciador de persistência: Tem coo objetivo organizar o armazenamento de arquivos gerados durante a execução dos \textit{workflows}, além de \textit{uploads} de arquivos que serão utilizados como entrada em futuros \textit{workflows}.
-		\item Controlador de \textit{Jobs}: Responsável por gerir \textit{jobs}, em especial os que possuem dependência ficam à espera até poderem ser escalonados.
-%		No momento do início deste projeto, o BioNimbuZ possuia 5 políticas de escalonadonamento, são eles:
-%		\begin{itemize}
-%			\item AcoSched: Baseado em \textit{Load Balancing Ant Colony Scheduling}, desenvolvido por Oliveira. Baseado em heurística\cite{6732620_BioNimbuZ_ACOsched}
-%			\item AHP: Baseado em \textit{Analytic Hierarchy Process}\cite{6732620_BioNimbuZ_ACOsched}
-%			\item \textit{BasicSched}: Política \textit{First In First Out}, implementada no início da plataforma;
-%			\item C99: Baseia-se no \textit{Beam Search} interativo multiobjetivo. \cite{BioNimbuZ_Willian_C99} Esse é o escalonador em uso atualmente.
-%			\item \textit{RoundRobin}: O clássico escalonamento \textit{Round Robin};
-%		\end{itemize}
+		\item Gerenciador de persistência: Tem como objetivo organizar o armazenamento de arquivos gerados durante a execução dos \textit{workflows}, além de \textit{uploads} de arquivos que serão utilizados como entrada em futuros \textit{workflows};
+		\item Controlador de \textit{Jobs}: Responsável por gerir \textit{jobs}, em especial, os que possuem dependência ficam à espera até poderem ser escalonados.
+
 	
 	\end{itemize}
 	
 	\subsection{Camada de Infraestrutura} A Camada de Infraestrutura disponibiliza uma interface de comunicação do BioNimbuZ com os provedores de nuvem. Esta camada utiliza \textit{plugins} para mapear requisições provenientes da Camada de Núcleo para comandos específicos de cada provedor.
 
-O BioNimbuZ é capaz de ser integrado tanto à nuvens públicas quanto privadas, utilizando \textit{plugins} para permitir conexão com vários provedores de nuvem, cada qual com sua própria interface. Os \textit{plugins} não existem apenas na camada de integração: vários serviços da camada de núcleos também são disponibilizados como tal, provendo grande flexibilidade à plataforma.
+O BioNimbuZ é capaz de ser integrado tanto à nuvens públicas quanto privadas, utilizando \textit{plugins} para permitir conexão com vários provedores de nuvem, cada qual com sua própria interface. Os \textit{plugins} não existem apenas na camada de integração, pois vários serviços da camada de núcleos também são disponibilizados como tal, provendo grande flexibilidade à plataforma.
 
 Diante do objetivo deste trabalho, o Serviço de Escalonamento do BioNimbuZ será detalhado na próxima seção.
 
@@ -94,4 +87,4 @@ O escalonador utilizado atualmente, desenvolvido por Barreiros\cite{BioNimbuZ_Wi
 	\item \textit{Beam Search} Iterativo, que busca iterativamente os melhores conjuntos resultado.
 \end{enumerate}
 
-Uma funcionalidade que não foi abordada nos escalonadores citados acima é que eles não possuem suporte para executar \textit{jobs} em \acrshort{GPU}s, apenas em \acrshort{CPU}s. Diante do exposto, o objetivo deste trabalho é considerar as máquinas com \acrshort{CPU}s e \acrshort{GPU}s. O próximo capítulo discorrerá sobre escalonadores, e apresentará o algoritmo de escalonamento proposto neste trabalho.
+Uma funcionalidade que não foi abordada nos escalonadores citados acima é que eles não possuem suporte para executar \textit{jobs} em \acrshort{GPU}s, apenas em \acrshort{CPU}s. Diante do exposto, o objetivo deste trabalho é considerar no escalonamento as máquinas com \acrshort{CPU}s e \acrshort{GPU}s. O próximo capítulo discorrerá sobre escalonadores, e apresentará o algoritmo de escalonamento proposto neste trabalho.

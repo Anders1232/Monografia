@@ -2,7 +2,7 @@ Este capítulo apresenta, inicialmente, os diferentes tipos de escalonadores, ci
 
 \section{Definição}
 
-O escalonamento é um problema clássico da computação que surgiu junto com os sistemas operacionais multitarefas. Sua complexidade é considerada NP-difícil\cite{ULLMAN1975384}, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem uma boa performance. De qualquer forma, um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} fica esperando indefinidamente por um recurso, que pode ser, inclusive, a \acrshort{CPU} \cite{TANEMBAUM_SO}.
+O escalonamento é um problema clássico da computação que surgiu junto com os sistemas operacionais multitarefas. A sua complexidade é considerada NP-difícil\cite{ULLMAN1975384}, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem uma boa performance. De qualquer forma, um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} fica esperando indefinidamente por um recurso, que pode ser, inclusive, a \acrshort{CPU} \cite{TANEMBAUM_SO}.
 
 Escalonadores podem ser categorizados de várias formas, com base nas funcionalidades que possuem. Assim, uma importante questão é definir qual é a unidade escalonada, podendo ser\cite{TANEMBAUM_SO}:
 
@@ -14,7 +14,7 @@ Escalonadores podem ser categorizados de várias formas, com base nas funcionali
 		\item requisições de leitura/escrita em memória secundária.
 	\end{itemize}
 
-	Além da unidade que é escalonada, outras características que ajudam a definir um escalonador é se ele permite que tarefas sejam interropidas para que outras possa ser executadas, funcionalidade conhecida como preempção. Além disso, o escalonador pode ou não ser capaz de definir prioridade diferentes para cada um dos objetos que está sendo escalonado, e/ou dá suporte para processos que podem requisitar urgência para sua execução, conhecidos como processos de tempo-real\cite{TANEMBAUM_SO}.
+	Além da unidade que é escalonada, outras características que ajudam a definir um escalonador é se ele permite que tarefas sejam interrompidas para que outras possa ser executadas, funcionalidade conhecida como preempção. Além disso, o escalonador pode ou não ser capaz de definir prioridade diferentes para cada um dos objetos que está sendo escalonado, e/ou dá suporte para processos que podem requisitar urgência para sua execução, conhecidos como processos de tempo-real\cite{TANEMBAUM_SO}.
 
 %	\item \textbf{Suporte para preempção}: Se permite interrupção de uma tarefa em execução para atender outras;
 %	\item \textbf{Suporte para prioridade}: Se permite que priorização entre as tarefas que serão escalonadas;
@@ -38,7 +38,7 @@ Esses objetivos são, às vezes, contraditórios. Na prática, prioriza-se um co
 
 \section{Escalonamento em Nuvens Computacionais}
 
-Este trabalho focará no escalonamento em federações de nuvens computacionais. O qual recentemente presenciou a ascensão do uso de unidades de processamento gráfico (\acrfull{GPU}) para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. Nesse contexto, o problema do escalonamento pode ser formalmente definido como, dado:\\
+Este trabalho focará no escalonamento em federações de nuvens computacionais. O qual recentemente presenciou a ascensão do uso de \acrfull{GPU} para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. Nesse contexto, o problema do escalonamento pode ser formalmente definido como, dado:
 
 \begin{itemize}
 	\item Conjunto $T$ de tarefas;
@@ -47,9 +47,7 @@ Este trabalho focará no escalonamento em federações de nuvens computacionais.
 	\item Conjunto $G,  |G| \le |M|$ de GPUs das máquinas virtuais;
 	\item Função $F: T \times (C \cup G) \to \mathbb{R}$, o qual estima o tempo de execução da tarefa $T_{i}$ no recurso designado.
 \end{itemize}
-encontrar uma função injetora $A: T \to C \cup G$, que minimize $\sum_{t \in T} F(t, A(t) )$.\\
-
-Ou seja, buscar uma associação de tarefas para máquinas virtuais que minimize o tempo gasto para processamento de todo o conjunto de tarefas.
+encontrar uma função injetora $A: T \to C \cup G$, que minimize $\sum_{t \in T} F(t, A(t) )$. Ou seja, buscar uma associação de tarefas para máquinas virtuais que minimize o tempo gasto para o processamento de todo o conjunto de tarefas.
 
 \section{Trabalhos Relacionados}
 
@@ -61,17 +59,17 @@ Nguyen e Thoai \cite{7791859} propõem um sistema de intermediação para federa
 
 Jennings e Stadler \cite{Jennings:2015:RMC:2793474.2793493} documentaram  várias metodologias, utilizadas em diferentes contextos que o escalonamento ocorre em ambientes de nuvens computacionais, revelando detalhadamente muitos dos problemas enfrentados durante a concepção. Entretanto, nada é citado sobre federações de nuvens e os problemas de escalonamento enfrentados internamente num provedor de nuvem diferem dos enfrentados em ambientes de federação.
 
-Kumrai \textit{et al.} \cite{7467407} trata do escalonamento de tarefas do ponto de vista do intermediador, utilizando \acrfull{PSO}, que busca imitar um bando de pássaros. Cada elemento da população representa uma possível solução, que ao longo de interações tendem a encontrar o melhor resultado, baseado numa função que avalia quão bom cada elemento da população é. Também analisa uma variação multiobjetivo do \textit{Particle Swarm Optimization}, buscando solução boas tanto para o provedor de nuvem quanto para quem solicita os serviços. O problema do escalonamento apreciado nesse artigo possui contexto similar ao que será enfrentado nesta monografia, entretanto, não é tratado problema criado pelo uso de máquinas compostas por arquiteturas heterogêneas.
+Kumrai \textit{et al.} \cite{7467407} trata, do escalonamento de tarefas do ponto de vista do intermediador, utilizando \acrfull{PSO}, que busca imitar um bando de pássaros. Cada elemento da população representa uma possível solução, que ao longo de interações tendem a encontrar o melhor resultado, baseado numa função que avalia quão bom cada elemento da população é. Também analisa uma variação multiobjetivo do \textit{Particle Swarm Optimization}, buscando solução boa tanto para o provedor de nuvem quanto para quem solicita o serviço. O problema do escalonamento apreciado neste artigo possui contexto similar ao que será enfrentado nesta monografia, entretanto, não é tratado problema criado pelo uso de máquinas compostas por arquiteturas heterogêneas.
 
 Mostageran \textit{et al.} \cite{7224588} documentam sobre intermediadores, conhecidos como \textit{brokers}, com foco em sua evolução para atenderem a níveis de qualidade de serviços propostos em \acrshort{SLA}s. Apresentando definições úteis para termos utilizados na área, como \textit{inter-cloud}, federação de nuvens e \textit{cloud broker}. É importante diferenciar os termos escalonador e intermediário. O intermediário mantém registro de entidades interessadas em um serviço e provedores desse serviço, incluindo busca de provedores e monitoramento das conexões feitas entre os interessados e os provedores. O escalonamento funciona em um escopo menor, que é gerenciar acesso a um recurso escasso buscando otimizar alguma métrica relativa ao seu contexto de uso, como por exemplo acesso de processos ao processador.
 
-Diante dos trabalhos apresentados, nota-se que nenhum deles aborda o escalonamento para federações compostas por arquiteturas heterogêneas. Por isto, este trabalho propõe um escalonador para federações que utilizem equipamentos compostos por arquiteturas heterogêneas, o qual será apresentado na próxima sessão.
+Diante dos trabalhos apresentados, nota-se que nenhum deles aborda o escalonamento para federações compostas por arquiteturas heterogêneas. Por isto, este trabalho propõe um escalonador para federações que utilizem equipamentos compostos por arquiteturas heterogêneas, o qual será apresentado na próxima seção.
 
-\section{Escalonador Proposto}
+\section{Escalonador Proposto para Plataformas de Federação}
 
 O escalonador proposto para implementação segue a ideia básica de escalonamento de listas. Dessa forma, haverão três listas: lista de tarefas a serem executadas, lista de \acrshort{CPU}s disponíveis e lista de \acrshort{GPU}s disponíveis. O uso de listas para escalonamento é uma das abordagens principais para escalonamento, incluindo listas de listas\cite{MultilevelFQ}, pois é prático associar significados à posições na lista, por exemplo no Linux as posições 0 à 9 são utilizadas para \textit{threads} do sistema e de tempo real, enquanto as posições seguintes são usadas para \textit{threads} de usuário \cite{KernelsComp}.
 
-A lista de tarefas é ordenada por tempo previsto de execução, que é dado por uma estimativa a partir do programa a ser executado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto, para que a tarefa que estima-se como mais longa tenha alocada para si a melhor \acrshort{VM}. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante que consegue realizar por segundo. Dessa forma, o algoritmo proposto é detalhado no Algoritmo 1, e apresentado na forma de fluxo na Figura \ref{Escalonamento}.
+A lista de tarefas é ordenada por tempo previsto de execução, que é dado por uma estimativa a partir do programa a ser executado e do arquivo de entrada. Essa ordenação será em ordem decrescente de tempo previsto, para que a tarefa que se estima como mais longa tenha alocada para si a melhor \acrshort{VM}. A lista de \acrshort{CPU}s disponíveis é ordenada com base na frequência e no número de núcleos. A lista de \acrshort{GPU}s tem sua ordem determinada pela quantidade de operações em pontos flutuante que consegue realizar por segundo. Dessa forma, o algoritmo proposto é detalhado no Algoritmo 1, e apresentado na forma de fluxo na Figura \ref{Escalonamento}.
 
 %\newline
 \begin{algorithm}
@@ -96,7 +94,7 @@ A lista de tarefas é ordenada por tempo previsto de execução, que é dado por
 \end{algorithmic}
 \end{algorithm}
 
-O escalonamento busca associar as tarefas mais longas às máquinas com maior capacidade de processamento, sendo que, para cada tarefa, é analisado o se vale a pena alocar em uma \acrshort{VM} que possua \acrshort{GPU}.
+O escalonamento busca associar as tarefas mais longas às máquinas com maior capacidade de processamento, sendo que, para cada tarefa, é analisado se vale a pena alocar a tarefa em uma \acrshort{VM} que possua \acrshort{GPU}.
 
 
 \begin{figure}[htbp]
@@ -107,18 +105,18 @@ O escalonamento busca associar as tarefas mais longas às máquinas com maior ca
 \end{figure}
 
 
-Assim sendo, observe que para o algoritmo mostrado na Figura \ref{Escalonamento} seja válido, pressupõe-se que toda tarefa do algoritmo é capaz de executar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, exibido na Figura \ref{Escalonamento}, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita.
+Assim sendo, observe que para o algoritmo mostrado na Figura \ref{Escalonamento} ser válido, pressupõe-se que toda tarefa do algoritmo é capaz de executar em \acrshort{CPU}. O pressuposto simplifica o primeiro passo do algoritmo, exibido na Figura \ref{Escalonamento}, pois se a lista de \acrshort{CPU}s não estiver vazia, essa condição é automaticamente satisfeita.
 
 Dessa forma, sobre a ótica do trabalho de Casavant e Kuhl \cite{4634_TaxonomiaEscalonador}, o algoritmo desenvolvido neste trabalho pode ser classificado como global, estático, sub-ótimo e aproximado.%, utilizando teoria das filas.
 
-Escalonamento local é o responsável pode decidir o processamento de processos a \textit{time-slices} de um processador, o escalonador desenvolvido neste trabalho, opera no nível de decidir quais processos serão executados em quais máquinas virtuais, deixando o escalonamento local a cargo do sistema operacional da máquina em questão.
+Escalonamento local é o responsável por decidir a execução de processos a \textit{time-slices} de um processador, o escalonador desenvolvido neste trabalho, opera no nível de decidir quais processos serão executados em quais máquinas virtuais, deixando o escalonamento local a cargo do sistema operacional da máquina em questão.
 
-Casavant e Kuhl \cite{4634_TaxonomiaEscalonador} definem como escalonamento estático, o escalonamento no qual é conhecido durante a inicialização de uma máquina, que \textit{jobs} ela executará. Esta condição é satisfeita, pois um \textit{workflow} precisa ser bem definido para ser executado no BioNimbuZ. Vale a pena ressaltar que escalonamento estático também poe ser denominado escalonamento determinístico.
+Casavant e Kuhl \cite{4634_TaxonomiaEscalonador} definem como escalonamento estático, o escalonamento no qual é conhecido durante a inicialização de uma máquina, que \textit{jobs} ela executará. Esta condição é satisfeita, pois um \textit{workflow} precisa ser bem definido para ser executado no BioNimbuZ. Vale a pena ressaltar que o escalonamento estático também pode ser denominado escalonamento determinístico.
 
-O escalonador desenvolvido nestre trabalho é considerado sub-ótimo e aproximado, porque nem todas as informações sobre os \textit{jobs} de um \textit{workflow} são conhecidas, o BioNimbuZ possui o Serviço de Predição para estimar o tempo de execução de um \textit{job}, e por isso este escalonador é considerado aproximado.
+O escalonador desenvolvido neste trabalho é considerado sub-ótimo e aproximado, porque nem todas as informações sobre os \textit{jobs} de um \textit{workflow} são conhecidas, o BioNimbuZ possui o Serviço de Predição para estimar o tempo de execução de um \textit{job}, e por isso este escalonador é considerado aproximado.
 
 
-O próximo capítulo apresentará os problemas enfrentados no implementação e implantação do escalonador.
+O próximo capítulo apresentará os problemas enfrentados na implementação e implantação do escalonador na plataforma BioNimbuZ.
 %O próximo capítulo apresentará o BioNimbuZ, a plataforma de federação de nuvem selecionada para a implementação de algoritmo, também serão apresentados informação sobre a implementação do escalonador.
 
 
