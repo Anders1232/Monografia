@@ -139,7 +139,7 @@ Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo
 \end{itemize}
 %A implementação da comunicação e sockets entre os processos 
 
-Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor.
+Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor. O primeiro deles foi o tempo de execução do escalonador. O teste feito foi, pelo BioNimbuZ, criar o \textit{workflow} composto pela execução de 50 min\textit{hashes} em \textit{loopback} utilizando a \acrshort{CPU}, ou seja, na própria máquina virtual que está hospedando o BioNimbuZ.
 
 \begin{center}
 	\begin{tabular}{ |c|c|c| } 
@@ -150,23 +150,10 @@ Foi realizado uma série de testes comparativos entre o escalonador antigo e o a
 		\hline
 		Escalonador desenvolvido & 0,9859 & +/- 0,0123 \\ 
 		\hline
-		\label{TempoExecucaoEscalonadores}
 	\end{tabular}
 \end{center}
 
-Como podemos observar na tabela \ref{TempoExecucaoEscalonadores}. Dota
-
-\begin{center}
-	\begin{tabular}{ |c|c|c| } 
-		\hline
-		XMR-Stak & Tempo médio de execução & Desvio-padrão \\ 
-		\hline
-		Escalonador anterior & 24,65 & +/- 2,37 \\ 
-		\hline
-		Escalonador desenvolvido & 23,11 & +/- 2,01 \\ 
-		\hline
-	\end{tabular}
-\end{center}
+Como podemos observar na tabela acima, percebe-se que o tempo de execução de ambos os escalonadores são próximos o suficiente para serem considerados iguais, que não era esperado, pois se imaginava que o custo de comunicação entre as partes Java e C++ do novo escalonador o tornaria mais lento que o escalonador já existente.
 
 \begin{center}
 	\begin{tabular}{ |c|c| } 
@@ -182,11 +169,23 @@ Como podemos observar na tabela \ref{TempoExecucaoEscalonadores}. Dota
 	\end{tabular}
 \end{center}
 
+Uma análise da distribuição de tempo do escalonador desenvolvido mostra, como imaginado que o tempo gasto na comunicação é responsável por quatro quintos do tempo no escalonador desenvolvido, revelando-se como o escalonador desenvolvido é rápido e o principal ponto de melhora do mesmo está na comunicação entre as partes.
+
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		XMR-Stak & Tempo médio de execução & Desvio-padrão \\ 
+		\hline
+		Escalonador anterior & 24,65 & +/- 2,37 \\ 
+		\hline
+		Escalonador desenvolvido & 23,11 & +/- 2,01 \\ 
+		\hline
+	\end{tabular}
+\end{center}
+
+Como imaginado, o \textit{workflow} utilizado nos testes pode ser considerado trivial, e por este motivo, o escalonamento não interfere no tempo de execução do XMR-Stak. Como não foi possível fazer o teste da plataforma numa máquina física, testou-se o XMR-Stak funcionando fora do BioNimbuZ para coletar dados sobre o ganho no uso de GPU. As especificações tanto das máquinas utilizadas nos testes anteriores quanto das máquinas utilizadas no teste a seguir estão disponíveis no Apêndice 1, e no Apêncie 2 está disponível os dados coletados.
 
  
-%[COLOCAR RESULTADO AQUI]
-
 \section{Considerações Finais}
 
-%Escrever mais coisas
 
