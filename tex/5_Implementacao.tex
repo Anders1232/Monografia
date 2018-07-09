@@ -87,7 +87,19 @@ Nos primeiros testes de funcionamento do BioNimbuZ, percebeu-se um erro no qual 
 
 Outro problema enfrentado durante o desenvolvimento foi que \textit{workflows} não eram enviados para execução quando solicitado, os \textit{logs} apenas informavam "Error: NULL", sem maiores informações para solucionar o problema, que foi identificado como uma inicialização incompleta do BioNimbuZ por causa que a \textit{thread} que inicializava a plataforma ficava à espera de uma mensagem que já havia sido recebida no \textit{socket}, porém incorretamente descartado porque no Java, para se comparar a mensagem recebida com o que se espera, é necessário explicitar a codificação tanto da mensagem recebida quando do texto esperado.
 
-Mais uma adversidade ocorrida durante a implantação é que quando se seleciona o computador local para executar uma tarefa, esse computador não é listado entre as máquinas disponíveis para o escalonamento. Assim, nenhuma outra máquina for escolhida para escalonamento, a requisição que o escalonador recebe não disponibiliza máquinas para escalonar, fazendo com que o escalonamento falhe.
+Mais uma adversidade ocorrida durante a implantação é que quando se seleciona o computador local para executar uma tarefa, esse computador não é listado entre as máquinas disponíveis para o escalonamento. Assim, nenhuma outra máquina for escolhida para escalonamento, a requisição que o escalonador recebe não disponibiliza máquinas para escalonar, fazendo com que o escalonamento falhe. O falha que causou esse erro está relacionada com a visibilidade do mapa de nuvens disponíveis na hierarquia de classes, uma vez encontrada a forma correta de acesso à essa informação o problema foi resolvido.
+
+Com o problema acima resolvido, o escalonamento estava funcionando corretamente, porém o BioNimbuZ não inicializava o \textit{Job} do minerador alegando a falta de um arquivo de entrada de nome vazio e sem informações sobre, por mais que o minerador em si não necessitasse. Após compreender que esse problema está relativo ao fato de o BioNimbuZ trabalhar com \textit{workflows}, para os quais é suposto a existência tanto de entrada, quanto de saída. A solução de contorno para esse problema foi simplesmente informar colocar um arquivo qualquer como entrada para o XMR-Stak no BioNimbuZ.
+
+Após todos esses problemas terem sido resolvidos, percebeu-se que o \textit{software} modifico de mineração XMR-Stak estava falhando em sua inicialização, descobriu-se então que a criptomoeda utilizada para a mineração teve seu algoritmo de mineração modificado e então foi necessário atualizar a versão modificada do minerador para que voltasse a funcionar corretamente.
+
+Finalmente, após todos os obstáculos enfrentados acima, foi possível, na \acrshort{VM} de testes onde o escalonador estava sendo implantado, fazer pelo BioNimbuZ a execução do \textit{software} de teste utilizando o escalonador desenvolvido. A próxima etapa então se tornou transplantar a \acrshort{VM} utilizada na implantação para máquinas físicas, para que se possa testar corretamente em máquinas físicas com \acrshort{GPU}. Para permitir testes em vários equipamentos e minimizar o impacto da instalação do ambiente do BioNimbuZ, escolheu se transplantar a máquina virtual a um \textit{flash drive}. Duas abordagens foram testadas, uma envolveu a criação de uma distribuição \textit{live}, ou seja, portátil modificada para ter persistência no mesmo \textit{flash drive} em que estava a distribuição, e uma segunda abordagem que se baseia em fazer a instalação completa do sistema no \textit{flash drive}, duplicando a máquina virtual na mídia removível.
+
+Inicialmente buscou-se utilizar a primeira abordagem, utilizando tutoriais existentes na Internet \cite{PersistantDebianLive} \cite{PersistantDebianLive2}, porém, percebeu-se o fato de que a persistência era apenas do diretório do usuário, ou seja, pacotes instalados, removidos ou atualizados da distribuição \textit{live} não persistiam. Tentou-se então, fazer um \textit{script} de preparação da distribuição \textit{live}, que realizaria todas as modificações do sistema necessárias no sistema toda vez em que o \acrfull{SO} fosse inicializado. Infelizmente, percebeu-se que essa abordagem não era viável, pois a distribuição \textit{live} era carregada em memória  \acrshort{RAM} num disco virtual durante a inicialização, esse disco virtual possui limite de armazenamento, o qual mostrou-se insuficiente pois para a preparação do sistema é necessário fazer atualizações consideráveis no sistema por causa que o \textit{software} de teste utiliza pacotes de versões diferentes do Debian.
+
+Utilizando a abordagem de fazer a instalação completa do sistema em um \textit{flash drive} mostrou-se promissora \cite{DuplicarSistema}, mas a primeira dificuldade foi conseguir extrair o arquivo de backup do sistema da máquina virtual, pois o arquivo ocupou 11 gigabytes de armazenamento e o sistema de arrastar e soltar do VirtualBox não conseguiu fazer uma transferência tão grande. A solução encontrada foi configurar o adaptador de rede da \acrshort{VM} para funcionar em modo bridge \cite{NetworkVirtualBox} e fazer a transferência do sistema convidado, ou seja, o sistema da máquina virtual, para o sistema hospedeiro, que é o sistema que está hospedando a \acrshort{VM}, utilizando o programa scp \cite{LinuxSCP}.
+
+Uma vez que a imagem do sistema foi feito, o próximo passo é implantar a imagem gerada um \textit{flash drive}, e então corrigir o \textit{bootloader}, o programa que faz o carregamento inicial do \acrshort{SO} no disco para que funcione corretamente em qualquer máquina. Entretanto, após o \textit{flash drive} estar pronto para uso, percebeu-se que o mesmo não conseguia realizar \textit{login}, por motivos ainda não compreendidos. Logo, se tornou necessário uma matodologia de testes que conseguissem mostrar do escalonador mesmo com os problemas apresentados.
 
 \section{Métricas para Testes}
 
@@ -113,7 +125,8 @@ Onde:
 	\item $T_{msg}$ é o tempo entre a mensagem de solicitação de escalonamento e a resposta;
 \end{itemize}
 
-Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo gasto na conclusão dos \textit{jobs} e do \textit{workflow}, no qual se espera que a funcionalidade desenvolvida neste trabalho revele sua utilidade. Testes preliminares do \textit{software} XMR-Stak modoficado sem utilização da plataforma mostrou aproximadamente 75\% de redução no tempo gasto no cálculo de dez mil \textit{hashes}. As configurações da máquina eram as seguintes:
+Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo gasto na conclusão dos \textit{jobs} e do \textit{workflow}, no qual se espera que a funcionalidade desenvolvida neste trabalho revele sua utilidade, mas como não foi possível o teste de toda a plataforma em funcionamento em uma máquina real com \acrshort{GPU}. Logo se optou por testar o algoritmo de escalonamento desenvolvido e implantado no BioNimbuZ, comparando-o com o utilizando anteriormente, e testar a eficiência do uso GPU executando a versão modificada do XMR-Stak utilizando e sem utilizar a \acrshort{GPU}.
+%Testes preliminares do \textit{software} XMR-Stak modoficado sem utilização da plataforma mostrou aproximadamente 75\% de redução no tempo gasto no cálculo de dez mil \textit{hashes}. As configurações da máquina eram as seguintes:
 
 \begin{itemize}
 	\item \acrshort{CPU} Intel i3 3220
@@ -123,6 +136,48 @@ Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo
 	\item Placa mãe: Gigabyte B75M D3H
 \end{itemize}
 %A implementação da comunicação e sockets entre os processos 
+
+Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor.
+
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		Escalonamento & Tempo médio de execução & Desvio-padrão \\ 
+		\hline
+		Escalonador anterior & 0,951475 & +/- 0,006344 \\ 
+		\hline
+		Escalonador desenvolvido & 0,9859 & +/- 0,0123 \\ 
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		XMR-Stak & Tempo médio de execução & Desvio-padrão \\ 
+		\hline
+		Escalonador anterior & 24,65 & +/- 2,37 \\ 
+		\hline
+		Escalonador desenvolvido & 23,11 & +/- 2,01 \\ 
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		Escalonador proposto & Proporção Tempo Médio(\%) \\ 
+		\hline
+		Serialização e desserialização Java & 40\% \\ 
+		\hline
+		Serialização e desserialização C++ & 40\% \\ 
+		\hline
+		Escalonamento & 20\% \\ 
+		\hline
+	\end{tabular}
+\end{center}
+
+
  
 %[COLOCAR RESULTADO AQUI]
 
