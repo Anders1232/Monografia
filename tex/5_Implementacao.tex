@@ -103,7 +103,9 @@ Uma vez que a imagem do sistema foi feito, o próximo passo é implantar a image
 
 \section{Métricas para Testes}
 
-Uma vez preparado o dispositivo portátil de testes, o passo seguinte seria realizar uma série de testes com o objetivo de coletar o máximo de dados possíveis na versão desenvolvida do BioNimbuZ. O sistema de \textit{log} do BioNimbuZ já nos fornece informação sobre a duração da execução dos \textit{jobs} de um \textit{workflows}, além do tempo gasto no subsistema de escalonamento. O código de instrumentação pode ser inserido na parte C++ do escalonador para calcular o tempo gasto apenas no escalonamento, excluindo tempo gasto na serialização e na desserialização das mensagens entre as partes C++ e Java da plataforma. Dessa forma, se um \textit{software} de captura de pacotes for utilizado, por exemplo o Wireshark\cite{Wireshark}, é possível verificar o total de tempo gasto pela parte C++ do escalonador, além de calcular o tempo gasto na serialização e desserialização no código C++ da seguinte forma:
+Uma vez preparado o dispositivo portátil de testes, o passo seguinte seria realizar uma série de testes com o objetivo de coletar o máximo de dados possíveis sobre o escalonador desenvolvido no BioNimbuZ. O sistema de \textit{log} do BioNimbuZ já nos fornece informação sobre a duração da execução dos \textit{jobs} de um \textit{workflows}, além do tempo gasto no subsistema de escalonamento. 
+
+O código de instrumentação pode ser inserido na parte C++ do escalonador para calcular o tempo gasto apenas no escalonamento, excluindo tempo gasto na serialização e na desserialização das mensagens entre as partes C++ e Java da plataforma. Dessa forma, se um \textit{software} de captura de pacotes for utilizado, por exemplo o Wireshark\cite{Wireshark}, é possível verificar o total de tempo gasto pela parte C++ do escalonador, além de calcular o tempo gasto na serialização e desserialização no código C++ da seguinte forma:
 
 \centerline{ $T_{Csd} = T_{msg} - T_{ci}$ }
 
@@ -148,8 +150,11 @@ Foi realizado uma série de testes comparativos entre o escalonador antigo e o a
 		\hline
 		Escalonador desenvolvido & 0,9859 & +/- 0,0123 \\ 
 		\hline
+		\label{TempoExecucaoEscalonadores}
 	\end{tabular}
 \end{center}
+
+Como podemos observar na tabela \ref{TempoExecucaoEscalonadores}. Dota
 
 \begin{center}
 	\begin{tabular}{ |c|c|c| } 
