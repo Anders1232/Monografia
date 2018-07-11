@@ -1,2 +1,124 @@
-a
+Teste 1: Utilizando a Máquina A.3, foi executado o BioNimbuZ com e escalonador antigo para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e foi coletado e tempo gasto no escalonamento.
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo De Execução \\ 
+		\hline
+		Execução 1 & 0,94830 \\ 
+		\hline
+		Execução 2 & 0,9441 \\ 
+		\hline
+		Execução 3 & 0,9562 \\ 
+		\hline
+		Execução 4 & 0,9573 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto No Escalonamento Com o Escalonador Anterior.} \label{TabelaTempoEscalonadorAntigo} 
+\end{center}
+\end {table}
+
+Teste 2: Utilizando a Máquina A.3, executar o BioNimbuZ com o escalonador desenvolvido para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletaram-se, e tempo gasto no escalonamento(mensurado como tempo entre a chamada de execução do escalonamento na parte Java e a resposta), tempo gasto na execução da parte C++ do escalonador (mensurado pela diferença no Wireshark entre a resposta da solicitação de escalonamento e a solicitação), tempo gasto no processamento da parte C++ do escalonador e tempo gasto na serialização e desserialização tanto da parte C++ quanto da parte Java do escalonador desenvolvido.
+
+%\begin{sidewaystable}
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo Total de Escalonamento \\ 
+		\hline
+		Execução 1 & 0,9767 \\ 
+		\hline
+		Execução 2 & 0,9907 \\ 
+		\hline
+		Execução 3 & 1,0011 \\ 
+		\hline
+		Execução 4 & 0,9751 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto No Escalonamento Com o Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo} 
+\end{center}
+\end {table}
+%\end{sidewaystable}
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		\#  Da Execução & Tempo Gasto Na Parte C++ & Tempo Gasto Escalonando No C++ \\ 
+		\hline
+		Execução 1 & 0,516241 & 0,196053 \\ 
+		\hline
+		Execução 2 & 0,589873 & 0,200189 \\ 
+		\hline
+		Execução 3 & 0,655906 & 0,212694 \\ 
+		\hline
+		Execução 4 & 0,579292 & 0,164812 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto No Escalonamento Na Parte C++ Do Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo2} 
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		\#  Da Execução & Tempo De (Des)Serilialização C++ & Tempo De (Des)Serilialização Java \\ 
+		\hline
+		Execução 1 & 0,320188 & 0,460459 \\ 
+		\hline
+		Execução 2 & 0,389683 & 0,400827 \\ 
+		\hline
+		Execução 3 & 0,443212 & 0,345194 \\ 
+		\hline
+		Execução 4 & 0,414490 & 0,395808 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto (Des)Serialização Das Partes Java e C++.} \label{TabelaTempoEscalonadorNovo3} 
+\end{center}
+\end {table}
+
+Teste 3: Utilizando a Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{CPU}.
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo De Execução \\ 
+		\hline
+		Execução 1 & 514,4689 \\ 
+		\hline
+		Execução 2 & 503,8278 \\ 
+		\hline
+		Execução 3 & 494,5142 \\ 
+		\hline
+		Execução 4 & 489,9267 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{CPU}} \label{TabelaTempoXMR-Stak-CPU} 
+\end{center}
+\end {table}
+
+Teste 4: Utilizando a Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{GPU}.
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo De Execução \\ 
+		\hline
+		Execução 1 & 227,3487 \\ 
+		\hline
+		Execução 2 & 230,4235 \\ 
+		\hline
+		Execução 3 & 215,5216 \\ 
+		\hline
+		Execução 4 & 224,3782 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{GPU}} \label{TabelaTempoXMR-Stak-GPU} 
+\end{center}
+\end {table}
 
