@@ -101,7 +101,7 @@ Utilizando a abordagem de fazer a instalação completa do sistema em um \textit
 
 Uma vez que a imagem do sistema foi feito, o próximo passo é implantar a imagem gerada um \textit{flash drive}, e então corrigir o \textit{bootloader}, o programa que faz o carregamento inicial do \acrshort{SO} no disco para que funcione corretamente em qualquer máquina. Entretanto, após o \textit{flash drive} estar pronto para uso, percebeu-se que o mesmo não conseguia realizar \textit{login}, por motivos ainda não compreendidos. Logo, se tornou necessário uma matodologia de testes que conseguissem mostrar do escalonador mesmo com os problemas apresentados.
 
-\section{Métricas para Testes}
+\section{Métricas e Testes}
 
 Uma vez preparado o dispositivo portátil de testes, o passo seguinte seria realizar uma série de testes com o objetivo de coletar o máximo de dados possíveis sobre o escalonador desenvolvido no BioNimbuZ. O sistema de \textit{log} do BioNimbuZ já nos fornece informação sobre a duração da execução dos \textit{jobs} de um \textit{workflows}, além do tempo gasto no subsistema de escalonamento. 
 
@@ -132,7 +132,136 @@ Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo
 
 %A implementação da comunicação e sockets entre os processos 
 
-Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor. O primeiro deles foi o tempo de execução do escalonador. O teste feito foi, pelo BioNimbuZ, criar o \textit{workflow} composto pela execução de 50 min\textit{hashes} em \textit{loopback} utilizando a \acrshort{CPU}, ou seja, na própria máquina virtual que está hospedando o BioNimbuZ.
+Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor. %O primeiro deles foi o tempo de execução do escalonador. O teste feito foi, pelo BioNimbuZ, criar o \textit{workflow} composto pela execução de 50 min\textit{hashes} em \textit{loopback} utilizando a \acrshort{CPU}, ou seja, na própria máquina virtual que está hospedando o BioNimbuZ.
+
+O primeiro teste consistiu em, utilizando a Máquina A.3, executar o BioNimbuZ com e escalonador antigo para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletar e tempo gasto no escalonamento.
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo De Execução \\ 
+		\hline
+		Execução 1 & 0,94830 \\ 
+		\hline
+		Execução 2 & 0,9441 \\ 
+		\hline
+		Execução 3 & 0,9562 \\ 
+		\hline
+		Execução 4 & 0,9573 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto No Escalonamento Com o Escalonador Anterior.} \label{TabelaTempoEscalonadorAntigo} 
+\end{center}
+\end {table}
+
+O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonador desenvolvido para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletaram-se, e tempo gasto no escalonamento(mensurado como tempo entre a chamada de execução do escalonamento na parte Java e a resposta), tempo gasto na execução da parte C++ do escalonador (mensurado pela diferença no Wireshark entre a resposta da solicitação de escalonamento e a solicitação), tempo gasto no processamento da parte C++ do escalonador e tempo gasto na serialização e desserialização tanto da parte C++ quanto da parte Java do escalonador desenvolvido.
+
+%\begin{sidewaystable}
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo Total de Escalonamento \\ 
+		\hline
+		Execução 1 & 0,9767 \\ 
+		\hline
+		Execução 2 & 0,9907 \\ 
+		\hline
+		Execução 3 & 1,0011 \\ 
+		\hline
+		Execução 4 & 0,9751 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto No Escalonamento Com o Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo} 
+\end{center}
+\end {table}
+%\end{sidewaystable}
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		\#  Da Execução & Tempo Gasto Na Parte C++ & Tempo Gasto Escalonando No C++ \\ 
+		\hline
+		Execução 1 & 0,516241 & 0,196053 \\ 
+		\hline
+		Execução 2 & 0,589873 & 0,200189 \\ 
+		\hline
+		Execução 3 & 0,655906 & 0,212694 \\ 
+		\hline
+		Execução 4 & 0,579292 & 0,164812 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto No Escalonamento Na Parte C++ Do Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo2} 
+\end{center}
+\end {table}
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		\#  Da Execução & Tempo De (Des)Serilialização C++ & Tempo De (Des)Serilialização Java \\ 
+		\hline
+		Execução 1 & 0,320188 & 0,460459 \\ 
+		\hline
+		Execução 2 & 0,389683 & 0,400827 \\ 
+		\hline
+		Execução 3 & 0,443212 & 0,345194 \\ 
+		\hline
+		Execução 4 & 0,414490 & 0,395808 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Gasto (Des)Serialização Das Partes Java e C++.} \label{TabelaTempoEscalonadorNovo3} 
+\end{center}
+\end {table}
+
+O penúltimo teste foi com o uso da Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{CPU}.
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo De Execução \\ 
+		\hline
+		Execução 1 & 514,4689 \\ 
+		\hline
+		Execução 2 & 503,8278 \\ 
+		\hline
+		Execução 3 & 494,5142 \\ 
+		\hline
+		Execução 4 & 489,9267 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{CPU}} \label{TabelaTempoXMR-Stak-CPU} 
+\end{center}
+\end {table}
+
+Finalmente, o último teste consistiu em, com a Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{GPU}.
+
+\begin {table}[H]
+\begin{center}
+	\begin{tabular}{ |c|c| } 
+		\hline
+		\#  Da Execução & Tempo De Execução \\ 
+		\hline
+		Execução 1 & 227,3487 \\ 
+		\hline
+		Execução 2 & 230,4235 \\ 
+		\hline
+		Execução 3 & 215,5216 \\ 
+		\hline
+		Execução 4 & 224,3782 \\ 
+		\hline
+	\end{tabular}
+	\caption {Tempo Em Segundos Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{GPU}} \label{TabelaTempoXMR-Stak-GPU} 
+\end{center}
+\end {table}
+
+\section{Análise de resultados}
+
+Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o tempo de execução de ambos os escalonadores são próximos o suficiente para serem considerados iguais, que não era esperado, pois se imaginava que o custo de comunicação entre as partes Java e C++ do novo escalonador o tornaria mais lento que o escalonador já existente.
+
 
 \begin {table}[H]
 \begin{center}
@@ -149,7 +278,7 @@ Foi realizado uma série de testes comparativos entre o escalonador antigo e o a
 \end{center}
 \end {table}
 
-Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o tempo de execução de ambos os escalonadores são próximos o suficiente para serem considerados iguais, que não era esperado, pois se imaginava que o custo de comunicação entre as partes Java e C++ do novo escalonador o tornaria mais lento que o escalonador já existente.
+Uma análise da distribuição de tempo do escalonador desenvolvido mostrado na Tabela \ref{TabelaProporcaoEscalonador}, como imaginado que o tempo gasto na comunicação é responsável por quatro quintos do tempo no escalonador desenvolvido, revelando-se como o mesmo é rápido e o principal ponto de melhora do mesmo está na comunicação entre as partes Java e C++.
 
 \begin {table}[H]
 \begin{center}
@@ -167,8 +296,6 @@ Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o t
 \caption {Distriuição De Tempo Gasto no Escalonador Desenvolvido.} \label{TabelaProporcaoEscalonador} 
 \end{center}
 \end {table}
-
-Uma análise da distribuição de tempo do escalonador desenvolvido mostrado na Tabela \ref{TabelaProporcaoEscalonador}, como imaginado que o tempo gasto na comunicação é responsável por quatro quintos do tempo no escalonador desenvolvido, revelando-se como o mesmo é rápido e o principal ponto de melhora do mesmo está na comunicação entre as partes Java e C++.
 
 Como não foi possível exportar a plataforma para um dispositivo portátil para testar o ganho de desempenho no uso de \acrshort{GPU}, decidiu-se então testar apenas o XMR-Stak modificado em uma máquina física, isso é possível pelo fato do \textit{software} permitir, via argumento de linha de comando, informar se o mesmo deve ser executado em \acrshort{CPU} ou \acrshort{GPU}. Para realizar este teste foi utilizado uma versão \textit{live} de Debian, que após inicializado, se instala os pacotes necessários para executar o minerador modificado.
 
