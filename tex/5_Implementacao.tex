@@ -48,16 +48,34 @@ Uma vez decidido o uso de \textit{sockets}, faltava decidir qual seria o protoco
 
 %Uma dificuldade encontrada durante a implementação do uso de \textit{sockets}, foi como utilizar o IPv6, pois, especialmente para a linguem C, há pouca documentação disponível sobre, por mais que exista boa documentação sobre o uso de \textit{sockets} IPv4.
 
+\subsection{Interação Java C++}
 
 Como pode ser observado na Figura \ref{ArquiteturaProposta}, para a implementação desse sistema de comunicação no BioNimbuZ, desenvolveu-se a classe abstrata \textit{CppSched} que herda de \textit{SchedPolicy}, responsável por fazer a inicialização do programa C++ e pelo \textit{handshake} entre os processos C++ e Java, permitindo que futuros escalonadores em C++ não precisem repetir este processo. Da classe \textit{CppSched} herda o método \textit{GetSchedPolicy}, utilizado para informar qual escalonador C++ deve ser utilizado.
 
 \begin{figure}[htbp]
 	\centerline{\includegraphics[width=13cm]{img/Handshake3.png}}
-	\caption{Handshake entre a parte Java e C++ do Escalonador.}
+	\caption{Captura do \textit{Handshake} entre a parte Java e C++ do Escalonador.}
 	\label{Handshake}
 \end{figure}
 
-O programa C++ é composto pela classe Comunicador, que inicializa seu \textit{socket} e inicia a conversa com o processo Java, cuja porta de comunicação é recebida pela linha de comando. Durante o \textit{handshake} é definido qual filho da classe virtual Escalonador será usado. Em prol da simplicidade e da performance, buscou-se minimizar a comunicação entre os processos C++ e Java. Assim, após a inicialização, o processo C++ se comporta similarmente a um servidor \acrshort{DNS}\cite{dns_rfc}, ficando em espera por solicitações de escalonamento, e responde às requisições sem manter estado internamente.
+O \textit{handshake} é feito em três vias, coo pode ser visto na Figura \ref{Handshake_UML}, sendo que a primeira mensagem é, na verdade, uma inicialização de processo, enviando como argumentos a porta do \textit{socket} que o lado Java disponibilizou para comunicação e um número aleatório de 64 bits, que será utilizado para que o lado Java saiba que a mensagem que ele recebeu veio do lado C++ do escalonador. O lado C++ cria um \textit{socket} e envia o número de 64 bits para a porta informada na inicialização do processo. O lado java recebendo esse número aleatório identifica a porta na qual o lado C++ está, entretanto, o lado C++ não sabe o estado do lado Java, pois ainda não recebeu nenhuma mensagem do mesmo. Para que o lado C++ saiba que a comunicação está inicializada, o lado Java envia um \textit{ack} para o lado C++, confirmando sua existência.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=13cm]{img/InicializacaoDoEscalonador.png}}
+	\caption{Handshake entre a parte Java e C++ do Escalonador.}
+	\label{Handshake_UML}
+\end{figure}
+
+Uma vez que a comunicação entre as partes está inicializada, é necessário definir qual política de escalonamento C++ será utilizada, este passo permite que futuras políticas de escalonamento C++ sejam implementadas reutilizando o processo de interação entre as partes que foi desenvolvido. A definição do escalonador C++ é feita através da troca de duas mensagens, a solicitação e a resposta, como pode ser visto na Figura \ref{SelecaoEscalonador_UML}. Assim, após a inicialização e escolha do escalonador, o processo C++ se comporta similarmente a um servidor \acrshort{DNS}\cite{dns_rfc}, ficando em espera por solicitações de escalonamento, e responde às requisições sem manter estado internamente.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=13cm]{img/EscolhaDoEscalonadorCpp.png}}
+	\caption{Diagrama do processo de seleção do escalonador C++.}
+	\label{SelecaoEscalonador_UML}
+\end{figure}
+
+
+%O programa C++ é composto pela classe Comunicador, que inicializa seu \textit{socket} e inicia a conversa com o processo Java, cuja porta de comunicação é recebida pela linha de comando. Durante o \textit{handshake} é definido qual filho da classe virtual Escalonador será usado. Em prol da simplicidade e da performance, buscou-se minimizar a comunicação entre os processos C++ e Java. Assim, após a inicialização, o processo C++ se comporta similarmente a um servidor \acrshort{DNS}\cite{dns_rfc}, ficando em espera por solicitações de escalonamento, e responde às requisições sem manter estado internamente.
 
 \section{Testes}
 
