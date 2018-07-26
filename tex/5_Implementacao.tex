@@ -145,14 +145,14 @@ Onde:
 	\item $T_{msg}$ é o tempo entre a mensagem de solicitação de escalonamento e a resposta;
 \end{itemize}
 
-Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo gasto na conclusão dos \textit{jobs} e do \textit{workflow}, no qual se espera que a funcionalidade desenvolvida neste trabalho revele sua utilidade, mas como não foi possível o teste de toda a plataforma em funcionamento em uma máquina real com \acrshort{GPU}. Logo se optou por testar o algoritmo de escalonamento desenvolvido e implantado no BioNimbuZ, comparando-o com o utilizando anteriormente, e testar a eficiência do uso GPU executando a versão modificada do XMR-Stak utilizando e sem utilizar a \acrshort{GPU}.
+Com os tempos gastos pelo escalonador calculados, é importante calcular o tempo gasto na conclusão dos \textit{jobs} e do \textit{workflow}, no qual se espera que a funcionalidade desenvolvida neste trabalho revele sua utilidade, mas como não foi possível o teste de toda a plataforma em funcionamento em uma máquina real com \acrshort{GPU}. Logo se optou por testar o algoritmo de escalonamento desenvolvido e implantado no BioNimbuZ, comparando-o com o utilizado anteriormente, e testar a eficiência do uso GPU executando a versão modificada do XMR-Stak utilizando e sem utilizar a \acrshort{GPU}.
 %Testes preliminares do \textit{software} XMR-Stak modoficado sem utilização da plataforma mostrou aproximadamente 75\% de redução no tempo gasto no cálculo de dez mil \textit{hashes}. As configurações da máquina eram as seguintes:
 
 %A implementação da comunicação e sockets entre os processos 
 
-Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor. %O primeiro deles foi o tempo de execução do escalonador. O teste feito foi, pelo BioNimbuZ, criar o \textit{workflow} composto pela execução de 50 min\textit{hashes} em \textit{loopback} utilizando a \acrshort{CPU}, ou seja, na própria máquina virtual que está hospedando o BioNimbuZ.
+Foi realizado uma série de testes comparativos entre o escalonador antigo e o atual para verificar o desempenho do escalonador desenvolvido perante seu antecessor. As descrições das máquinas utilizadas nos testes estão no Apêndice A.  %O primeiro deles foi o tempo de execução do escalonador. O teste feito foi, pelo BioNimbuZ, criar o \textit{workflow} composto pela execução de 50 min\textit{hashes} em \textit{loopback} utilizando a \acrshort{CPU}, ou seja, na própria máquina virtual que está hospedando o BioNimbuZ.
 
-O primeiro teste consistiu em, utilizando a Máquina A.3, executar o BioNimbuZ com e escalonador antigo para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletar e tempo gasto no escalonamento.
+O primeiro teste, cujo os dados coletados estão na Tabela \ref{TabelaTempoEscalonadorAntigo} consistiu em, utilizando a Máquina A.3, executar o BioNimbuZ com e escalonador antigo para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletar e tempo gasto no escalonamento.
 
 \begin {table}[H]
 \begin{center}
@@ -173,7 +173,7 @@ O primeiro teste consistiu em, utilizando a Máquina A.3, executar o BioNimbuZ c
 \end{center}
 \end {table}
 
-O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonador desenvolvido para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletaram-se, e tempo gasto no escalonamento(mensurado como tempo entre a chamada de execução do escalonamento na parte Java e a resposta), tempo gasto na execução da parte C++ do escalonador (mensurado pela diferença no Wireshark entre a resposta da solicitação de escalonamento e a solicitação), tempo gasto no processamento da parte C++ do escalonador e tempo gasto na serialização e desserialização tanto da parte C++ quanto da parte Java do escalonador desenvolvido.
+O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonador desenvolvido para escalonar 1 \textit{job} do XMR-Stak em \textit{loopback} e coletaram-se, e tempo gasto no escalonamento(mensurado como tempo entre a chamada de execução do escalonamento na parte Java e a resposta), tempo gasto na execução da parte C++ do escalonador (mensurado pela diferença no Wireshark entre a resposta da solicitação de escalonamento e a solicitação), tempo gasto no processamento da parte C++ do escalonador e tempo gasto na serialização e desserialização tanto da parte C++ quanto da parte Java do escalonador desenvolvido. Os dados coletados est]ao nas Tabelas \ref{TabelaTempoEscalonadorNovo}, \ref{TabelaTempoEscalonadorNovo2} e \ref{TabelaTempoEscalonadorNovo3}.
 
 %\begin{sidewaystable}
 \begin {table}[H]
@@ -234,7 +234,7 @@ O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonad
 \end{center}
 \end {table}
 
-O penúltimo teste foi com o uso da Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{CPU}.
+O penúltimo teste foi com o uso da Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{CPU}. Os dados coletados estão na Tabela \ref{TabelaTempoXMR-Stak-CPU}.
 
 \begin {table}[H]
 \begin{center}
@@ -255,9 +255,10 @@ O penúltimo teste foi com o uso da Máquina A.1, utilizar o XMR-Stak modificado
 \end{center}
 \end {table}
 
-Finalmente, o último teste consistiu em, com a Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{GPU}.
+Finalmente, o último teste consistiu em, com a Máquina A.1, utilizar o XMR-Stak modificado para calcular 50 mil \textit{hashes}, utilizando apenas a \acrshort{GPU}. Os dados coletados estão na Tabela \ref{tabela6}.
 
 \begin {table}[H]
+\label{tabela6}
 \begin{center}
 	\begin{tabular}{ |c|c| } 
 		\hline
@@ -282,6 +283,7 @@ Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o t
 
 
 \begin {table}[H]
+%\label{tabela7}
 \begin{center}
 	\begin{tabular}{ |c|c|c| } 
 		\hline
@@ -296,9 +298,10 @@ Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o t
 \end{center}
 \end {table}
 
-Uma análise da distribuição de tempo do escalonador desenvolvido mostrado na Tabela \ref{TabelaProporcaoEscalonador}, como imaginado que o tempo gasto na comunicação é responsável por quatro quintos do tempo no escalonador desenvolvido, revelando-se como o mesmo é rápido e o principal ponto de melhora do mesmo está na comunicação entre as partes Java e C++.
+Uma análise da distribuição de tempo do escalonador desenvolvido mostrado na Tabela \ref{TabelaProporcaoEscalonador}, como imaginado que o tempo gasto na comunicação é responsável por quatro quintos do tempo no escalonador desenvolvido, revelando-se como o mesmo é rápido e o principal ponto para melhora do mesmo está na comunicação entre as partes Java e C++.
 
 \begin {table}[H]
+\label{tabela8}
 \begin{center}
 	\begin{tabular}{ |c|c| } 
 		\hline
@@ -311,17 +314,18 @@ Uma análise da distribuição de tempo do escalonador desenvolvido mostrado na 
 		Escalonamento & 20\% \\ 
 		\hline
 	\end{tabular}
-\caption {Distriuição De Tempo Gasto no Escalonador Desenvolvido.} \label{TabelaProporcaoEscalonador} 
+\caption {Distribuição De Tempo Gasto no Escalonador Desenvolvido.} \label{TabelaProporcaoEscalonador} 
 \end{center}
 \end {table}
 
-Como não foi possível exportar a plataforma para um dispositivo portátil para testar o ganho de desempenho no uso de \acrshort{GPU}, decidiu-se então testar apenas o XMR-Stak modificado em uma máquina física, isso é possível pelo fato do \textit{software} permitir, via argumento de linha de comando, informar se o mesmo deve ser executado em \acrshort{CPU} ou \acrshort{GPU}. Para realizar este teste foi utilizado uma versão \textit{live} de Debian, que após inicializado, se instala os pacotes necessários para executar o minerador modificado.
+Como não foi possível exportar a plataforma para um dispositivo de armazenamento portátil para testar o ganho de desempenho no uso de \acrshort{GPU}, decidiu-se então testar apenas o XMR-Stak modificado em uma máquina física, isso é possível pelo fato do \textit{software} permitir, via argumento de linha de comando, informar se o mesmo deve ser executado em \acrshort{CPU} ou \acrshort{GPU}. Para realizar este teste foi utilizado uma versão \textit{live} de Debian, que após inicializado, se instala os pacotes necessários para executar o minerador modificado.
 
 \begin {table}[H]
+\label{tabela9}
 \begin{center}
 	\begin{tabular}{ |c|c|c| } 
 		\hline
-		XMR-Stak & Tempo Médio De Execução Em \acrshort{CPU} & Desvio Padrão \\ 
+		XMR-Stak & Tempo Médio De Execução & Desvio Padrão \\ 
 		\hline
 		Utilizando \acrshort{CPU} & 500,65 seg & +/- 10,87 seg\\ 
 		\hline
@@ -332,10 +336,10 @@ Como não foi possível exportar a plataforma para um dispositivo portátil para
 \end{center}
 \end {table}
 
-Os resultados expostos na Tabela \ref{TabelaTempoCPU} releva a vantagem da exploração da \acrshort{GPU} processamento de determinados \textit{jobs}, sendo executado 50\% mais rápido quando comparado ao tempo de execução na \acrshort{CPU}, e confirmando as expectativas. As especificações das máquinas utilizadas nos testes anteriores estão disponíveis no Apêndice 1, e no Apêndice 2 estão disponíveis os dados coletados.
+Os resultados expostos na Tabela \ref{TabelaTempoCPU} relevam a vantagem da exploração da \acrshort{GPU} processamento de determinados \textit{jobs}, sendo executado 50\% mais rápido quando comparado ao tempo de execução na \acrshort{CPU}, e confirmando as expectativas. As especificações das máquinas utilizadas nos testes anteriores estão disponíveis no Apêndice 1, e no Apêndice 2 estão disponíveis os dados coletados.
 
 \section{Considerações Finais}
 
-Neste capítulo mostrou os desafios e as dificuldades encontradas durante o desenvolvimento do algoritmo apresentado no capítulo anterior e a integração dele no BioNimbuZ, apresentado no Capítulo 3. Como foi mostrado, o escalonador implementado é executado em bem menos tempo que o anterior, porém a troca de dados entre os processos torna o tempo de escalonamento próximo ao do escalonador utilizado anteriormente no BioNibumZ. Além disso, o testes do \textit{software} XMR-Stak mostraram a utilidade do uso de arquiteturas heterogêneas, relevando enorme ganho de performance, reduzindo pela metade o tempo de cálculo de 50 mil \textit{hashes}.
+Neste capítulo mostrou-se os desafios e as dificuldades encontradas durante o desenvolvimento do algoritmo apresentado no capítulo anterior e a integração dele no BioNimbuZ. Como foi mostrado, o escalonador implementado é executado em bem menos tempo que o anterior, porém a troca de dados entre os processos torna o tempo de escalonamento próximo ao do escalonador utilizado anteriormente no BioNibumZ. Além disso, o testes do \textit{software} XMR-Stak mostraram a utilidade do uso de arquiteturas heterogêneas, relevando enorme ganho de performance, reduzindo pela metade o tempo de cálculo de 50 mil \textit{hashes}.
 
-Entretanto, houveram dificuldades na hora de exportar o BioNimbuZ para fora da máquina virtual em que houve a implantação, o que impediu testes mais significativos. Porém é possível que esperando a evolução da tecnologia \acrshort{CUDA}, para facilitar o processo de compilação do escalonador no sistema operacional \acrshort{GNU}/Linux, e também o desenvolvimento do \textit{driver} das \acrshort{GPU}s da marca \acrshort{AMD}, para quem tenham suporte apropriado para OpenCL, o XMR-Stak tenha menos dificuldade de ser compilado e executado, permitindo mais fácil integração do mesmo no BioNimbuZ em outras máquinas. O próxima capítulo mostra sugere outras evoluções para o BioNimbuZ e para o escalonador proposto neste trabalho.
+Entretanto, houveram dificuldades na hora de exportar o BioNimbuZ para fora da máquina virtual em que houve a implantação, o que impediu testes mais significativos. Porém é possível que esperando a evolução da tecnologia \acrshort{CUDA}, para facilitar o processo de compilação do escalonador no sistema operacional \acrshort{GNU}/Linux, e também o desenvolvimento do \textit{driver} das \acrshort{GPU}s da marca \acrshort{AMD}, para quem tenham suporte apropriado para OpenCL, o XMR-Stak tenha menos dificuldade de ser compilado e executado, permitindo mais fácil integração do mesmo no BioNimbuZ em outras máquinas. O próximo capítulo sugere outras evoluções para o BioNimbuZ e para o escalonador proposto neste trabalho.
