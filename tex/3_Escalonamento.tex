@@ -2,25 +2,19 @@ nEste capítulo apresenta, inicialmente, os diferentes tipos de escalonadores, c
 
 \section{Definição}
 
-O escalonamento é um problema clássico da computação que surgiu junto com os sistemas operacionais multitarefas. A sua complexidade é considerada NP-difícil\cite{ULLMAN1975384}, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem uma boa performance. De qualquer forma, um problema que todos os sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} fica esperando indefinidamente por um recurso, que pode ser, inclusive, a \acrshort{CPU} \cite{TANEMBAUM_SO}.
+O escalonamento é um problema clássico da computação que surgiu junto com os sistemas operacionais multitarefas. A sua complexidade é considerada NP-difícil\cite{ULLMAN1975384}, porém isso não impediu a evolução dos sistemas operacionais, cujos escalonadores são desenvolvidos com objetivos e metodologias diferentes para alcançarem uma boa performance. De qualquer forma, um problema que todos os escalonadores sistemas operacionais multitarefa buscam resolver é o \textit{starvation}, que é quando um processo/\textit{thread} fica esperando indefinidamente por um recurso, que pode ser, inclusive, a \acrshort{CPU} \cite{TANEMBAUM_SO}.
 
 Escalonadores podem ser categorizados de várias formas, com base nas funcionalidades que possuem. Assim, uma importante questão é definir qual é a unidade escalonada, podendo ser\cite{TANEMBAUM_SO}:
 
 	\begin{itemize}
 		\item processos, \textit{threads} para serem executados;
-		\item \textit{jobs} para serem excecutados na nuvem;
+		\item \textit{jobs} e \textit{tasks} para serem excecutados na nuvem;
 		\item páginas da memória \acrfull{RAM} para \textit{swapping};
 		\item pacotes para serem transmitidos pela rede;
 		\item requisições de leitura/escrita em memória secundária.
 	\end{itemize}
 
 	Além da unidade que é escalonada, outras características que ajudam a definir um escalonador é se ele permite que tarefas sejam interrompidas para que outras possa ser executadas, funcionalidade conhecida como preempção. Além disso, o escalonador pode ou não ser capaz de definir prioridade diferentes para cada um dos objetos que está sendo escalonado, e/ou dá suporte para processos que podem requisitar urgência para sua execução, conhecidos como processos de tempo-real\cite{TANEMBAUM_SO}.
-
-%	\item \textbf{Suporte para preempção}: Se permite interrupção de uma tarefa em execução para atender outras;
-%	\item \textbf{Suporte para prioridade}: Se permite que priorização entre as tarefas que serão escalonadas;
-%	\item \textbf{Suporte para para tempo-real}: Se permite que requerem execução constante tenham esse requisito atendido.
-%\end{itemize}
-
 
 O problema do escalonamento é o método pelo qual o trabalho, definido por algum conjunto de características (como duração e requisitos), é atribuído aos recursos que são capazes de completá-lo. %Por mais que exista a dificuldade teórica \cite{ULLMAN1975384}, isso não impediu a evolução dos sistemas operacionais, os quais são capazes de fazer escalonamento de vários processos.
 
@@ -30,11 +24,11 @@ A atividade de escalonamento pode ser otimizada para vários objetivos, entre os
 \begin{itemize}
 	\item Maximinizar quantidade de trabalho realizada por unidade de tempo;
 	\item Minimizar tempo no qual trabalhos ficam esperando para serem executados;
-	\item Minimizar tempo entre um conjunto de trabalhos estar pronto para ser executado até o fim da execução do conjunto (\textit{timespan});
+	\item Minimizar tempo entre um conjunto de trabalhos estar pronto para ser executado até o fim da execução do conjunto (\textit{makespan});
 	\item Distribuir de forma justa o tempo que cada um dos trabalhos terá de uso de um recurso escasso.
 \end{itemize}
 
-Esses objetivos são, às vezes, contraditórios. Na prática, prioriza-se um conjunto de métricas como base para otimização. Por exemplo, o GNU/Linux utiliza o \acrfull{CFS}, que se baseia no algoritmo \textit{Fair queuing}. Como o nome já diz, o foco desse escalonador está em ser justo. Internamente, utiliza-se uma árvore rubro-negra indexada pelo tempo gasto no processador. Para ser justo, o tempo máximo de cada processo na \acrshort{CPU} é o quociente do tempo que o processo ficou aguardando para ser executado pelo número total de processos.
+Esses objetivos são, às vezes, contraditórios. Na prática, prioriza-se um conjunto de métricas como base para otimização. Por exemplo, o GNU/Linux utiliza o \acrfull{CFS}, que se baseia no algoritmo \textit{Fair queuing}. Como o nome já diz, o foco desse escalonador está em ser justo. Internamente, utiliza-se uma árvore vermelho e preta indexada pelo tempo gasto no processador. Para ser justo, o tempo máximo de cada processo na \acrshort{CPU} é o quociente do tempo que o processo ficou aguardando para ser executado pelo número total de processos.
 
 \section{Escalonamento em Nuvens Computacionais}
 O escalonamento em nuvens computacionais podem ocorrer em vários contextos e com focos distintos \cite{Zhan:2015:CCR:2775083.2788397}, como podemos ver na Figura \ref{EscalonamentoStack}. O escalonamento ocorre geralmente de uma camada inferior para uma camada superior da pilha de serviços da nuvem, mas no caso de federações horizontais o escalonamento pode ocorrer numa mesma camada. 
@@ -55,7 +49,7 @@ Este trabalho focará no escalonamento em federações de nuvens computacionais.
 \begin{itemize}
 	\item Conjunto $T$ de tarefas;
 	\item Conjunto $M$ de máquinas virtuais;
-	\item Conjunto $C, |C| = |M|$ de CPUs das máquinas virtuais;
+	\item Conjunto $C, |C| \ge |M|$ de CPUs das máquinas virtuais;
 	\item Conjunto $G,  |G| \le |M|$ de GPUs das máquinas virtuais;
 	\item Função $F: T \times (C \cup G) \to \mathbb{R}$, o qual estima o tempo de execução da tarefa $T_{i}$ no recurso designado.
 \end{itemize}
