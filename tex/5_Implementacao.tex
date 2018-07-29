@@ -80,7 +80,7 @@ Uma vez que a comunicação entre as partes está inicializada, é necessário d
 \section{Testes}
 
 %No início do projeto, imaginava-se que os \textit{workflows} existentes no BioNimbuZ seriam capazes de tirar proveito da \acrshort{GPU}, pressuposto que se revelou falso ao longo do desenvolvimento do projeto. Logo fez-se necessário procurar por programas de uso geral que utilizem a \acrshort{GPU}, uma atividade que se revelou simples. 
-Para os testes foi escolhido o programa XMR-Stak\cite{xmr_stak}, um programa de mineração de criptomoedas, que são artefatos digitais desenvolvidos como meio de troca, que utilizam criptografia para prover segurança e integridade às transações\cite{crypto_currencies}. Esse software de mineração, em específico, foi escolhido pelo fato de ser software livre e, por isso, ter seu código fonte disponível publicamente, além de ser multiplataforma e capaz de executar tanto em \acrshort{CPU} quanto em \acrshort{GPU}.
+Para os testes foi escolhido o programa XMR-Stak\cite{xmr_stak}, um programa de mineração de criptomoedas, que são artefatos digitais desenvolvidos como meio de troca, que utilizam criptografia para prover segurança e integridade às transações\cite{crypto_currencies}. Esse software de mineração, em específico, foi escolhido pelo fato de ser software livre, além de ser multiplataforma e capaz de executar tanto em \acrshort{CPU} quanto em \acrshort{GPU}.
 
 A mineração de criptomoedas é a atividade de buscar \textit{nouces}, isto é, uma sequência aleatória de bytes, que quando inserido junto de um possível futuro bloco de uma \textit{blockchain}, que é uma lista distribuída para armazenamento de registros, numa função de \textit{hash} criptográfico, gera um \textit{hash} que atenda a algum critério de dificuldade, geralmente um valor específico no início. Quando é encontrado um \textit{digest}, uma saída da função de \textit{hash}, que atende ao critério, tal bloco é adicionado na \textit{blockchain}, e o responsável pela máquina que encontrou a resposta é recompensado em criptomoeda.
 
@@ -105,9 +105,9 @@ Nos primeiros testes de funcionamento do BioNimbuZ, percebeu-se um erro no qual 
 
 Outro desafio enfrentado durante o desenvolvimento foi que \textit{workflows} não eram enviados para execução quando solicitado, os \textit{logs} apenas informavam "Error: NULL", sem maiores informações para solucionar o desafio, que foi identificado como uma inicialização incompleta do BioNimbuZ por causa que a \textit{thread} que inicializava a plataforma ficava à espera de uma mensagem que já havia sido recebida no \textit{socket}, porém incorretamente descartado porque no Java, para se comparar a mensagem recebida com o que se espera, é necessário explicitar a codificação tanto da mensagem recebida quando do texto esperado.
 
-Mais uma adversidade ocorrida durante a implantação é que quando se seleciona o computador local para executar uma tarefa, esse computador não é listado entre as máquinas disponíveis para o escalonamento. Assim, nenhuma outra máquina for escolhida para escalonamento, a requisição que o escalonador recebe não disponibiliza máquinas para escalonar, fazendo com que o escalonamento falhe. O falha que causou esse erro está relacionada com a visibilidade do mapa de nuvens disponíveis na hierarquia de classes, uma vez encontrada a forma correta de acesso a essa informação o desafio foi resolvido.
+Mais uma adversidade ocorrida durante a implantação é que quando se seleciona o computador local para executar uma tarefa, esse computador não é listado entre as máquinas disponíveis para o escalonamento. Assim, se nenhuma outra máquina for escolhida para escalonamento, a requisição que o escalonador recebe não disponibiliza máquinas para escalonar, fazendo com que o escalonamento falhe. O falha que causou esse erro está relacionada com a visibilidade do mapa de nuvens disponíveis na hierarquia de classes, uma vez encontrada a forma correta de acesso a essa informação o desafio foi resolvido.
 
-Com o desafio acima resolvido, o escalonamento estava funcionando corretamente, porém o BioNimbuZ não inicializava o \textit{Job} do minerador alegando a falta de um arquivo de entrada de nome vazio e sem informações sobre, por mais que o minerador em si não necessitasse. Após compreender que esse desafio está relativo ao fato de o BioNimbuZ trabalhar com \textit{workflows}, para os quais é suposto a existência tanto de entrada, quanto de saída. A solução de contorno para esse desafio foi simplesmente informar colocar um arquivo qualquer como entrada para o XMR-Stak no BioNimbuZ.
+Com o desafio acima resolvido, o escalonamento estava funcionando corretamente, porém o BioNimbuZ não inicializava o \textit{Job} do minerador alegando a falta de um arquivo de entrada de nome vazio e sem informações sobre, por mais que o minerador em si não necessitasse. Após compreender que esse desafio está relativo ao fato de o BioNimbuZ trabalhar com \textit{workflows}, para os quais é suposto a existência tanto de entrada, quanto de saída. A solução de contorno para esse desafio foi simplesmente colocar um arquivo qualquer como entrada para o XMR-Stak no BioNimbuZ.
 
 Após todos esses desafios terem sido resolvidos, percebeu-se que o \textit{software} modificado de mineração XMR-Stak estava falhando em sua inicialização, descobriu-se então que a criptomoeda utilizada para a mineração teve seu algoritmo de mineração modificado e então foi necessário atualizar a versão modificada do minerador para que voltasse a funcionar corretamente.
 
@@ -129,7 +129,7 @@ O código de instrumentação pode ser inserido na parte C++ do escalonador para
 
 Onde: 
  \begin{itemize}
- 	\item $T_{Csd}$ é o tempo gasto em serialização e desserialização pela parte C++;
+ 	\item $T_{Csd}$ é o tempo gasto em serialização e desserialização das mensagens pela parte C++;
  	\item $T_{msg}$ é o tempo entre a mensagem de solicitação de escalonamento e a resposta;
  	\item $T_{ci}$ é o tempo gasto no escalonamento calculado pelo código de instrumentação no programa C++;
  \end{itemize}
@@ -158,7 +158,7 @@ O primeiro teste, cujo os dados coletados estão na Tabela \ref{TabelaTempoEscal
 \begin{center}
 	\begin{tabular}{ |c|c| } 
 		\hline
-		\#  Da Execução & Tempo De Execução \\ 
+		\#  Da Execução & Tempo De Execução (em segundos) \\ 
 		\hline
 		Execução 1 & 0,94830 \\ 
 		\hline
@@ -169,7 +169,7 @@ O primeiro teste, cujo os dados coletados estão na Tabela \ref{TabelaTempoEscal
 		Execução 4 & 0,9573 \\ 
 		\hline
 	\end{tabular}
-	\caption {Tempo Em Segundos Gasto No Escalonamento Com o Escalonador Anterior.} \label{TabelaTempoEscalonadorAntigo} 
+	\caption {Tempo Gasto No Escalonamento Com o Escalonador Anterior.} \label{TabelaTempoEscalonadorAntigo} 
 \end{center}
 \end {table}
 
@@ -180,7 +180,7 @@ O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonad
 \begin{center}
 	\begin{tabular}{ |c|c| } 
 		\hline
-		\#  Da Execução & Tempo Total de Escalonamento \\ 
+		\#  Da Execução & Tempo Total de Escalonamento (em segundos) \\ 
 		\hline
 		Execução 1 & 0,9767 \\ 
 		\hline
@@ -191,7 +191,7 @@ O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonad
 		Execução 4 & 0,9751 \\ 
 		\hline
 	\end{tabular}
-	\caption {Tempo Em Segundos Gasto No Escalonamento Com o Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo} 
+	\caption {Tempo Gasto No Escalonamento Com o Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo} 
 \end{center}
 \end {table}
 %\end{sidewaystable}
@@ -202,16 +202,16 @@ O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonad
 		\hline
 		\#  Da Execução & Tempo Gasto Na Parte C++ & Tempo Gasto Escalonando No C++ \\ 
 		\hline
-		Execução 1 & 0,516241 & 0,196053 \\ 
+		Execução 1 & 0,516241 seg & 0,196053 seg\\ 
 		\hline
-		Execução 2 & 0,589873 & 0,200189 \\ 
+		Execução 2 & 0,589873 seg & 0,200189 seg \\ 
 		\hline
-		Execução 3 & 0,655906 & 0,212694 \\ 
+		Execução 3 & 0,655906 seg & 0,212694 seg \\ 
 		\hline
-		Execução 4 & 0,579292 & 0,164812 \\ 
+		Execução 4 & 0,579292 seg & 0,164812 seg \\ 
 		\hline
 	\end{tabular}
-	\caption {Tempo Em Segundos Gasto No Escalonamento Na Parte C++ Do Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo2} 
+	\caption {Tempo Gasto No Escalonamento Na Parte C++ Do Escalonador Desenvolvido.} \label{TabelaTempoEscalonadorNovo2} 
 \end{center}
 \end {table}
 
@@ -221,16 +221,16 @@ O segundo teste foi, a partir Máquina A.3, executar o BioNimbuZ com o escalonad
 		\hline
 		\#  Da Execução & Tempo De (Des)Serilialização C++ & Tempo De (Des)Serilialização Java \\ 
 		\hline
-		Execução 1 & 0,320188 & 0,460459 \\ 
+		Execução 1 & 0,320188 seg & 0,460459 seg \\ 
 		\hline
-		Execução 2 & 0,389683 & 0,400827 \\ 
+		Execução 2 & 0,389683 seg & 0,400827 seg \\ 
 		\hline
-		Execução 3 & 0,443212 & 0,345194 \\ 
+		Execução 3 & 0,443212 seg & 0,345194 seg \\ 
 		\hline
-		Execução 4 & 0,414490 & 0,395808 \\ 
+		Execução 4 & 0,414490 seg & 0,395808 seg \\ 
 		\hline
 	\end{tabular}
-	\caption {Tempo Em Segundos Gasto (Des)Serialização Das Partes Java e C++.} \label{TabelaTempoEscalonadorNovo3} 
+	\caption {Tempo Gasto (Des)Serialização Das Partes Java e C++.} \label{TabelaTempoEscalonadorNovo3} 
 \end{center}
 \end {table}
 
@@ -242,16 +242,16 @@ O penúltimo teste foi com o uso da Máquina A.1, utilizar o XMR-Stak modificado
 		\hline
 		\#  Da Execução & Tempo De Execução \\ 
 		\hline
-		Execução 1 & 514,4689 \\ 
+		Execução 1 & 514,4689 seg \\ 
 		\hline
-		Execução 2 & 503,8278 \\ 
+		Execução 2 & 503,8278 seg \\ 
 		\hline
-		Execução 3 & 494,5142 \\ 
+		Execução 3 & 494,5142 seg \\ 
 		\hline
-		Execução 4 & 489,9267 \\ 
+		Execução 4 & 489,9267 seg \\ 
 		\hline
 	\end{tabular}
-	\caption {Tempo Em Segundos Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{CPU}} \label{TabelaTempoXMR-Stak-CPU} 
+	\caption {Tempo Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{CPU}} \label{TabelaTempoXMR-Stak-CPU} 
 \end{center}
 \end {table}
 
@@ -264,22 +264,22 @@ Finalmente, o último teste consistiu em, com a Máquina A.1, utilizar o XMR-Sta
 		\hline
 		\#  Da Execução & Tempo De Execução \\ 
 		\hline
-		Execução 1 & 227,3487 \\ 
+		Execução 1 & 227,3487 seg \\ 
 		\hline
-		Execução 2 & 230,4235 \\ 
+		Execução 2 & 230,4235 seg \\ 
 		\hline
-		Execução 3 & 215,5216 \\ 
+		Execução 3 & 215,5216 seg \\ 
 		\hline
-		Execução 4 & 224,3782 \\ 
+		Execução 4 & 224,3782 seg \\ 
 		\hline
 	\end{tabular}
-	\caption {Tempo Em Segundos Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{GPU}} \label{TabelaTempoXMR-Stak-GPU} 
+	\caption {Tempo Para Calcular 50 Mil \textit{hashes}, Utilizando A \acrshort{GPU}} \label{TabelaTempoXMR-Stak-GPU} 
 \end{center}
 \end {table}
 
 \section{Análise de resultados}
 
-Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o tempo de execução de ambos os escalonadores são próximos o suficiente para serem considerados iguais, que não era esperado, pois se imaginava que o custo de comunicação entre as partes Java e C++ do novo escalonador o tornaria mais lento que o escalonador já existente.
+Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o tempo de execução de ambos os escalonadores são próximos o suficiente para serem considerados iguais, o que não era esperado, pois se imaginava que o custo de comunicação entre as partes Java e C++ do novo escalonador o tornaria mais lento que o escalonador já existente.
 
 
 \begin {table}[H]
@@ -287,14 +287,14 @@ Como podemos observar na Tabela \ref{TabelaTempoEscalonador}, percebe-se que o t
 \begin{center}
 	\begin{tabular}{ |c|c|c| } 
 		\hline
-		Escalonamento & Tempo médio de execução & Desvio-padrão \\ 
+		Escalonamento & Tempo médio de execução (em segundos) & Desvio-padrão \\ 
 		\hline
 		Escalonador anterior & 0,951475 & +/- 0,006344 \\ 
 		\hline
 		Escalonador desenvolvido & 0,9859 & +/- 0,0123 \\ 
 		\hline
 	\end{tabular}
-\caption {Tempo Médio Em Segundos Gasto No Escalonamento.} \label{TabelaTempoEscalonador} 
+\caption {Tempo Médio Gasto No Escalonamento.} \label{TabelaTempoEscalonador} 
 \end{center}
 \end {table}
 
@@ -336,7 +336,7 @@ Como não foi possível exportar a plataforma para um dispositivo de armazenamen
 \end{center}
 \end {table}
 
-Os resultados expostos na Tabela \ref{TabelaTempoCPU} relevam a vantagem da exploração da \acrshort{GPU} processamento de determinados \textit{jobs}, sendo executado 50\% mais rápido quando comparado ao tempo de execução na \acrshort{CPU}, e confirmando as expectativas. As especificações das máquinas utilizadas nos testes anteriores estão disponíveis no Apêndice 1, e no Apêndice 2 estão disponíveis os dados coletados.
+Os resultados expostos na Tabela \ref{TabelaTempoCPU} relevam a vantagem da exploração da \acrshort{GPU} processamento de determinados \textit{jobs}, sendo executado 50\% mais rápido quando comparado ao tempo de execução na \acrshort{CPU}, e confirmando as expectativas.
 
 \section{Considerações Finais}
 
