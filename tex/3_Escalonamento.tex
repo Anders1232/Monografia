@@ -44,6 +44,8 @@ No contexto da camada de virtualização o objetivo do escalonamento é mapear r
 
 Tendo a camada de aplicação como contexto, a atividade de escalonamento envolve aplicações de usuário, tarefas, e \textit{workflows} buscando otimizar eficiência do uso dos recursos físicos, podendo focar na garantia do \acrfull{QoS} contratado pelo usuário, em termos de performance, custo, confiabilidade entre outros aspectos, na eficiência do provedor, ou seja, otimizando o uso das máquinas com objetivo de melhorar o uso dos recursos computacionais para o provedor e escalonamento foca em negociação, ou seja, cujo foco é garantir o cumprimento de \acrfull{SLA}s, que são contratos de serviço entre o usuário do serviço e o provedor da nuvem \cite{Zhan:2015:CCR:2775083.2788397}.
 
+Na camada de implantação, a atividade de escalonamento envolve a organização da infraestrutura de provedores do serviço de nuvem. Também chamado \textit{cluster scheduling}, é neste contexto em que existem os escalonadores Mesos, Omega, Borg, Kubernetes entre outros \cite{EscalonadoresDeCluster}. Estes escalonadores, como são críticos para grandes empresas da área de computação em nuvem, são escalonadores que ponderam várias métricas, incluindo garantia de serviço, balanço de carga, e performance.
+
 Este trabalho focará no escalonamento em federações de nuvens computacionais. O qual recentemente presenciou a ascensão do uso de \acrfull{GPU} para processamento de propósito geral (\acrfull{GPGPU}\cite{Dimitrov:2009:USA:1513895.1513907}\cite{Yang:2010:GCM:1809028.1806606}. Nesse contexto, o problema do escalonamento pode ser formalmente definido como, dado:
 
 \begin{itemize}
